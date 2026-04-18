@@ -48,5 +48,13 @@
     "ui"
   ],
   "license": "MIT",
-  "author": ""
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brennoleon/glassgradients.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Brennoleon/glassgradients/issues"
+  },
+  "homepage": "https://github.com/Brennoleon/glassgradients#readme"
 }
