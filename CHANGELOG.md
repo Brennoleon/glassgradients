@@ -6,6 +6,8 @@ The format is based on Keep a Changelog, and this project follows Semantic Versi
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-04-18
+
 ### Added
 - Governance docs (`RELEASE_POLICY.md`, `ROADMAP.md`, `CONTRIBUTING.md`, `SUPPORT.md`).
 - GitHub templates for bugs, features, and pull requests.

@@ -1,6 +1,6 @@
 {
   "name": "glassgradients",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Glassmorphism engine with declarative .glass format, static CSS compilation, and optional runtime animation.",
   "type": "module",
   "main": "./src/index.js",
