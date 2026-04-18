@@ -1,0 +1,21 @@
+selector: .hero
+preset: cinematic
+palette: aurora
+effect: mesh
+performance: auto
+intensity: 1
+frost: 0.62
+vignette: 0.24
+shadow: 0.22
+tint: rgba(255,255,255,0.02)
+radius: 22px
+speed: 18s
+animate.mode: wave
+animate.hueShift: 30
+animate.drift: 9%
+animate.speedMultiplier: 1
+animate.fps: 0
+grain.amount: 0.08
+grain.size: 3px
+grain.motion: 0.2
+colors: #66b3ff, #8f7dff, #45d6c8, #f97db2

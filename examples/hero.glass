@@ -1,0 +1,28 @@
+selector: .hero
+preset: cinematic
+palette: aurora
+effect: prism
+performance: auto
+intensity: 1.1
+frost: 0.82
+vignette: 0.32
+shadow: 0.34
+tint: rgba(255,255,255,0.02)
+radius: 22px
+blur: 56px
+monochrome: false
+speed: 18s
+animate.mode: orbit
+animate.enabled: true
+animate.hueShift: 36
+animate.drift: 10%
+animate.speedMultiplier: 1.1
+animate.fps: 40
+grain.enabled: true
+grain.amount: 0.1
+grain.size: 2px
+grain.blend: soft-light
+grain.motion: 0.4
+visibility.rootMargin: 180px 0px
+visibility.threshold: 0.12
+colors: #66b3ff, #8f7dff, #45d6c8, #f97db2

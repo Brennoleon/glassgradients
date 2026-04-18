@@ -1,0 +1,52 @@
+{
+  "name": "glassgradients",
+  "version": "1.0.0",
+  "description": "Glassmorphism engine with declarative .glass format, static CSS compilation, and optional runtime animation.",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    },
+    "./parser": "./src/parser.js",
+    "./compiler": "./src/compiler.js",
+    "./runtime": "./src/runtime.js",
+    "./defaults": "./src/defaults.js"
+  },
+  "bin": {
+    "glassgradients": "src/cli.js"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "examples"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "build": "node ./src/cli.js --help",
+    "bench": "node ./scripts/benchmark.mjs"
+  },
+  "keywords": [
+    "glassmorphism",
+    "gradient",
+    "glass",
+    "effects",
+    "lts",
+    "stable",
+    "visual",
+    "animation",
+    "performance",
+    "worker",
+    "css",
+    "runtime",
+    "compiler",
+    "web",
+    "ui"
+  ],
+  "license": "MIT",
+  "author": ""
+}

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GlassGradients 1.0 - V1 Lab</title>
+    <script>
+      if (/\/site\/v1$/.test(location.pathname)) {
+        location.replace(`${location.origin}${location.pathname}/${location.hash || ""}`);
+      }
+    </script>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./generated/preset-cinematic.css" />
+    <link rel="stylesheet" href="./generated/preset-frosted.css" />
+    <link rel="stylesheet" href="./generated/effect-plasma.css" />
+    <link rel="stylesheet" href="./generated/effect-prism.css" />
+    <link rel="stylesheet" href="./generated/performance-eco.css" />
+    <link rel="stylesheet" href="./generated/performance-potato.css" />
+    <link rel="stylesheet" href="./generated/legacy-dfirt.css" />
+    <link rel="stylesheet" href="./generated/soft-runtime-base.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <h1 class="brand">GlassGradients 1.0</h1>
+        <p class="meta">V1 Lab completo para validar recursos de release LTS.</p>
+        <nav>
+          <ul class="nav">
+            <li><a href="#presets">Presets</a></li>
+            <li><a href="#effects">Effects</a></li>
+            <li><a href="#performance">Performance</a></li>
+            <li><a href="#legacy">Legacy API</a></li>
+            <li><a href="#runtime">Runtime API</a></li>
+            <li><a href="#visibility">Visibility Test</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <span>site/v1 - static + runtime coverage</span>
+          <span class="status-ok">release-qa: active</span>
+        </header>
+
+        <div class="content">
+          <section id="presets">
+            <div class="section-head">
+              <h2>Presets</h2>
+              <p>Testa `preset`, `tint`, `shadow`, `grain.motion` e ajustes de estilo.</p>
+            </div>
+            <div class="grid">
+              <article class="test-card fx-preset-cinematic">
+                <p class="tagline">preset: cinematic | effect: prism</p>
+                <h3 class="title">Cinematic</h3>
+                <p class="meta-line">intensity:1.22 frost:0.9 speed:16s fps:50</p>
+              </article>
+              <article class="test-card fx-preset-frosted">
+                <p class="tagline">preset: frosted | monochrome vibe</p>
+                <h3 class="title">Frosted</h3>
+                <p class="meta-line">mono+mesh grain:0.18 size:2px</p>
+              </article>
+            </div>
+          </section>
+
+          <section id="effects">
+            <div class="section-head">
+              <h2>Effects</h2>
+              <p>Validação dos efeitos novos `plasma` e `prism`.</p>
+            </div>
+            <div class="grid">
+              <article class="test-card fx-effect-plasma">
+                <p class="tagline">effect: plasma | palette: neon</p>
+                <h3 class="title">Plasma</h3>
+                <p class="meta-line">pulse + hueShift:58 + motion grain</p>
+              </article>
+              <article class="test-card fx-effect-prism">
+                <p class="tagline">effect: prism | palette: sunset</p>
+                <h3 class="title">Prism</h3>
+                <p class="meta-line">orbit + tint + strong vignette</p>
+              </article>
+            </div>
+          </section>
+
+          <section id="performance">
+            <div class="section-head">
+              <h2>Performance Profiles</h2>
+              <p>Compara `eco` e `potato` para cenários low-end.</p>
+            </div>
+            <div class="grid">
+              <article class="test-card fx-performance-eco">
+                <p class="tagline">performance: eco</p>
+                <h3 class="title">Eco</h3>
+                <p class="meta-line">fps:28 drift:6% grain leve</p>
+              </article>
+              <article class="test-card fx-performance-potato">
+                <p class="tagline">performance: potato</p>
+                <h3 class="title">Potato</h3>
+                <p class="meta-line">fps:20 drift:4% custo minimo</p>
+              </article>
+            </div>
+          </section>
+
+          <section id="legacy">
+            <div class="section-head">
+              <h2>Legacy Compatibility</h2>
+              <p>Teste do alias estável `animate.dfirt`.</p>
+            </div>
+            <div class="grid">
+              <article class="test-card fx-legacy-dfirt">
+                <p class="tagline">legacy key: animate.dfirt</p>
+                <h3 class="title">Backward-safe</h3>
+                <p class="meta-line">dfirt -> drift sem quebrar API</p>
+              </article>
+            </div>
+          </section>
+
+          <section id="runtime" class="panel">
+            <div class="section-head">
+              <h2>Runtime API Test</h2>
+              <p>Testa `createGlassGradient`, `update`, `destroy`, `visibility.*` e presets dinâmicos.</p>
+            </div>
+
+            <div class="runtime-controls">
+              <select id="runtime-preset">
+                <option value="soft">preset: soft</option>
+                <option value="cinematic">preset: cinematic</option>
+                <option value="frosted">preset: frosted</option>
+              </select>
+
+              <select id="runtime-effect">
+                <option value="aurora">effect: aurora</option>
+                <option value="mesh">effect: mesh</option>
+                <option value="plasma">effect: plasma</option>
+                <option value="prism">effect: prism</option>
+                <option value="spotlight">effect: spotlight</option>
+              </select>
+
+              <select id="runtime-performance">
+                <option value="auto">perf: auto</option>
+                <option value="quality">perf: quality</option>
+                <option value="balanced">perf: balanced</option>
+                <option value="eco">perf: eco</option>
+                <option value="potato">perf: potato</option>
+              </select>
+
+              <select id="runtime-speed">
+                <option value="14s">speed: 14s</option>
+                <option value="18s" selected>speed: 18s</option>
+                <option value="24s">speed: 24s</option>
+              </select>
+
+              <button id="runtime-apply" type="button">Aplicar runtime</button>
+              <button id="runtime-destroy" type="button">Destroy runtime</button>
+              <span id="runtime-status" class="meta-line">Runtime inicializando</span>
+            </div>
+
+            <div class="runtime-stack">
+              <article class="runtime-block fx-runtime-base">
+                <h3>Runtime Block A</h3>
+                <p>Observe atualização de preset/effect/performance sem recompilar CSS.</p>
+              </article>
+              <article class="runtime-block fx-runtime-base">
+                <h3>Runtime Block B</h3>
+                <p>Mesmo config aplicado em múltiplos elementos com mesma chamada.</p>
+              </article>
+            </div>
+          </section>
+
+          <section id="visibility">
+            <div class="section-head">
+              <h2>Visibility / Offscreen</h2>
+              <p>Role a página: runtime pausa fora da viewport via IntersectionObserver.</p>
+            </div>
+            <div class="spacer">Scroll aqui para testar pause/resume offscreen</div>
+            <div class="spacer">Outro bloco para forçar viewport detach</div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script type="module">
+      const statusEl = document.querySelector("#runtime-status");
+      if (location.protocol === "file:") {
+        if (statusEl) {
+          statusEl.textContent = "Runtime desativado em file://. Use http://localhost para testar API runtime.";
+        }
+      } else {
+        import("./runtime-demo.js");
+      }
+    </script>
+  </body>
+</html>

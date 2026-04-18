@@ -1,0 +1,14 @@
+selector: .app-sidebar
+preset: frosted
+effect: mesh
+performance: eco
+intensity: 0.95
+frost: 1.15
+shadow: 0.18
+tint: rgba(255,255,255,0.02)
+speed: 20s
+animate.mode: wave
+animate.hueShift: 16
+animate.drift: 6%
+animate.fps: 30
+grain.amount: 0.05

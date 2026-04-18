@@ -1,0 +1,13 @@
+selector: .premium-card
+preset: soft
+effect: aurora
+performance: balanced
+intensity: 1
+frost: 0.7
+shadow: 0.22
+tint: rgba(170,220,255,0.02)
+speed: 18s
+animate.mode: wave
+animate.hueShift: 28
+animate.drift: 8%
+grain.amount: 0.07

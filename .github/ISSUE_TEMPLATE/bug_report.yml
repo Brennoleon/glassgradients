@@ -1,0 +1,39 @@
+name: Bug report
+description: Report a reproducible bug.
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction
+      description: Minimal steps and config to reproduce.
+      placeholder: |
+        1. Use this .glass config...
+        2. Run this command...
+        3. Observe...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Package version, OS, browser/node versions.
+    validations:
+      required: true

@@ -1,0 +1,13 @@
+selector: .hero-block
+preset: cinematic
+effect: prism
+performance: balanced
+intensity: 1.2
+frost: 0.9
+shadow: 0.35
+tint: rgba(255,255,255,0.03)
+speed: 14s
+animate.mode: orbit
+animate.hueShift: 40
+animate.drift: 11%
+grain.amount: 0.1

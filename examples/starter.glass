@@ -1,0 +1,14 @@
+selector: .hero
+palette: aurora
+effect: mesh
+performance: auto
+intensity: 1
+frost: 0.62
+vignette: 0.24
+radius: 22px
+speed: 18s
+animate.mode: wave
+animate.hueShift: 30
+animate.drift: 9%
+grain.amount: 0.08
+colors: #66b3ff, #8f7dff, #45d6c8, #f97db2

@@ -1,0 +1,22 @@
+selector: .fx-runtime-base
+preset: soft
+palette: ocean
+effect: aurora
+performance: auto
+intensity: 0.92
+frost: 0.58
+vignette: 0.22
+shadow: 0.2
+tint: rgba(170,220,255,0.02)
+radius: 16px
+speed: 10s
+animate.mode: wave
+animate.hueShift: 40
+animate.drift: 12%
+animate.speedMultiplier: 1.35
+animate.fps: 55
+grain.amount: 0.07
+grain.size: 4px
+grain.motion: 0.25
+visibility.rootMargin: 200px 0px
+visibility.threshold: 0.1

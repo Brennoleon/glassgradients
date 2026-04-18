@@ -1,0 +1,13 @@
+selector: .modal-surface
+preset: frosted
+effect: spotlight
+performance: balanced
+intensity: 1.05
+frost: 1.2
+shadow: 0.28
+tint: rgba(255,255,255,0.025)
+speed: 16s
+animate.mode: pulse
+animate.hueShift: 20
+animate.drift: 9%
+grain.amount: 0.1

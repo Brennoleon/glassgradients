@@ -1,0 +1,7 @@
+node_modules/
+.npmrc
+*.tgz
+coverage/
+dist/
+.DS_Store
+Thumbs.db

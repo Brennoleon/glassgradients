@@ -1,0 +1,15 @@
+selector: .dashboard-widget
+preset: default
+palette: ocean
+effect: plasma
+performance: eco
+intensity: 0.9
+frost: 0.58
+shadow: 0.2
+tint: rgba(180,220,255,0.015)
+speed: 18s
+animate.mode: wave
+animate.hueShift: 24
+animate.drift: 7%
+animate.fps: 32
+grain.amount: 0.05
