@@ -1,7 +1,7 @@
 {
   "name": "glassgradients",
-  "version": "1.0.1",
-  "description": "Glassmorphism engine with declarative .glass format, static CSS compilation, and optional runtime animation.",
+  "version": "1.1.0",
+  "description": "LTS glass surface engine with surface, gradient, frost, recipes, responsive variants, theme tokens, static CSS compilation, and optional runtime motion.",
   "type": "module",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
@@ -13,13 +13,72 @@
     "./parser": "./src/parser.js",
     "./compiler": "./src/compiler.js",
     "./runtime": "./src/runtime.js",
-    "./defaults": "./src/defaults.js"
+    "./defaults": "./src/defaults.js",
+    "./theme": "./src/theme.js",
+    "./variants": "./src/variants.js",
+    "./components": {
+      "types": "./src/components.d.ts",
+      "default": "./src/components.js"
+    },
+    "./components/react": {
+      "types": "./src/components/react.d.ts",
+      "default": "./src/components/react.js"
+    },
+    "./components/preact": {
+      "types": "./src/components/preact.d.ts",
+      "default": "./src/components/preact.js"
+    },
+    "./adapters/react": {
+      "types": "./src/adapters/react.d.ts",
+      "default": "./src/adapters/react.js"
+    },
+    "./adapters/vue": {
+      "types": "./src/adapters/vue.d.ts",
+      "default": "./src/adapters/vue.js"
+    },
+    "./adapters/solid": {
+      "types": "./src/adapters/solid.d.ts",
+      "default": "./src/adapters/solid.js"
+    },
+    "./adapters/preact": {
+      "types": "./src/adapters/preact.d.ts",
+      "default": "./src/adapters/preact.js"
+    },
+    "./adapters/svelte": {
+      "types": "./src/adapters/svelte.d.ts",
+      "default": "./src/adapters/svelte.js"
+    },
+    "./adapters/tailwind": {
+      "types": "./src/adapters/tailwind.d.ts",
+      "default": "./src/adapters/tailwind.js"
+    },
+    "./adapters/unocss": {
+      "types": "./src/adapters/unocss.d.ts",
+      "default": "./src/adapters/unocss.js"
+    },
+    "./adapters/next": {
+      "types": "./src/adapters/next.d.ts",
+      "default": "./src/adapters/next.js"
+    },
+    "./adapters/nuxt": {
+      "types": "./src/adapters/nuxt.d.ts",
+      "default": "./src/adapters/nuxt.js"
+    },
+    "./adapters/astro": {
+      "types": "./src/adapters/astro.d.ts",
+      "default": "./src/adapters/astro.js"
+    },
+    "./adapters/vanilla": {
+      "types": "./src/adapters/vanilla.d.ts",
+      "default": "./src/adapters/vanilla.js"
+    }
   },
   "bin": {
     "glassgradients": "src/cli.js"
   },
   "files": [
     "src",
+    "docs",
     "README.md",
     "CHANGELOG.md",
     "LICENSE",
@@ -28,12 +87,21 @@
   "scripts": {
     "test": "node --test",
     "build": "node ./src/cli.js --help",
+    "release:check": "npm test && npm run build && npm pack --dry-run",
     "bench": "node ./scripts/benchmark.mjs"
   },
   "keywords": [
     "glassmorphism",
     "gradient",
     "glass",
+    "frosted-glass",
+    "mesh-gradient",
+    "aurora",
+    "backdrop-filter",
+    "theme",
+    "tokens",
+    "ssr",
+    "responsive",
     "effects",
     "lts",
     "stable",
@@ -45,7 +113,21 @@
     "runtime",
     "compiler",
     "web",
-    "ui"
+    "ui",
+    "components",
+    "component-library",
+    "react",
+    "vue",
+    "solid",
+    "preact",
+    "tailwindcss",
+    "unocss",
+    "nextjs",
+    "nuxt",
+    "astro",
+    "svelte",
+    "adapter",
+    "framework-agnostic"
   ],
   "license": "MIT",
   "author": "",
@@ -56,5 +138,25 @@
   "bugs": {
     "url": "https://github.com/Brennoleon/glassgradients/issues"
   },
-  "homepage": "https://github.com/Brennoleon/glassgradients#readme"
+  "homepage": "https://github.com/Brennoleon/glassgradients#readme",
+  "peerDependencies": {
+    "preact": ">=10.19",
+    "react": ">=18",
+    "solid-js": ">=1.8",
+    "vue": ">=3.3"
+  },
+  "peerDependenciesMeta": {
+    "preact": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "solid-js": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  }
 }

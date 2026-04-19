@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { normalizeConfig } from "../src/defaults.js";
+import { getRecipeContract, normalizeConfig } from "../src/defaults.js";
 
 test("normalize supports dfirt alias without breaking drift", () => {
   const config = normalizeConfig({
@@ -24,4 +24,87 @@ test("normalize auto performance can downshift for low-end hints", () => {
   );
 
   assert.equal(config.performance, "eco");
+});
+
+test("normalize supports separated gradient-only mode while preserving legacy keys", () => {
+  const config = normalizeConfig({
+    mode: "gradient",
+    effect: "halo"
+  });
+
+  assert.equal(config.mode, "gradient");
+  assert.equal(config.gradient.enabled, true);
+  assert.equal(config.glass.enabled, false);
+  assert.equal(config.effect, "halo");
+  assert.match(config.blur, /px$/);
+});
+
+test("normalize supports frost-only mode with safe contrast tuning", () => {
+  const config = normalizeConfig({
+    mode: "frost",
+    contrastMode: "safe"
+  });
+
+  assert.equal(config.mode, "frost");
+  assert.equal(config.gradient.enabled, false);
+  assert.equal(config.glass.enabled, true);
+  assert.equal(config.contrastMode, "safe");
+  assert.match(config.glass.fill, /rgba/);
+});
+
+test("normalize keeps static profile opt-in", () => {
+  const config = normalizeConfig({
+    performance: "static"
+  });
+
+  assert.equal(config.performance, "static");
+  assert.equal(config.animate.enabled, false);
+});
+
+test("normalize applies recipes additively", () => {
+  const config = normalizeConfig({
+    recipe: "navbar",
+    glass: { blur: 22 }
+  });
+
+  assert.equal(config.recipe, "navbar");
+  assert.equal(config.mode, "frost");
+  assert.equal(config.contrastMode, "safe");
+  assert.match(config.radius, /999px/);
+  assert.match(config.glass.blur, /px$/);
+});
+
+test("normalize supports semantic strength tuning", () => {
+  const soft = normalizeConfig({ strength: "soft" });
+  const strong = normalizeConfig({ strength: "strong" });
+
+  assert.equal(soft.strength, "soft");
+  assert.equal(strong.strength, "strong");
+  assert.ok(strong.shadow > soft.shadow);
+  assert.ok(strong.opacity > soft.opacity);
+});
+
+test("normalize ships semantic workspace and command recipes", () => {
+  const workspace = normalizeConfig({ recipe: "workspace" });
+  const command = normalizeConfig({ recipe: "command-palette" });
+  const terminal = normalizeConfig({ recipe: "terminal" });
+
+  assert.equal(workspace.recipe, "workspace");
+  assert.equal(workspace.performance, "static");
+  assert.equal(command.recipe, "command-palette");
+  assert.equal(command.strength, "strong");
+  assert.equal(terminal.recipe, "terminal");
+  assert.equal(terminal.monochrome, true);
+});
+
+test("recipe contracts expose intended product roles", () => {
+  const contract = getRecipeContract("dialog");
+  const table = getRecipeContract("table");
+  const fallback = getRecipeContract("unknown-shell", { mode: "frost", strength: "soft", performance: "eco" });
+
+  assert.equal(contract.role, "dialog-shell");
+  assert.equal(contract.recommendedMode, "surface");
+  assert.equal(table.role, "data-grid");
+  assert.equal(fallback.name, "unknown-shell");
+  assert.equal(fallback.recommendedPerformance, "eco");
 });

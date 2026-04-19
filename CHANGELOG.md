@@ -6,6 +6,30 @@ The format is based on Keep a Changelog, and this project follows Semantic Versi
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-04-19
+
+### Added
+- Separated surface modes for `surface`, `gradient`, and `frost` while preserving the stable runtime API.
+- New effects: `halo`, `ribbon`, and `bloom`.
+- New presets: `editor`, `crystal`, and `smoke`.
+- Semantic strengths: `soft`, `medium`, and `strong`.
+- Product recipes for `workspace`, `form`, `command-palette`, `dialog`, `table`, `inspector`, `terminal`, and `command-bar`.
+- Recipe contracts through `RECIPE_CONTRACTS`, `getRecipeContract()`, and `createGlassTokens().contract`.
+- Responsive and color-scheme variants in `.glass` configs.
+- Theme and SSR helpers through `compileGlassTheme()`, `createGlassThemeScript()`, and `createGlassTokens()`.
+- Optional framework adapters for React, Vue, Solid, Preact, Svelte, Vanilla, Tailwind, UnoCSS, Next, Nuxt, and Astro.
+- Official component primitives through `glassgradients/components`, `glassgradients/components/react`, and `glassgradients/components/preact`.
+- Static adapter class generation with pseudo-elements, fallback blocks, and shared animation keyframes for Tailwind and UnoCSS.
+
+### Changed
+- Runtime and compiler now share the same style model for more predictable output.
+- Safari/WebKit backdrop filtering now writes direct `-webkit-backdrop-filter` values where needed.
+- Documentation now covers recipes, themes, framework adapters, SSR usage, and integration patterns.
+
+### Fixed
+- Better fallback fills for browsers without `backdrop-filter`.
+- Stronger contrast-safe defaults for production UI surfaces.
+
 ## [1.0.1] - 2026-04-18
 
 ### Added

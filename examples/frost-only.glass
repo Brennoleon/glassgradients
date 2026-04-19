@@ -1,0 +1,12 @@
+selector: .frost-only
+mode: frost
+preset: frosted
+contrastMode: safe
+performance: balanced
+radius: 20px
+frost: 1.18
+glass.blur: 26
+glass.fill: rgba(20,24,34,0.58)
+glass.fillSecondary: rgba(255,255,255,0.12)
+glass.highlight: 0.24
+grain.amount: 0.06

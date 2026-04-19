@@ -1,0 +1,5 @@
+selector: .inspector-panel
+recipe: inspector
+preset: editor
+mode: surface
+performance: static

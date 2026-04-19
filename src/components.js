@@ -1,0 +1,308 @@
+import { compileGlass } from "./compiler.js";
+import { getRecipeContract, mergeDeep } from "./defaults.js";
+import { parseGlass } from "./parser.js";
+import { compileRuntimeInlineStyle } from "./runtime.js";
+import { createGlassTokens } from "./theme.js";
+
+export const GLASS_COMPONENTS = {
+  panel: {
+    name: "panel",
+    displayName: "GlassPanel",
+    tag: "section",
+    className: "gg-panel",
+    recipe: "panel",
+    attrs: { role: "region" }
+  },
+  card: {
+    name: "card",
+    displayName: "GlassCard",
+    tag: "article",
+    className: "gg-card",
+    recipe: "card",
+    attrs: {}
+  },
+  button: {
+    name: "button",
+    displayName: "GlassButton",
+    tag: "button",
+    className: "gg-button",
+    recipe: "button",
+    attrs: { type: "button" }
+  },
+  navbar: {
+    name: "navbar",
+    displayName: "GlassNavbar",
+    tag: "nav",
+    className: "gg-navbar",
+    recipe: "navbar",
+    attrs: {}
+  },
+  sidebar: {
+    name: "sidebar",
+    displayName: "GlassSidebar",
+    tag: "aside",
+    className: "gg-sidebar",
+    recipe: "sidebar",
+    attrs: {}
+  },
+  modal: {
+    name: "modal",
+    displayName: "GlassModal",
+    tag: "section",
+    className: "gg-modal",
+    recipe: "modal",
+    attrs: { role: "dialog", "aria-modal": "true" }
+  },
+  dialog: {
+    name: "dialog",
+    displayName: "GlassDialog",
+    tag: "section",
+    className: "gg-dialog",
+    recipe: "dialog",
+    attrs: { role: "dialog", "aria-modal": "true" }
+  },
+  toolbar: {
+    name: "toolbar",
+    displayName: "GlassToolbar",
+    tag: "div",
+    className: "gg-toolbar",
+    recipe: "toolbar",
+    attrs: { role: "toolbar" }
+  },
+  "command-bar": {
+    name: "command-bar",
+    displayName: "GlassCommandBar",
+    tag: "div",
+    className: "gg-command-bar",
+    recipe: "command-bar",
+    attrs: { role: "toolbar" }
+  },
+  "command-palette": {
+    name: "command-palette",
+    displayName: "GlassCommandPalette",
+    tag: "section",
+    className: "gg-command-palette",
+    recipe: "command-palette",
+    attrs: { role: "dialog", "aria-modal": "true" }
+  },
+  table: {
+    name: "table",
+    displayName: "GlassTable",
+    tag: "div",
+    className: "gg-table",
+    recipe: "table",
+    attrs: { role: "region" }
+  },
+  inspector: {
+    name: "inspector",
+    displayName: "GlassInspector",
+    tag: "aside",
+    className: "gg-inspector",
+    recipe: "inspector",
+    attrs: {}
+  },
+  terminal: {
+    name: "terminal",
+    displayName: "GlassTerminal",
+    tag: "section",
+    className: "gg-terminal",
+    recipe: "terminal",
+    attrs: { role: "log" }
+  },
+  input: {
+    name: "input",
+    displayName: "GlassInput",
+    tag: "input",
+    className: "gg-input",
+    recipe: "input",
+    attrs: {}
+  },
+  badge: {
+    name: "badge",
+    displayName: "GlassBadge",
+    tag: "span",
+    className: "gg-badge",
+    recipe: "badge",
+    attrs: {}
+  },
+  dock: {
+    name: "dock",
+    displayName: "GlassDock",
+    tag: "nav",
+    className: "gg-dock",
+    recipe: "dock",
+    attrs: {}
+  },
+  hero: {
+    name: "hero",
+    displayName: "GlassHero",
+    tag: "section",
+    className: "gg-hero",
+    recipe: "hero",
+    attrs: {}
+  },
+  workspace: {
+    name: "workspace",
+    displayName: "GlassWorkspace",
+    tag: "main",
+    className: "gg-workspace",
+    recipe: "workspace",
+    attrs: {}
+  },
+  form: {
+    name: "form",
+    displayName: "GlassForm",
+    tag: "form",
+    className: "gg-form",
+    recipe: "form",
+    attrs: {}
+  },
+  popover: {
+    name: "popover",
+    displayName: "GlassPopover",
+    tag: "section",
+    className: "gg-popover",
+    recipe: "popover",
+    attrs: { role: "dialog" }
+  }
+};
+
+export const GLASS_COMPONENT_ALIASES = {
+  commandBar: "command-bar",
+  commandPalette: "command-palette",
+  dataTable: "table",
+  surface: "panel",
+  shell: "panel"
+};
+
+function resolveComponentInput(input) {
+  if (typeof input === "function") {
+    return resolveComponentInput(input());
+  }
+  if (typeof input === "string") {
+    return input.includes(":") ? parseGlass(input) : {};
+  }
+  return input ?? {};
+}
+
+function canonicalComponentName(name) {
+  const key = String(name || "panel");
+  return GLASS_COMPONENT_ALIASES[key] || key.toLowerCase();
+}
+
+function joinClassNames(...values) {
+  return values
+    .flatMap((value) => {
+      if (!value) {
+        return [];
+      }
+      if (Array.isArray(value)) {
+        return value;
+      }
+      return String(value).split(/\s+/);
+    })
+    .map((value) => String(value).trim())
+    .filter(Boolean)
+    .join(" ");
+}
+
+export function listGlassComponents() {
+  return Object.keys(GLASS_COMPONENTS);
+}
+
+export function getGlassComponent(name = "panel") {
+  const key = canonicalComponentName(name);
+  const component = GLASS_COMPONENTS[key];
+  if (!component) {
+    const available = listGlassComponents().join(", ");
+    throw new Error(`Unknown GlassGradients component "${name}". Available components: ${available}`);
+  }
+  return { ...component, attrs: { ...component.attrs } };
+}
+
+export function createGlassComponentConfig(name = "panel", input = {}) {
+  const component = getGlassComponent(name);
+  const base = {
+    recipe: component.recipe
+  };
+  return mergeDeep(base, resolveComponentInput(input));
+}
+
+export function createGlassComponentTokens(name = "panel", input = {}) {
+  return createGlassTokens(createGlassComponentConfig(name, input));
+}
+
+export function createGlassComponentProps(name = "panel", options = {}) {
+  const component = getGlassComponent(name);
+  const {
+    input = {},
+    className,
+    style,
+    attrs = {},
+    runtimeOptions = {},
+    includeStyle = true,
+    includeDataAttributes = true
+  } = options;
+  const config = createGlassComponentConfig(component.name, input);
+  const inlineStyle = includeStyle ? compileRuntimeInlineStyle(config) : {};
+  const tokens = createGlassTokens(config);
+  const dataAttrs = includeDataAttributes
+    ? {
+        "data-glass-component": component.name,
+        "data-glass-recipe": config.recipe || component.recipe,
+        "data-glass-mode": tokens.mode
+      }
+    : {};
+
+  return {
+    name: component.name,
+    displayName: component.displayName,
+    tag: component.tag,
+    recipe: component.recipe,
+    input: config,
+    runtimeOptions,
+    className: joinClassNames(component.className, className),
+    style: { ...inlineStyle, ...(style || {}) },
+    attrs: {
+      ...component.attrs,
+      ...dataAttrs,
+      ...attrs
+    },
+    tokens,
+    contract: getRecipeContract(config.recipe, config)
+  };
+}
+
+export function createGlassComponentCss(name = "panel", selector, input = {}, options = {}) {
+  const component = getGlassComponent(name);
+  const targetSelector = selector || `.${component.className}`;
+  return compileGlass(createGlassComponentConfig(component.name, input), { ...options, selector: targetSelector });
+}
+
+export function createGlassComponentCatalog(options = {}) {
+  const {
+    include = listGlassComponents(),
+    input = {},
+    prefix = "",
+    suffix = "",
+    minify = false
+  } = options;
+  return include.reduce((acc, name) => {
+    const component = getGlassComponent(name);
+    const selector = `.${prefix}${component.className}${suffix}`;
+    acc[component.name] = {
+      ...component,
+      selector,
+      input: createGlassComponentConfig(component.name, input),
+      css: createGlassComponentCss(component.name, selector, input, { minify })
+    };
+    return acc;
+  }, {});
+}
+
+export function createGlassComponentCatalogCss(options = {}) {
+  const catalog = createGlassComponentCatalog(options);
+  return Object.values(catalog)
+    .map((entry) => entry.css)
+    .join(options.minify ? "" : "\n\n");
+}

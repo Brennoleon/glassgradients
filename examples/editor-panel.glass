@@ -1,0 +1,8 @@
+selector: .editor-panel
+preset: editor
+mode: surface
+performance: balanced
+radius: 16px
+vignette: 0.16
+grain.amount: 0.03
+animate.fps: 30

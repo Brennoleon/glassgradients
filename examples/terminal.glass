@@ -1,0 +1,5 @@
+selector: .terminal-shell
+recipe: terminal
+preset: smoke
+mode: frost
+monochrome: true

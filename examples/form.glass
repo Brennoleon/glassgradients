@@ -1,0 +1,6 @@
+selector: .account-form
+recipe: form
+preset: smoke
+mode: frost
+strength: soft
+contrastMode: safe

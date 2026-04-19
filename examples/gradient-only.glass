@@ -1,0 +1,13 @@
+selector: .gradient-only
+mode: gradient
+palette: studio
+effect: ribbon
+performance: balanced
+intensity: 1.08
+blur: 52
+tint: rgba(255,255,255,0.02)
+animate.mode: orbit
+animate.hueShift: 18
+animate.drift: 7%
+animate.fps: 30
+grain.enabled: false

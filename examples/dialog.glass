@@ -1,0 +1,5 @@
+selector: .dialog-shell
+recipe: dialog
+preset: crystal
+mode: surface
+contrastMode: safe

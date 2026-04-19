@@ -1,0 +1,9 @@
+---
+import { createAstroGlassHead } from "glassgradients/adapters/astro";
+
+const glassHead = createAstroGlassHead({
+  input: { recipe: "terminal", preset: "smoke" }
+});
+---
+
+<Fragment set:html={glassHead} />

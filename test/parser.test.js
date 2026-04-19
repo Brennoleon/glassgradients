@@ -44,3 +44,33 @@ tint: rgba(255,255,255,0.03)
 
   assert.equal(result.tint, "rgba(255,255,255,0.03)");
 });
+
+test("parse supports new nested gradient and glass sections", () => {
+  const result = parseGlass(`
+mode: frost
+glass:
+  blur: 24
+  fill: rgba(20,24,34,0.6)
+gradient:
+  enabled: false
+`.trim());
+
+  assert.equal(result.mode, "frost");
+  assert.equal(result.glass.blur, 24);
+  assert.equal(result.glass.fill, "rgba(20,24,34,0.6)");
+  assert.equal(result.gradient.enabled, false);
+});
+
+test("parse supports responsive and scheme sections", () => {
+  const result = parseGlass(`
+responsive:
+  md:
+    mode: frost
+scheme:
+  dark:
+    preset: smoke
+`.trim());
+
+  assert.equal(result.responsive.md.mode, "frost");
+  assert.equal(result.scheme.dark.preset, "smoke");
+});

@@ -1,0 +1,6 @@
+selector: .command-palette
+recipe: command-palette
+preset: editor
+mode: surface
+strength: strong
+contrastMode: safe

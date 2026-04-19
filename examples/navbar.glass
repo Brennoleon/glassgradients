@@ -1,0 +1,8 @@
+selector: .navbar-demo
+recipe: navbar
+mode: frost
+contrastMode: safe
+performance: balanced
+interactive.enabled: true
+interactive.glare: 0.12
+grain.amount: 0.02

@@ -1,17 +1,19 @@
 #!/usr/bin/env node
-import { readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { watch } from "node:fs";
 import { dirname, resolve } from "node:path";
-import { mkdir } from "node:fs/promises";
 import { compileGlass } from "./compiler.js";
 import { parseGlass } from "./parser.js";
 
-function starterTemplate(preset = "default") {
+function starterTemplate(preset = "default", mode = "surface", recipe = "") {
+  const recipeLine = recipe ? `recipe: ${recipe}\n` : "";
   return `selector: .hero
 preset: ${preset}
+${recipeLine}mode: ${mode}
 palette: aurora
 effect: mesh
 performance: auto
+contrastMode: balanced
 intensity: 1
 frost: 0.62
 vignette: 0.24
@@ -24,6 +26,8 @@ animate.hueShift: 30
 animate.drift: 9%
 animate.speedMultiplier: 1
 animate.fps: 0
+glass.enabled: true
+gradient.enabled: true
 grain.amount: 0.08
 grain.size: 3px
 grain.motion: 0.2
@@ -36,9 +40,9 @@ function printHelp() {
 glassgradients - stable .glass -> CSS toolchain
 
 Usage:
-  glassgradients init [file.glass] [--preset cinematic]
+  glassgradients init [file.glass] [--preset cinematic] [--recipe panel] [--mode surface]
   glassgradients build <input.glass> [-o output.css] [--selector .hero] [--minify] [--watch]
-                      [--preset frosted] [--effect prism] [--performance eco]
+                      [--preset frosted] [--recipe navbar] [--effect prism] [--performance eco] [--mode gradient]
   glassgradients inspect <input.glass>
   glassgradients --help
 `.trim());
@@ -55,8 +59,10 @@ function parseArgs(argv) {
   let minify = false;
   let watchMode = false;
   let preset = "";
+  let recipe = "";
   let effect = "";
   let performance = "";
+  let mode = "";
 
   for (let i = 0; i < rest.length; i += 1) {
     const token = rest[i];
@@ -82,6 +88,11 @@ function parseArgs(argv) {
       i += 1;
       continue;
     }
+    if (token === "--recipe") {
+      recipe = rest[i + 1] || "";
+      i += 1;
+      continue;
+    }
     if (token === "--effect") {
       effect = rest[i + 1] || "";
       i += 1;
@@ -89,6 +100,11 @@ function parseArgs(argv) {
     }
     if (token === "--performance") {
       performance = rest[i + 1] || "";
+      i += 1;
+      continue;
+    }
+    if (token === "--mode") {
+      mode = rest[i + 1] || "";
       i += 1;
       continue;
     }
@@ -101,10 +117,10 @@ function parseArgs(argv) {
     }
   }
 
-  return { command, input, output, selector, minify, watchMode, preset, effect, performance };
+  return { command, input, output, selector, minify, watchMode, preset, recipe, effect, performance, mode };
 }
 
-function compileOverrides({ selector, minify, preset, effect, performance }) {
+function compileOverrides({ selector, minify, preset, recipe, effect, performance, mode }) {
   const overrides = {};
   if (selector) {
     overrides.selector = selector;
@@ -112,11 +128,17 @@ function compileOverrides({ selector, minify, preset, effect, performance }) {
   if (preset) {
     overrides.preset = preset;
   }
+  if (recipe) {
+    overrides.recipe = recipe;
+  }
   if (effect) {
     overrides.effect = effect;
   }
   if (performance) {
     overrides.performance = performance;
+  }
+  if (mode) {
+    overrides.mode = mode;
   }
   if (minify) {
     overrides.minify = true;
@@ -167,7 +189,7 @@ async function runBuild(params) {
 
 async function run() {
   const params = parseArgs(process.argv);
-  const { command, input, preset } = params;
+  const { command, input, preset, recipe, mode } = params;
 
   if (!command || command === "--help" || command === "-h" || command === "help") {
     printHelp();
@@ -177,7 +199,7 @@ async function run() {
   if (command === "init") {
     const initPath = resolve(input || "./glassgradient.glass");
     await mkdir(dirname(initPath), { recursive: true });
-    await writeFile(initPath, starterTemplate(preset || "default"), "utf8");
+    await writeFile(initPath, starterTemplate(preset || "default", mode || "surface", recipe || ""), "utf8");
     console.log(`Starter created: ${initPath}`);
     return;
   }

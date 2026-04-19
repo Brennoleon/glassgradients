@@ -1,11 +1,12 @@
-import { normalizeConfig, toCssUnit } from "./defaults.js";
+import { mergeDeep, normalizeConfig } from "./defaults.js";
 import { parseGlass } from "./parser.js";
+import { buildBackdropFilter, buildStyleVariables } from "./style-engine.js";
+import { collectVariantEntries, evaluateVariantInput } from "./variants.js";
 
 const RUNTIME_CLASS = "gg-runtime-host";
 const LAYER_CLASS = "gg-runtime-layer";
-const GRAIN_CLASS = "gg-runtime-grain";
+const ORNAMENT_CLASS = "gg-runtime-ornament";
 const HIDDEN_CLASS = "gg-runtime-paused";
-const EFFECT_CLASS_PREFIX = "gg-effect-";
 
 let runtimeStyleInjected = false;
 const runtimeState = new WeakMap();
@@ -22,87 +23,56 @@ function injectRuntimeStyle() {
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  box-sizing: border-box;
+  border-radius: var(--gg-radius, 18px);
+  z-index: var(--gg-z-index, auto);
+  border: var(--gg-glass-border, 0 solid transparent);
+  background: var(--gg-glass-fill, transparent);
+  box-shadow: var(--gg-shadow-stack, none);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
   --ggx: 0%;
   --ggy: 0%;
   --ggh: 0deg;
-  --ggz: 1.05;
-  --gg-base-filter: blur(var(--gg-blur, 48px)) saturate(var(--gg-saturation, 138%)) contrast(var(--gg-contrast, 109%)) brightness(var(--gg-brightness, 102%));
+  --ggz: 1.04;
 }
 
 .${RUNTIME_CLASS} .${LAYER_CLASS},
-.${RUNTIME_CLASS} .${GRAIN_CLASS} {
+.${RUNTIME_CLASS} .${ORNAMENT_CLASS} {
   position: absolute;
-  inset: var(--gg-inset, -22%);
   pointer-events: none;
-  z-index: -1;
+  border-radius: inherit;
 }
 
 .${RUNTIME_CLASS} .${LAYER_CLASS} {
+  inset: var(--gg-gradient-inset, -22%);
   z-index: -2;
-  opacity: var(--gg-opacity, 0.74);
-  background-blend-mode: overlay, var(--gg-blend, normal);
-  filter: var(--gg-base-filter) hue-rotate(var(--ggh, 0deg));
+  background-image: var(--gg-gradient-background, none);
+  background-blend-mode: overlay, var(--gg-gradient-blend, normal);
+  opacity: var(--gg-gradient-opacity, 0);
+  filter: var(--gg-gradient-filter, none) hue-rotate(var(--ggh, 0deg));
   transform: translate3d(var(--ggx), var(--ggy), 0) scale(var(--ggz));
-  will-change: transform, filter;
+  will-change: transform, filter, opacity;
 }
 
-.${RUNTIME_CLASS}.gg-effect-mesh .${LAYER_CLASS} {
-  background-image:
-    linear-gradient(0deg, var(--gg-tint, transparent), var(--gg-tint, transparent)),
-    radial-gradient(140% 120% at 6% 4%, var(--gg-c1, #66b3ff) 0%, transparent 55%),
-    radial-gradient(140% 130% at 88% 12%, var(--gg-c2, #8f7dff) 0%, transparent 58%),
-    radial-gradient(160% 140% at 20% 92%, var(--gg-c3, #45d6c8) 0%, transparent 63%),
-    radial-gradient(130% 130% at 84% 76%, var(--gg-c4, #f97db2) 0%, transparent 55%);
-}
-
-.${RUNTIME_CLASS}.gg-effect-aurora .${LAYER_CLASS} {
-  background-image:
-    linear-gradient(0deg, var(--gg-tint, transparent), var(--gg-tint, transparent)),
-    linear-gradient(130deg, var(--gg-c1, #66b3ff) 0%, transparent 42%),
-    linear-gradient(210deg, var(--gg-c2, #8f7dff) 12%, transparent 52%),
-    radial-gradient(150% 130% at 80% 85%, var(--gg-c3, #45d6c8) 0%, transparent 60%),
-    radial-gradient(140% 120% at 15% 85%, var(--gg-c4, #f97db2) 0%, transparent 58%);
-}
-
-.${RUNTIME_CLASS}.gg-effect-spotlight .${LAYER_CLASS} {
-  background-image:
-    linear-gradient(0deg, var(--gg-tint, transparent), var(--gg-tint, transparent)),
-    radial-gradient(90% 90% at 50% 28%, var(--gg-c1, #66b3ff) 0%, transparent 55%),
-    radial-gradient(80% 80% at 78% 72%, var(--gg-c2, #8f7dff) 0%, transparent 50%),
-    radial-gradient(85% 85% at 22% 78%, var(--gg-c3, #45d6c8) 0%, transparent 52%),
-    linear-gradient(140deg, transparent 0%, var(--gg-c4, #f97db2) 90%);
-}
-
-.${RUNTIME_CLASS}.gg-effect-plasma .${LAYER_CLASS} {
-  background-image:
-    linear-gradient(0deg, var(--gg-tint, transparent), var(--gg-tint, transparent)),
-    radial-gradient(120% 110% at 10% 20%, var(--gg-c1, #66b3ff) 0%, transparent 60%),
-    radial-gradient(115% 140% at 85% 25%, var(--gg-c2, #8f7dff) 0%, transparent 58%),
-    radial-gradient(150% 130% at 30% 90%, var(--gg-c3, #45d6c8) 0%, transparent 62%),
-    radial-gradient(130% 120% at 90% 85%, var(--gg-c4, #f97db2) 0%, transparent 56%);
-}
-
-.${RUNTIME_CLASS}.gg-effect-prism .${LAYER_CLASS} {
-  background-image:
-    linear-gradient(0deg, var(--gg-tint, transparent), var(--gg-tint, transparent)),
-    linear-gradient(120deg, var(--gg-c1, #66b3ff) 0%, transparent 30%),
-    linear-gradient(190deg, var(--gg-c2, #8f7dff) 10%, transparent 34%),
-    linear-gradient(260deg, var(--gg-c3, #45d6c8) 20%, transparent 38%),
-    radial-gradient(130% 130% at 80% 70%, var(--gg-c4, #f97db2) 0%, transparent 65%);
-}
-
-.${RUNTIME_CLASS} .${GRAIN_CLASS} {
+.${RUNTIME_CLASS} .${ORNAMENT_CLASS} {
+  inset: 0;
   z-index: -1;
-  opacity: var(--gg-grain, 0.08);
-  mix-blend-mode: var(--gg-grain-blend, soft-light);
-  background-image:
-    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.22), transparent 45%),
-    radial-gradient(circle at 70% 65%, rgba(0, 0, 0, calc(0.2 + var(--gg-vignette, 0.2) * 0.35)), transparent 46%),
-    repeating-radial-gradient(circle at 50% 50%, rgba(255, 255, 255, calc(0.06 + var(--gg-grain-motion, 0.2) * 0.03)) 0 1px, transparent 1px var(--gg-grain-size, 3px));
+  background-image: var(--gg-ornament-background, none);
+  background-blend-mode: var(--gg-ornament-blend, normal);
+  opacity: var(--gg-ornament-opacity, 1);
 }
 
 .${RUNTIME_CLASS}.${HIDDEN_CLASS} .${LAYER_CLASS} {
   will-change: auto;
+}
+
+@supports not ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))) {
+  .${RUNTIME_CLASS} {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--gg-fallback-fill, transparent);
+  }
 }
 `.trim();
 
@@ -113,49 +83,58 @@ function injectRuntimeStyle() {
 function createLayer(element) {
   const layer = document.createElement("div");
   layer.className = LAYER_CLASS;
-  const grain = document.createElement("div");
-  grain.className = GRAIN_CLASS;
+  const ornament = document.createElement("div");
+  ornament.className = ORNAMENT_CLASS;
 
   if (getComputedStyle(element).position === "static") {
     element.style.position = "relative";
   }
 
   element.classList.add(RUNTIME_CLASS);
-  element.prepend(grain);
+  element.prepend(ornament);
   element.prepend(layer);
-  return { layer, grain };
+  return { layer, ornament, styleKeys: [] };
 }
 
-function setEffectClass(element, effect) {
-  const toDrop = Array.from(element.classList).filter((name) => name.startsWith(EFFECT_CLASS_PREFIX));
-  for (const className of toDrop) {
-    element.classList.remove(className);
+function applyStyleMap(element, styleMap, state) {
+  const nextKeys = Object.keys(styleMap);
+  for (const key of state.styleKeys) {
+    if (!nextKeys.includes(key)) {
+      element.style.removeProperty(key);
+    }
   }
-  element.classList.add(`${EFFECT_CLASS_PREFIX}${effect}`);
+  for (const [key, value] of Object.entries(styleMap)) {
+    element.style.setProperty(key, value);
+  }
+  state.styleKeys = nextKeys;
 }
 
-function applyCssVariables(element, config) {
-  const [c1, c2, c3, c4] = config.colors;
-  element.style.setProperty("--gg-c1", c1);
-  element.style.setProperty("--gg-c2", c2);
-  element.style.setProperty("--gg-c3", c3);
-  element.style.setProperty("--gg-c4", c4);
-  element.style.setProperty("--gg-opacity", String(config.opacity));
-  element.style.setProperty("--gg-blur", config.blur);
-  element.style.setProperty("--gg-saturation", config.saturation);
-  element.style.setProperty("--gg-contrast", config.contrast);
-  element.style.setProperty("--gg-brightness", config.brightness);
-  element.style.setProperty("--gg-blend", config.blendMode);
-  element.style.setProperty("--gg-tint", config.tint);
-  element.style.setProperty("--gg-grain", String(config.grain.enabled ? config.grain.amount : 0));
-  element.style.setProperty("--gg-grain-size", config.grain.size);
-  element.style.setProperty("--gg-grain-blend", config.grain.blend);
-  element.style.setProperty("--gg-grain-motion", String(config.grain.motion));
-  element.style.setProperty("--gg-vignette", String(config.vignette));
-  element.style.setProperty("--gg-inset", config.layerInset);
-  element.style.borderRadius = config.radius;
-  element.style.boxShadow = `0 18px 54px rgba(0,0,0,${(0.1 + config.shadow * 0.25).toFixed(3)})`;
-  setEffectClass(element, config.effect);
+function syncLayerState(state, config) {
+  state.layer.style.display = config.gradient.enabled ? "" : "none";
+
+  const ornamentVisible =
+    (config.interactive.enabled && config.interactive.glare > 0) ||
+    (config.glass.enabled && config.glass.highlight > 0) ||
+    (config.shine.enabled && config.shine.opacity > 0) ||
+    config.vignette > 0 ||
+    (config.grain.enabled && config.grain.amount > 0);
+
+  state.ornament.style.display = ornamentVisible ? "" : "none";
+}
+
+function applyCssVariables(element, state, config) {
+  const styleMap = buildStyleVariables(config);
+  applyStyleMap(element, styleMap, state);
+  syncLayerState(state, config);
+  element.style.setProperty("--ggx", "0%");
+  element.style.setProperty("--ggy", "0%");
+  element.style.setProperty("--ggh", "0deg");
+  element.style.setProperty("--ggz", "1.04");
+  element.style.setProperty("--gg-glare-x", "50%");
+  element.style.setProperty("--gg-glare-y", "50%");
+  element.style.webkitBackdropFilter = buildBackdropFilter(config.glass);
+  element.style.backdropFilter = buildBackdropFilter(config.glass);
+  element.style.isolation = config.isolate ? "isolate" : "auto";
 }
 
 function parseSpeed(speed) {
@@ -273,11 +252,21 @@ onmessage = (event) => {
 }
 
 function computeTickMs(speedMs, desiredFps, fpsCap) {
-  const fps = desiredFps > 0 ? Math.min(desiredFps, fpsCap || 60) : fpsCap || 60;
+  const maxFps = fpsCap > 0 ? fpsCap : 60;
+  const fps = desiredFps > 0 ? Math.min(desiredFps, maxFps) : maxFps;
   return Math.max(1000 / fps, speedMs / 240);
 }
 
 function startAnimator(element, config, runtimeOptions = {}) {
+  if (!config.gradient.enabled || !config.animate.enabled) {
+    return {
+      canAnimate: false,
+      start() {},
+      stop() {},
+      destroy() {}
+    };
+  }
+
   const speedMs = parseSpeed(config.speed) / config.animate.speedMultiplier;
   const driftRaw = String(config.animate.drift || "8%").replace("%", "");
   const drift = Number.parseFloat(driftRaw);
@@ -309,56 +298,127 @@ function startAnimator(element, config, runtimeOptions = {}) {
       }
       lastTs = ts;
       phase += (16 / speedMs) * frameStep;
-      applyFrame(computeFrame(mode, phase, driftPct, hueShift, config.intensity));
+      applyFrame(computeFrame(mode, phase, driftPct, hueShift, config.gradient.intensity));
       frameId = requestAnimationFrame(step);
     };
     frameId = requestAnimationFrame(step);
   };
 
-  const start = () => {
-    if (!config.animate.enabled) {
+  return {
+    canAnimate: true,
+    start() {
+      if (threaded && !worker) {
+        worker = createWorkerController(applyFrame);
+      }
+      if (worker) {
+        worker.postMessage({
+          type: "start",
+          speedMs,
+          hueShift,
+          drift: driftPct,
+          mode,
+          frameStep,
+          intensity: config.gradient.intensity,
+          tickMs
+        });
+        return;
+      }
+      if (!frameId) {
+        runMainThread();
+      }
+    },
+    stop() {
+      if (worker) {
+        worker.postMessage({ type: "stop" });
+      }
+      if (frameId) {
+        cancelAnimationFrame(frameId);
+        frameId = null;
+      }
+    },
+    destroy() {
+      this.stop();
+      if (worker) {
+        worker.terminate();
+        worker = null;
+      }
+    }
+  };
+}
+
+function createNoopHandle() {
+  return {
+    destroy() {},
+    disconnect() {}
+  };
+}
+
+function bindAnimatorVisibility(element, animator, threshold, rootMargin) {
+  if (!animator.canAnimate) {
+    return createNoopHandle();
+  }
+
+  if (typeof IntersectionObserver === "undefined") {
+    animator.start();
+    return createNoopHandle();
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          element.classList.remove(HIDDEN_CLASS);
+          animator.start();
+        } else {
+          element.classList.add(HIDDEN_CLASS);
+          animator.stop();
+        }
+      }
+    },
+    {
+      threshold: [0, threshold, 0.2].sort((a, b) => a - b),
+      rootMargin
+    }
+  );
+
+  observer.observe(element);
+  animator.start();
+  return observer;
+}
+
+function bindInteractiveGlare(element, config) {
+  if (!config.interactive.enabled || typeof window === "undefined") {
+    return createNoopHandle();
+  }
+
+  const updateGlare = (event) => {
+    const rect = element.getBoundingClientRect();
+    if (!rect.width || !rect.height) {
       return;
     }
-    if (threaded && !worker) {
-      worker = createWorkerController(applyFrame);
-    }
-    if (worker) {
-      worker.postMessage({
-        type: "start",
-        speedMs,
-        hueShift,
-        drift: driftPct,
-        mode,
-        frameStep,
-        intensity: config.intensity,
-        tickMs
-      });
-      return;
-    }
-    if (!frameId) {
-      runMainThread();
-    }
+    const x = ((event.clientX - rect.left) / rect.width) * 100;
+    const y = ((event.clientY - rect.top) / rect.height) * 100;
+    element.style.setProperty("--gg-glare-x", `${Math.max(0, Math.min(100, x)).toFixed(2)}%`);
+    element.style.setProperty("--gg-glare-y", `${Math.max(0, Math.min(100, y)).toFixed(2)}%`);
   };
 
-  const stop = () => {
-    if (worker) {
-      worker.postMessage({ type: "stop" });
-    }
-    if (frameId) {
-      cancelAnimationFrame(frameId);
-      frameId = null;
-    }
+  const resetGlare = () => {
+    element.style.setProperty("--gg-glare-x", "50%");
+    element.style.setProperty("--gg-glare-y", "50%");
   };
 
-  const destroy = () => {
-    stop();
-    if (worker) {
-      worker.terminate();
-      worker = null;
+  element.addEventListener("pointermove", updateGlare, { passive: true });
+  element.addEventListener("pointerleave", resetGlare, { passive: true });
+  element.addEventListener("pointercancel", resetGlare, { passive: true });
+
+  return {
+    destroy() {
+      element.removeEventListener("pointermove", updateGlare);
+      element.removeEventListener("pointerleave", resetGlare);
+      element.removeEventListener("pointercancel", resetGlare);
+      resetGlare();
     }
   };
-
-  return { start, stop, destroy };
 }
 
 function resolveElements(target) {
@@ -400,6 +460,55 @@ function getRuntimeHints() {
   };
 }
 
+function computeRuntimeConfig(sourceInput, hints, runtimeOptions) {
+  const resolved = typeof window !== "undefined" && typeof window.matchMedia === "function"
+    ? evaluateVariantInput(sourceInput, mergeDeep, window.matchMedia.bind(window))
+    : sourceInput;
+
+  let config = normalizeConfig(resolved, hints);
+  if (runtimeOptions.reduceMotion ?? hints.prefersReducedMotion) {
+    config = normalizeConfig(mergeDeep(resolved, { animate: { enabled: false } }), hints);
+  }
+  return config;
+}
+
+function bindVariantListeners(sourceInput, onChange) {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+    return createNoopHandle();
+  }
+
+  const entries = collectVariantEntries(sourceInput);
+  if (entries.length === 0) {
+    return createNoopHandle();
+  }
+
+  const cleanups = [];
+  for (const entry of entries) {
+    let media;
+    try {
+      media = window.matchMedia(entry.query);
+    } catch {
+      continue;
+    }
+    const handler = () => onChange();
+    if (typeof media.addEventListener === "function") {
+      media.addEventListener("change", handler);
+      cleanups.push(() => media.removeEventListener("change", handler));
+    } else if (typeof media.addListener === "function") {
+      media.addListener(handler);
+      cleanups.push(() => media.removeListener(handler));
+    }
+  }
+
+  return {
+    destroy() {
+      for (const cleanup of cleanups) {
+        cleanup();
+      }
+    }
+  };
+}
+
 export function createGlassGradient(target, input = {}, runtimeOptions = {}) {
   if (typeof document === "undefined") {
     throw new Error("createGlassGradient can only run in a browser environment");
@@ -408,11 +517,7 @@ export function createGlassGradient(target, input = {}, runtimeOptions = {}) {
   injectRuntimeStyle();
   const parsed = resolveInputConfig(input);
   const hints = getRuntimeHints();
-  const config = normalizeConfig(parsed, hints);
   const elements = resolveElements(target);
-  const threshold = runtimeOptions.threshold ?? config.visibility.threshold;
-  const rootMargin = runtimeOptions.rootMargin || config.visibility.rootMargin;
-  const reduceMotion = runtimeOptions.reduceMotion ?? hints.prefersReducedMotion;
 
   const instances = elements.map((element) => {
     let state = runtimeState.get(element);
@@ -421,53 +526,92 @@ export function createGlassGradient(target, input = {}, runtimeOptions = {}) {
       runtimeState.set(element, state);
     }
 
-    const liveConfig = reduceMotion
-      ? normalizeConfig({ ...config, animate: { ...config.animate, enabled: false } }, hints)
-      : config;
+    let sourceInput = parsed;
+    let liveConfig = computeRuntimeConfig(sourceInput, hints, runtimeOptions);
 
-    applyCssVariables(element, liveConfig);
-    const animator = startAnimator(element, liveConfig, runtimeOptions);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            element.classList.remove(HIDDEN_CLASS);
-            animator.start();
-          } else {
-            element.classList.add(HIDDEN_CLASS);
-            animator.stop();
-          }
-        }
-      },
-      {
-        threshold: [0, threshold, 0.2].sort((a, b) => a - b),
-        rootMargin
-      }
+    const applyCurrentConfig = () => {
+      applyCssVariables(element, state, liveConfig);
+    };
+
+    applyCurrentConfig();
+
+    let animator = startAnimator(element, liveConfig, runtimeOptions);
+    let observer = bindAnimatorVisibility(
+      element,
+      animator,
+      runtimeOptions.threshold ?? liveConfig.visibility.threshold,
+      runtimeOptions.rootMargin || liveConfig.visibility.rootMargin
     );
-    observer.observe(element);
-    animator.start();
+    let interactivity = bindInteractiveGlare(element, liveConfig);
+    let variantListeners = bindVariantListeners(sourceInput, () => {
+      liveConfig = computeRuntimeConfig(sourceInput, hints, runtimeOptions);
+      applyCurrentConfig();
+      observer.disconnect();
+      animator.destroy();
+      interactivity.destroy();
+      animator = startAnimator(element, liveConfig, runtimeOptions);
+      observer = bindAnimatorVisibility(
+        element,
+        animator,
+        runtimeOptions.threshold ?? liveConfig.visibility.threshold,
+        runtimeOptions.rootMargin || liveConfig.visibility.rootMargin
+      );
+      interactivity = bindInteractiveGlare(element, liveConfig);
+      instance.config = liveConfig;
+    });
 
-    return {
+    const instance = {
       element,
       config: liveConfig,
       destroy() {
+        variantListeners.destroy();
         observer.disconnect();
         animator.destroy();
+        interactivity.destroy();
         if (state.layer?.isConnected) {
           state.layer.remove();
         }
-        if (state.grain?.isConnected) {
-          state.grain.remove();
+        if (state.ornament?.isConnected) {
+          state.ornament.remove();
         }
+        for (const key of state.styleKeys) {
+          element.style.removeProperty(key);
+        }
+        element.style.removeProperty("--ggx");
+        element.style.removeProperty("--ggy");
+        element.style.removeProperty("--ggh");
+        element.style.removeProperty("--ggz");
+        element.style.removeProperty("--gg-glare-x");
+        element.style.removeProperty("--gg-glare-y");
+        element.style.webkitBackdropFilter = "";
+        element.style.backdropFilter = "";
+        element.style.isolation = "";
         element.classList.remove(RUNTIME_CLASS, HIDDEN_CLASS);
         runtimeState.delete(element);
       },
       update(nextInput = {}) {
         const nextParsed = resolveInputConfig(nextInput);
-        const nextConfig = normalizeConfig({ ...liveConfig, ...nextParsed }, hints);
-        applyCssVariables(element, nextConfig);
+        sourceInput = mergeDeep(sourceInput, nextParsed);
+        liveConfig = computeRuntimeConfig(sourceInput, hints, runtimeOptions);
+        applyCurrentConfig();
+        variantListeners.destroy();
+        observer.disconnect();
+        animator.destroy();
+        interactivity.destroy();
+        animator = startAnimator(element, liveConfig, runtimeOptions);
+        observer = bindAnimatorVisibility(
+          element,
+          animator,
+          runtimeOptions.threshold ?? liveConfig.visibility.threshold,
+          runtimeOptions.rootMargin || liveConfig.visibility.rootMargin
+        );
+        interactivity = bindInteractiveGlare(element, liveConfig);
+        variantListeners = bindVariantListeners(sourceInput, () => instance.update({}));
+        this.config = liveConfig;
       }
     };
+
+    return instance;
   });
 
   if (instances.length === 1) {
@@ -496,18 +640,10 @@ export function applyGlassGradient(target, input = {}, runtimeOptions = {}) {
 export function compileRuntimeInlineStyle(input = {}) {
   const config = normalizeConfig(resolveInputConfig(input));
   return {
-    "--gg-opacity": String(config.opacity),
-    "--gg-blur": config.blur,
-    "--gg-saturation": config.saturation,
-    "--gg-contrast": config.contrast,
-    "--gg-brightness": config.brightness,
-    "--gg-grain": String(config.grain.enabled ? config.grain.amount : 0),
-    "--gg-grain-size": config.grain.size,
-    "--gg-grain-blend": config.grain.blend,
-    "--gg-grain-motion": String(config.grain.motion),
-    "--gg-vignette": String(config.vignette),
-    "--gg-inset": config.layerInset,
-    "--gg-tint": config.tint,
-    borderRadius: toCssUnit(config.radius, "18px")
+    ...buildStyleVariables(config),
+    WebkitBackdropFilter: buildBackdropFilter(config.glass),
+    backdropFilter: buildBackdropFilter(config.glass),
+    borderRadius: config.radius,
+    isolation: config.isolate ? "isolate" : "auto"
   };
 }

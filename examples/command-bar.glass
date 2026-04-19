@@ -1,0 +1,5 @@
+selector: .command-bar
+recipe: command-bar
+preset: editor
+mode: frost
+performance: eco

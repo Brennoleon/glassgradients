@@ -1,0 +1,22 @@
+selector: .workspace-demo
+preset: editor
+recipe: panel
+mode: surface
+performance: balanced
+contrastMode: safe
+
+responsive:
+  md:
+    recipe: sidebar
+    mode: frost
+    interactive.enabled: false
+  xl:
+    preset: cinematic
+    recipe: hero
+    mode: surface
+
+scheme:
+  dark:
+    preset: smoke
+    contrastMode: safe
+    interactive.enabled: false

@@ -1,0 +1,5 @@
+selector: .data-table
+recipe: table
+preset: smoke
+mode: frost
+contrastMode: safe
