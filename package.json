@@ -87,7 +87,9 @@
   "scripts": {
     "test": "node --test",
     "build": "node ./src/cli.js --help",
-    "release:check": "npm test && npm run build && npm pack --dry-run",
+    "metrics": "node ./scripts/generate-metrics.mjs",
+    "site:build": "npm run metrics && node ./scripts/build-site.mjs",
+    "release:check": "npm run site:build && npm test && npm run build && npm pack --dry-run",
     "bench": "node ./scripts/benchmark.mjs"
   },
   "keywords": [

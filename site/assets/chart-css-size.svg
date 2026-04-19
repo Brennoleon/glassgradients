@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="300" viewBox="0 0 860 300" role="img" aria-label="Compiled CSS Size">
+  <style>
+    .bg { fill: #0f1319; }
+    .panel { fill: #151a23; stroke: #2a3140; }
+    .title { fill: #edf2fa; font: 700 18px ui-sans-serif, system-ui, sans-serif; }
+    .subtitle { fill: #98a4b8; font: 12px ui-sans-serif, system-ui, sans-serif; }
+    .grid { stroke: #2a3140; stroke-width: 1; opacity: .72; }
+    .value { fill: #dce8ff; font: 700 12px ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .label { fill: #aab6c9; font: 12px ui-sans-serif, system-ui, sans-serif; }
+    .axis { stroke: #2a3140; stroke-width: 1; }
+    .shape { fill: #243752; stroke: #78a8ff; stroke-width: 2; }
+    .dot { fill: #9fd0ff; }
+  </style>
+  <rect class="bg" width="100%" height="100%" rx="14" />
+  <rect class="panel" x="10" y="10" width="840" height="280" rx="12" />
+  <text x="30" y="36" class="title">Compiled CSS Size</text>
+  <text x="30" y="54" class="subtitle">Minified bytes for representative surface modes</text>
+  
+      <line class="grid" x1="54" y1="242" x2="826" y2="242" />
+      <line class="grid" x1="54" y1="72" x2="54" y2="242" />
+      
+      <rect x="104.5" y="72.0" width="92.0" height="170.0" rx="6" fill="#78a8ff" />
+      <text x="150.5" y="62.0" text-anchor="middle" class="value">3279B</text>
+      <text x="150.5" y="270" text-anchor="middle" class="label">surface</text>
+      <rect x="297.5" y="102.2" width="92.0" height="139.8" rx="6" fill="#72d7c7" />
+      <text x="343.5" y="92.2" text-anchor="middle" class="value">2696B</text>
+      <text x="343.5" y="270" text-anchor="middle" class="label">frost</text>
+      <rect x="490.5" y="112.4" width="92.0" height="129.6" rx="6" fill="#f0be75" />
+      <text x="536.5" y="102.4" text-anchor="middle" class="value">2499B</text>
+      <text x="536.5" y="270" text-anchor="middle" class="label">gradient</text>
+      <rect x="683.5" y="101.7" width="92.0" height="140.3" rx="6" fill="#d6a8ff" />
+      <text x="729.5" y="91.7" text-anchor="middle" class="value">2707B</text>
+      <text x="729.5" y="270" text-anchor="middle" class="label">static</text>
+</svg>

@@ -1,0 +1,126 @@
+{
+  "generatedAt": "2026-04-19T16:16:32.305Z",
+  "package": {
+    "name": "glassgradients",
+    "version": "1.1.0",
+    "publicExports": 21,
+    "optionalPeers": 4
+  },
+  "surfaceModel": {
+    "modes": [
+      "surface",
+      "gradient",
+      "frost"
+    ],
+    "effects": [
+      "mesh",
+      "aurora",
+      "spotlight",
+      "plasma",
+      "prism",
+      "halo",
+      "ribbon",
+      "bloom"
+    ],
+    "strengths": [
+      "soft",
+      "medium",
+      "strong"
+    ]
+  },
+  "counts": {
+    "adapters": 11,
+    "componentSubpaths": 3,
+    "components": 20,
+    "recipes": 20,
+    "recipeContracts": 20,
+    "presets": 7,
+    "palettes": 9,
+    "tests": 50,
+    "testFiles": 12,
+    "examples": 36,
+    "docs": 18,
+    "sourceFiles": 40,
+    "sourceBytes": 162662
+  },
+  "performance": [
+    {
+      "name": "parseGlass",
+      "iterations": 6000,
+      "totalMs": 298.305,
+      "msPerOp": 0.04972,
+      "opsPerSecond": 20114
+    },
+    {
+      "name": "normalizeConfig",
+      "iterations": 6000,
+      "totalMs": 494.137,
+      "msPerOp": 0.08236,
+      "opsPerSecond": 12142
+    },
+    {
+      "name": "compileGlass",
+      "iterations": 1800,
+      "totalMs": 1034.851,
+      "msPerOp": 0.57492,
+      "opsPerSecond": 1739
+    }
+  ],
+  "cssSamples": [
+    {
+      "label": "surface",
+      "bytes": 3279,
+      "chars": 3279
+    },
+    {
+      "label": "frost",
+      "bytes": 2696,
+      "chars": 2696
+    },
+    {
+      "label": "gradient",
+      "bytes": 2499,
+      "chars": 2499
+    },
+    {
+      "label": "static",
+      "bytes": 2707,
+      "chars": 2707
+    }
+  ],
+  "components": [
+    "panel",
+    "card",
+    "button",
+    "navbar",
+    "sidebar",
+    "modal",
+    "dialog",
+    "toolbar",
+    "command-bar",
+    "command-palette",
+    "table",
+    "inspector",
+    "terminal",
+    "input",
+    "badge",
+    "dock",
+    "hero",
+    "workspace",
+    "form",
+    "popover"
+  ],
+  "integrationMatrix": [
+    "React",
+    "Vue",
+    "Solid",
+    "Preact",
+    "Svelte",
+    "Vanilla",
+    "Tailwind",
+    "UnoCSS",
+    "Next",
+    "Nuxt",
+    "Astro"
+  ]
+}

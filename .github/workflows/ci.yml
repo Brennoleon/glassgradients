@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify package and site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build GitHub Lab
+        run: npm run site:build
+
+      - name: Run tests
+        run: npm test
+
+      - name: Validate CLI
+        run: npm run build
+
+      - name: Validate npm package contents
+        run: npm pack --dry-run

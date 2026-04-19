@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="430" viewBox="0 0 560 430" role="img" aria-label="System Coverage">
+  <style>
+    .bg { fill: #0f1319; }
+    .panel { fill: #151a23; stroke: #2a3140; }
+    .title { fill: #edf2fa; font: 700 18px ui-sans-serif, system-ui, sans-serif; }
+    .subtitle { fill: #98a4b8; font: 12px ui-sans-serif, system-ui, sans-serif; }
+    .grid { stroke: #2a3140; stroke-width: 1; opacity: .72; }
+    .value { fill: #dce8ff; font: 700 12px ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .label { fill: #aab6c9; font: 12px ui-sans-serif, system-ui, sans-serif; }
+    .axis { stroke: #2a3140; stroke-width: 1; }
+    .shape { fill: #243752; stroke: #78a8ff; stroke-width: 2; }
+    .dot { fill: #9fd0ff; }
+  </style>
+  <rect class="bg" width="100%" height="100%" rx="14" />
+  <rect class="panel" x="10" y="10" width="540" height="410" rx="12" />
+  <text x="30" y="36" class="title">System Coverage</text>
+  <text x="30" y="54" class="subtitle">Components, adapters, recipes, tests and examples</text>
+  
+    <circle class="grid" cx="280" cy="230" r="42.2" fill="none" /><circle class="grid" cx="280" cy="230" r="84.5" fill="none" /><circle class="grid" cx="280" cy="230" r="128.0" fill="none" />
+    <line class="axis" x1="280" y1="230" x2="280.0" y2="56.0" /><line class="axis" x1="280" y1="230" x2="445.5" y2="176.2" /><line class="axis" x1="280" y1="230" x2="382.3" y2="370.8" /><line class="axis" x1="280" y1="230" x2="177.7" y2="370.8" /><line class="axis" x1="280" y1="230" x2="114.5" y2="176.2" />
+    <polygon class="shape" points="280.0,178.8 306.8,221.3 310.1,271.4 204.8,333.6 192.4,201.5" />
+    <circle class="dot" cx="280.0" cy="178.8" r="4" /><circle class="dot" cx="306.8" cy="221.3" r="4" /><circle class="dot" cx="310.1" cy="271.4" r="4" /><circle class="dot" cx="204.8" cy="333.6" r="4" /><circle class="dot" cx="192.4" cy="201.5" r="4" />
+    <text class="label" x="280.0" y="56.0" text-anchor="middle">components</text><text class="label" x="445.5" y="176.2" text-anchor="middle">adapters</text><text class="label" x="382.3" y="370.8" text-anchor="middle">recipes</text><text class="label" x="177.7" y="370.8" text-anchor="middle">tests</text><text class="label" x="114.5" y="176.2" text-anchor="middle">examples</text>
+</svg>

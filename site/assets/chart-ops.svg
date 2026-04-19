@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="300" viewBox="0 0 860 300" role="img" aria-label="Operation Throughput">
+  <style>
+    .bg { fill: #0f1319; }
+    .panel { fill: #151a23; stroke: #2a3140; }
+    .title { fill: #edf2fa; font: 700 18px ui-sans-serif, system-ui, sans-serif; }
+    .subtitle { fill: #98a4b8; font: 12px ui-sans-serif, system-ui, sans-serif; }
+    .grid { stroke: #2a3140; stroke-width: 1; opacity: .72; }
+    .value { fill: #dce8ff; font: 700 12px ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .label { fill: #aab6c9; font: 12px ui-sans-serif, system-ui, sans-serif; }
+    .axis { stroke: #2a3140; stroke-width: 1; }
+    .shape { fill: #243752; stroke: #78a8ff; stroke-width: 2; }
+    .dot { fill: #9fd0ff; }
+  </style>
+  <rect class="bg" width="100%" height="100%" rx="14" />
+  <rect class="panel" x="10" y="10" width="840" height="280" rx="12" />
+  <text x="30" y="36" class="title">Operation Throughput</text>
+  <text x="30" y="54" class="subtitle">Local Node run from scripts/generate-metrics.mjs</text>
+  
+      <line class="grid" x1="54" y1="242" x2="826" y2="242" />
+      <line class="grid" x1="54" y1="72" x2="54" y2="242" />
+      
+      <rect x="136.7" y="72.0" width="92.0" height="170.0" rx="6" fill="#78a8ff" />
+      <text x="182.7" y="62.0" text-anchor="middle" class="value">20114/s</text>
+      <text x="182.7" y="270" text-anchor="middle" class="label">parseGlass</text>
+      <rect x="394.0" y="139.4" width="92.0" height="102.6" rx="6" fill="#72d7c7" />
+      <text x="440.0" y="129.4" text-anchor="middle" class="value">12142/s</text>
+      <text x="440.0" y="270" text-anchor="middle" class="label">normalizeConfig</text>
+      <rect x="651.3" y="227.3" width="92.0" height="14.7" rx="6" fill="#d6a8ff" />
+      <text x="697.3" y="217.3" text-anchor="middle" class="value">1739/s</text>
+      <text x="697.3" y="270" text-anchor="middle" class="label">compileGlass</text>
+</svg>

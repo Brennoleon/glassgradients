@@ -6,7 +6,7 @@ It gives you frosted glass, gradient surfaces, static CSS compilation, runtime m
 
 > Use the latest release: `npm i glassgradients@latest`
 >
-> Older `0.x` builds may show more historical downloads because they were published earlier. The maintained line is `1.x`, and the current release candidate is `1.1.0`.
+> Older `0.x` builds may show more historical downloads because they were published earlier. The maintained line is `1.x`, and the current release is `1.1.0`.
 
 It supports five practical layers of use without breaking the public API:
 
@@ -15,6 +15,33 @@ It supports five practical layers of use without breaking the public API:
 - `frost`: frosted glass only
 - `theme/tokens`: reusable variables and SSR-safe theme bootstrap
 - `components`: official product primitives such as panels, dialogs, tables, command palettes, terminals, and buttons
+
+## GitHub Lab
+
+NPM keeps the install and usage story focused. GitHub is the technical lab: generated charts, metrics, CI, Pages demo, runtime checks, and integration coverage live here.
+
+- Live lab: <https://brennoleon.github.io/glassgradients/>
+- Metrics report: [docs/metrics/report.md](./docs/metrics/report.md)
+- Raw metrics JSON: [docs/metrics/report.json](./docs/metrics/report.json)
+- Lab docs: [docs/github-lab.md](./docs/github-lab.md)
+- Site source: [site/index.html](./site/index.html)
+- Verification: `npm run release:check`
+
+| Area | Current |
+| --- | ---: |
+| Version | `1.1.0` |
+| Public export entries | `21` |
+| Framework/tool adapters | `11` |
+| Official components | `20` |
+| Recipes/contracts | `20` |
+| Test cases | `50` |
+| Examples | `36` |
+
+![Operation throughput](./docs/assets/chart-ops.svg)
+
+![Compiled CSS size](./docs/assets/chart-css-size.svg)
+
+![System coverage](./docs/assets/chart-capability.svg)
 
 ## Why it exists
 

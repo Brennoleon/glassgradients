@@ -3,5 +3,6 @@ node_modules/
 *.tgz
 coverage/
 dist/
+site/source/
 .DS_Store
 Thumbs.db
