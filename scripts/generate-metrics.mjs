@@ -5,7 +5,7 @@ import { performance } from "node:perf_hooks";
 import { fileURLToPath } from "node:url";
 import { compileGlass } from "../src/compiler.js";
 import { GLASS_COMPONENTS, listGlassComponents } from "../src/components.js";
-import { PALETTES, PRESETS, RECIPES, RECIPE_CONTRACTS, normalizeConfig } from "../src/defaults.js";
+import { EFFECT_COMPLEXITY, PALETTES, PRESETS, RECIPES, RECIPE_CONTRACTS, normalizeConfig } from "../src/defaults.js";
 import { parseGlass } from "../src/parser.js";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
@@ -202,7 +202,7 @@ async function main() {
     },
     surfaceModel: {
       modes: ["surface", "gradient", "frost"],
-      effects: ["mesh", "aurora", "spotlight", "plasma", "prism", "halo", "ribbon", "bloom"],
+      effects: Object.keys(EFFECT_COMPLEXITY),
       strengths: ["soft", "medium", "strong"]
     },
     counts: {
@@ -223,7 +223,7 @@ async function main() {
     performance: performanceRuns,
     cssSamples,
     components: Object.keys(GLASS_COMPONENTS),
-    integrationMatrix: ["React", "Vue", "Solid", "Preact", "Svelte", "Vanilla", "Tailwind", "UnoCSS", "Next", "Nuxt", "Astro"]
+    integrationMatrix: ["React", "Vue", "Solid", "Preact", "Svelte", "Vanilla", "Tailwind", "Tailwind v4", "shadcn-style", "UnoCSS", "Next", "Nuxt", "Astro"]
   };
 
   const json = `${JSON.stringify(report, null, 2)}\n`;

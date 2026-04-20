@@ -25,7 +25,7 @@
       <aside class="sidebar">
         <div class="brand">
           <span class="brand-title">GlassGradients</span>
-          <span class="brand-subtitle">1.1.0 GitHub Lab</span>
+          <span class="brand-subtitle">1.2.0 GitHub Lab</span>
         </div>
 
         <nav class="nav">
@@ -52,10 +52,10 @@
         <section id="overview" class="hero gg-workspace">
           <div>
             <p class="eyebrow">Production glass surface system</p>
-            <h1>Engine, adapters, components, SSR helpers, and measurable output.</h1>
+            <h1>Engine, adapters, components, MER, motion control, and measurable output.</h1>
             <p class="hero-copy">
               This repository site is the technical lab for GlassGradients. It shows generated performance data,
-              static CSS output, component primitives, integration coverage, and runtime behavior.
+              static CSS output, component primitives, integration coverage, adaptive runtime behavior, and high-control motion APIs.
             </p>
             <div class="actions">
               <a class="primary" href="https://www.npmjs.com/package/glassgradients">NPM latest</a>
@@ -65,10 +65,10 @@
           </div>
 
           <div class="hero-terminal gg-terminal">
-            <div class="terminal-row"><span>package</span><strong id="metric-version">1.1.0</strong></div>
-            <div class="terminal-row"><span>tests</span><strong id="metric-tests">50</strong></div>
-            <div class="terminal-row"><span>adapters</span><strong id="metric-adapters">11</strong></div>
-            <div class="terminal-row"><span>components</span><strong id="metric-components">20</strong></div>
+            <div class="terminal-row"><span>package</span><strong id="metric-version">1.2.0</strong></div>
+            <div class="terminal-row"><span>tests</span><strong id="metric-tests">81</strong></div>
+            <div class="terminal-row"><span>adapters</span><strong id="metric-adapters">12</strong></div>
+            <div class="terminal-row"><span>components</span><strong id="metric-components">32</strong></div>
           </div>
         </section>
 
@@ -153,8 +153,9 @@
             <p>Adapters are optional subpaths. The core package stays framework-agnostic.</p>
           </div>
           <div id="integration-list" class="integration-list"></div>
-          <pre class="code-slab"><code>import { GlassCommandPalette } from "glassgradients/components/react";
-import { createGlassTailwindPlugin } from "glassgradients/adapters/tailwind";
+          <pre class="code-slab"><code>import { GlassCommandPalette, GlassDataGrid } from "glassgradients/components/react";
+import { createGlassTailwindPlugin, createGlassTailwindV4Css } from "glassgradients/adapters/tailwind";
+import { createGlassShadcnComponentSpec } from "glassgradients/adapters/shadcn";
 import { createNextGlassThemeScriptProps } from "glassgradients/adapters/next";</code></pre>
         </section>
 

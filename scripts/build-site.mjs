@@ -14,7 +14,20 @@ await rm(siteSourceDir, { recursive: true, force: true });
 await mkdir(siteSourceDir, { recursive: true });
 
 const componentCss = createGlassComponentCatalogCss({
-  include: ["panel", "button", "command-palette", "terminal", "inspector", "table", "workspace", "command-bar"],
+  include: [
+    "panel",
+    "button",
+    "command-palette",
+    "terminal",
+    "inspector",
+    "table",
+    "data-grid",
+    "chart",
+    "tabs",
+    "notification-center",
+    "workspace",
+    "command-bar"
+  ],
   minify: false
 });
 
@@ -27,7 +40,7 @@ const themeCss = compileGlassTheme(":root", {
   }
 });
 
-await writeFile(path.join(generatedDir, "glass-components.css"), `${themeCss}\n\n${componentCss}\n`);
+await writeFile(path.join(generatedDir, "glass-components.css"), `${themeCss}\n\n${componentCss}`.trimEnd() + "\n");
 
 const browserRuntimeFiles = (await readdir(srcDir))
   .filter((file) => file.endsWith(".js") && file !== "cli.js");

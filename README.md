@@ -6,7 +6,7 @@ It gives you frosted glass, gradient surfaces, static CSS compilation, runtime m
 
 > Use the latest release: `npm i glassgradients@latest`
 >
-> Older `0.x` builds may show more historical downloads because they were published earlier. The maintained line is `1.x`, and the current release is `1.1.0`.
+> Older `0.x` builds may show more historical downloads because they were published earlier. The maintained line is `1.x`, and the current release is `1.2.0`.
 
 It supports five practical layers of use without breaking the public API:
 
@@ -15,6 +15,7 @@ It supports five practical layers of use without breaking the public API:
 - `frost`: frosted glass only
 - `theme/tokens`: reusable variables and SSR-safe theme bootstrap
 - `components`: official product primitives such as panels, dialogs, tables, command palettes, terminals, and buttons
+- `adaptive motion`: MER, Engine UP, and Motion Blurrin for opt-in high-control animation
 
 ## GitHub Lab
 
@@ -29,13 +30,13 @@ NPM keeps the install and usage story focused. GitHub is the technical lab: gene
 
 | Area | Current |
 | --- | ---: |
-| Version | `1.1.0` |
-| Public export entries | `21` |
-| Framework/tool adapters | `11` |
-| Official components | `20` |
+| Version | `1.2.0` |
+| Public export entries | `22` |
+| Framework/tool adapters | `12` |
+| Official components | `32` |
 | Recipes/contracts | `20` |
-| Test cases | `50` |
-| Examples | `36` |
+| Test cases | `81` |
+| Examples | `40` |
 
 ![Operation throughput](./docs/assets/chart-ops.svg)
 
@@ -60,6 +61,17 @@ GlassGradients is designed for product UI that has to survive real constraints:
 - contrast-safe tuning for readable surfaces
 - explicit performance profiles, including `static`
 - LTS-safe public API: existing exports and legacy keys keep working
+
+## New in 1.2.0
+
+- MER adapts `performance: auto` using runtime hints without touching manual performance choices.
+- `mainFilter` / `main-filter` separates standard glass, no backdrop filter, and opt-in heavy `blur-filters`.
+- Engine UP controls motion, frames, blur, brightness, saturation, contrast, opacity, scale, rotation, and timing from `.glass`.
+- Motion Blurrin creates moving circular blur fields with open gaps inside the surface.
+- New effects: `caustic`, `liquid`, `nebula`, `iridescent`, `conic`, and `noise`.
+- Tailwind v4 CSS-first helpers and shadcn-style copyable specs are available as additive adapters.
+- Advanced shells were added for data grids, charts, timelines, kanban, calendars, comboboxes, dropdowns, toasts, tabs, resizable panels, spotlight overlays, and notification centers.
+- CLI now includes `lint`, `format`, `tokens`, and `inspect --score`.
 
 ## Install
 
@@ -142,6 +154,7 @@ React:
 import {
   GlassButton,
   GlassCommandPalette,
+  GlassDataGrid,
   GlassPanel,
   GlassTerminal
 } from "glassgradients/components/react";
@@ -150,6 +163,7 @@ export function CommandCenter() {
   return (
     <GlassCommandPalette aria-label="Command palette">
       <GlassPanel input={{ recipe: "inspector" }}>Inspector</GlassPanel>
+      <GlassDataGrid aria-label="Builds">Builds</GlassDataGrid>
       <GlassTerminal>npm run build</GlassTerminal>
       <GlassButton>Run</GlassButton>
     </GlassCommandPalette>
@@ -170,6 +184,18 @@ Available official primitives:
 - `GlassCommandBar`
 - `GlassCommandPalette`
 - `GlassTable`
+- `GlassDataGrid`
+- `GlassChart`
+- `GlassTimeline`
+- `GlassKanban`
+- `GlassCalendar`
+- `GlassCombobox`
+- `GlassDropdown`
+- `GlassToast`
+- `GlassTabs`
+- `GlassResizablePanel`
+- `GlassSpotlightOverlay`
+- `GlassNotificationCenter`
 - `GlassInspector`
 - `GlassTerminal`
 - `GlassInput`
@@ -226,6 +252,63 @@ Use when you only want frosted glass surfaces.
 mode: frost
 gradient.enabled: false
 contrastMode: safe
+```
+
+## MER, Engine UP, And Motion Blurrin
+
+MER only changes output when `performance: auto` is active. Manual profiles remain manual.
+
+```glass
+selector: .premium-card
+effect: liquid
+performance: auto
+mainFilter: standard
+```
+
+Use `mainFilter: none` when you want fill, border, shadow, and tokens without backdrop-filter cost:
+
+```glass
+mode: frost
+mainFilter: none
+```
+
+Use the heavy filter only when the user explicitly wants it:
+
+```glass
+main-filter: blur-filters
+```
+
+Engine UP gives direct animation control:
+
+```glass
+engineUp:
+  enabled: true
+  duration: 14s
+  x: 4%
+  y: 2%
+  scale: 1.08
+  blur: 24
+  brightness: 112%
+```
+
+Motion Blurrin creates moving circular blur fields:
+
+```glass
+motionBlurrin:
+  layers:
+    - count: 6
+      minSize: 40
+      maxSize: 90
+      speed: 0.6
+      direction: right
+    - count: 10
+      minSize: 12
+      maxSize: 36
+      speed: 1.1
+      direction: diagonal
+  blur: 20
+  openness: 0.4
+  edgeFade: 0.2
 ```
 
 ## Recipes
@@ -360,7 +443,13 @@ Tailwind:
 
 ```js
 import plugin from "tailwindcss/plugin";
-import { createGlassTailwindPlugin } from "glassgradients/adapters/tailwind";
+import { createGlassTailwindPlugin, createGlassTailwindV4Css } from "glassgradients/adapters/tailwind";
+```
+
+shadcn-style specs:
+
+```js
+import { createGlassShadcnComponentSpec } from "glassgradients/adapters/shadcn";
 ```
 
 UnoCSS:
@@ -415,6 +504,8 @@ Release details:
 
 - [Runtime vs Compile](./docs/runtime-vs-compile.md)
 - [Performance Guide](./docs/performance.md)
+- [Monitoring Engine](./docs/monitoring-engine.md)
+- [Engine UP](./docs/engine-up.md)
 - [Accessibility](./docs/accessibility.md)
 - [Positioning](./docs/positioning.md)
 - [Integrations](./docs/integrations.md)
@@ -433,6 +524,10 @@ glassgradients build <input.glass> [-o output.css] [--minify] [--watch]
                    [--selector .hero] [--preset frosted] [--recipe navbar]
                    [--effect prism] [--performance eco] [--mode gradient]
 glassgradients inspect <input.glass>
+glassgradients inspect <input.glass> --score
+glassgradients lint <input.glass>
+glassgradients format <input.glass> --check
+glassgradients tokens <input.glass> --selector :root -o tokens.css
 ```
 
 ## Effects
@@ -445,6 +540,12 @@ glassgradients inspect <input.glass>
 - `halo`
 - `ribbon`
 - `bloom`
+- `caustic`
+- `liquid`
+- `nebula`
+- `iridescent`
+- `conic`
+- `noise`
 
 ## Presets
 
@@ -480,6 +581,7 @@ glassgradients inspect <input.glass>
 - [Inspector](./examples/inspector.glass)
 - [Terminal](./examples/terminal.glass)
 - [Command bar](./examples/command-bar.glass)
+- [Engine UP + Motion Blurrin](./examples/engine-up-motion-blurrin.glass)
 - [Component examples](./examples/components/README.md)
 - [Framework adapters](./docs/adapters.md)
 - [GitHub Lab site](./site/index.html)
@@ -509,7 +611,10 @@ import {
   RECIPES,
   RECIPE_CONTRACTS,
   GLASS_COMPONENTS,
+  GLASS_COMPONENT_ALIASES,
   PERFORMANCE_PRESETS,
+  MER_TIERS,
+  EFFECT_COMPLEXITY,
   getRecipeContract,
   normalizeConfig
 } from "glassgradients";
@@ -526,7 +631,8 @@ import { createGlassDirective } from "glassgradients/adapters/vue";
 import { glass as solidGlass } from "glassgradients/adapters/solid";
 import { GlassSurface as PreactGlassSurface } from "glassgradients/adapters/preact";
 import { glass } from "glassgradients/adapters/svelte";
-import { createGlassTailwindPlugin } from "glassgradients/adapters/tailwind";
+import { createGlassTailwindPlugin, createGlassTailwindV4Css } from "glassgradients/adapters/tailwind";
+import { createGlassShadcnComponentSpec } from "glassgradients/adapters/shadcn";
 import { createGlassUnoPreset } from "glassgradients/adapters/unocss";
 import { createNextGlassThemeScriptProps } from "glassgradients/adapters/next";
 import { createNuxtGlassHead } from "glassgradients/adapters/nuxt";

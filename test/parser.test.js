@@ -74,3 +74,25 @@ scheme:
   assert.equal(result.responsive.md.mode, "frost");
   assert.equal(result.scheme.dark.preset, "smoke");
 });
+
+test("parse supports multiline objects inside lists", () => {
+  const result = parseGlass(`
+motionBlurrin:
+  layers:
+    - count: 6
+      minSize: 40
+      maxSize: 90
+      speed: 0.6
+      direction: right
+    - count: 10
+      minSize: 12
+      maxSize: 36
+      speed: 1.1
+      direction: diagonal
+`.trim());
+
+  assert.equal(result.motionBlurrin.layers.length, 2);
+  assert.equal(result.motionBlurrin.layers[0].count, 6);
+  assert.equal(result.motionBlurrin.layers[0].maxSize, 90);
+  assert.equal(result.motionBlurrin.layers[1].direction, "diagonal");
+});

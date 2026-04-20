@@ -19,6 +19,31 @@ export const PERFORMANCE_PRESETS = {
   static: { blurScale: 0.88, glassBlurScale: 0.92, grainScale: 0.54, layerInset: "-12%", frameStep: 4, fpsCap: 0, animationEnabled: false }
 };
 
+export const MER_TIERS = {
+  ultra: { performance: "quality", reason: "high-capability-device", minScore: 86 },
+  stable: { performance: "balanced", reason: "balanced-device", minScore: 66 },
+  reduced: { performance: "eco", reason: "constrained-device", minScore: 38 },
+  critical: { performance: "potato", reason: "low-end-device", minScore: 24 },
+  static: { performance: "static", reason: "motion-or-data-reduction", minScore: 0 }
+};
+
+export const EFFECT_COMPLEXITY = {
+  mesh: 1,
+  aurora: 1.08,
+  spotlight: 0.94,
+  plasma: 1.26,
+  prism: 1.18,
+  halo: 1.08,
+  ribbon: 1.12,
+  bloom: 1.02,
+  caustic: 1.34,
+  liquid: 1.38,
+  nebula: 1.3,
+  iridescent: 1.28,
+  conic: 1.16,
+  noise: 1.1
+};
+
 export const PRESETS = {
   default: {},
   cinematic: {
@@ -681,6 +706,13 @@ export const DEFAULT_CONFIG = {
   layerInset: "-22%",
   zIndex: "auto",
   isolate: true,
+  mainFilter: "standard",
+  monitoring: {
+    enabled: true,
+    engine: "MER",
+    strategy: "auto",
+    minPerformance: "static"
+  },
   responsive: {},
   scheme: {},
   visibility: {
@@ -715,6 +747,37 @@ export const DEFAULT_CONFIG = {
     fps: 0,
     easing: "ease-in-out"
   },
+  engineUp: {
+    enabled: false,
+    duration: "",
+    easing: "",
+    direction: "alternate",
+    iteration: "infinite",
+    fillMode: "both",
+    x: "2%",
+    y: "1.4%",
+    scale: 1.08,
+    rotate: "0deg",
+    opacity: "",
+    blur: "",
+    brightness: "",
+    saturation: "",
+    contrast: "",
+    hueRotate: "",
+    frames: []
+  },
+  motionBlurrin: {
+    enabled: false,
+    layers: [],
+    blur: 20,
+    openness: 0.4,
+    edgeFade: 0.2,
+    opacity: 0.42,
+    blend: "screen",
+    direction: "right",
+    duration: "18s",
+    easing: "ease-in-out"
+  },
   gradient: {
     enabled: true,
     palette: "aurora",
@@ -747,15 +810,18 @@ export const DEFAULT_CONFIG = {
     strokeColor: "rgba(255,255,255,0.18)",
     highlight: 0.16,
     innerGlow: 0.14,
-    shadow: 0.2
+    shadow: 0.2,
+    mainFilter: "standard"
   }
 };
 
 const VALID_MODES = new Set(["surface", "gradient", "frost"]);
 const VALID_STRENGTHS = new Set(["soft", "medium", "strong"]);
 const VALID_CONTRAST_MODES = new Set(["balanced", "safe"]);
-const VALID_EFFECTS = new Set(["mesh", "aurora", "spotlight", "plasma", "prism", "halo", "ribbon", "bloom"]);
+const VALID_EFFECTS = new Set(Object.keys(EFFECT_COMPLEXITY));
 const VALID_ANIMATE_MODES = new Set(["wave", "pulse", "orbit"]);
+const VALID_MAIN_FILTERS = new Set(["standard", "none", "blur-filters"]);
+const VALID_MOTION_DIRECTIONS = new Set(["right", "left", "up", "down", "diagonal", "drift", "orbit", "liquid"]);
 
 export function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
@@ -919,6 +985,15 @@ function resolveStrength(value) {
   return VALID_STRENGTHS.has(candidate) ? candidate : DEFAULT_CONFIG.strength;
 }
 
+function resolveMainFilter(value) {
+  const candidate = String(value || DEFAULT_CONFIG.mainFilter)
+    .trim()
+    .replace(/([a-z])([A-Z])/g, "$1-$2")
+    .replace(/_/g, "-")
+    .toLowerCase();
+  return VALID_MAIN_FILTERS.has(candidate) ? candidate : DEFAULT_CONFIG.mainFilter;
+}
+
 function normalizeZIndex(value) {
   if (value === undefined || value === null || value === "") {
     return DEFAULT_CONFIG.zIndex;
@@ -938,6 +1013,110 @@ function firstDefined(...values) {
   return undefined;
 }
 
+function normalizeMotionDirection(value, fallback = "right") {
+  const candidate = String(value || fallback)
+    .trim()
+    .replace(/([a-z])([A-Z])/g, "$1-$2")
+    .replace(/_/g, "-")
+    .toLowerCase();
+  return VALID_MOTION_DIRECTIONS.has(candidate) ? candidate : fallback;
+}
+
+function normalizeEngineUpFrames(value) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .filter((frame) => typeof frame === "object" && frame !== null && !Array.isArray(frame))
+    .map((frame, index) => ({
+      at: String(frame.at || frame.offset || `${Math.round((index / Math.max(1, value.length - 1)) * 100)}%`),
+      x: toCssUnit(frame.x ?? frame.translateX, "0%"),
+      y: toCssUnit(frame.y ?? frame.translateY, "0%"),
+      scale: clamp(toNumber(frame.scale, 1), 0.2, 3),
+      rotate: toCssUnit(frame.rotate, "0deg"),
+      opacity: frame.opacity === undefined ? "" : String(clamp(toNumber(frame.opacity, 1), 0, 1)),
+      blur: frame.blur === undefined ? "" : toCssUnit(frame.blur, "0px"),
+      brightness: frame.brightness === undefined ? "" : toPercentUnit(frame.brightness, "100%"),
+      saturation: frame.saturation === undefined ? "" : toPercentUnit(frame.saturation, "100%"),
+      contrast: frame.contrast === undefined ? "" : toPercentUnit(frame.contrast, "100%"),
+      hueRotate: frame.hueRotate === undefined ? "" : toCssUnit(frame.hueRotate, "0deg")
+    }));
+}
+
+function normalizeEngineUp(input, speed) {
+  const engine = asObject(input);
+  const frames = normalizeEngineUpFrames(engine.frames);
+  const enabled = toBoolean(engine.enabled, frames.length > 0);
+
+  return {
+    enabled,
+    duration: toCssUnit(engine.duration || speed, DEFAULT_CONFIG.speed),
+    easing: String(engine.easing || DEFAULT_CONFIG.animate.easing),
+    direction: String(engine.direction || DEFAULT_CONFIG.engineUp.direction),
+    iteration: String(engine.iteration || DEFAULT_CONFIG.engineUp.iteration),
+    fillMode: String(engine.fillMode || DEFAULT_CONFIG.engineUp.fillMode),
+    x: toCssUnit(engine.x ?? engine.translateX, DEFAULT_CONFIG.engineUp.x),
+    y: toCssUnit(engine.y ?? engine.translateY, DEFAULT_CONFIG.engineUp.y),
+    scale: clamp(toNumber(engine.scale, DEFAULT_CONFIG.engineUp.scale), 0.2, 3),
+    rotate: toCssUnit(engine.rotate, DEFAULT_CONFIG.engineUp.rotate),
+    opacity: engine.opacity === undefined ? "" : String(clamp(toNumber(engine.opacity, 1), 0, 1)),
+    blur: engine.blur === undefined ? "" : toCssUnit(engine.blur, "0px"),
+    brightness: engine.brightness === undefined ? "" : toPercentUnit(engine.brightness, "100%"),
+    saturation: engine.saturation === undefined ? "" : toPercentUnit(engine.saturation, "100%"),
+    contrast: engine.contrast === undefined ? "" : toPercentUnit(engine.contrast, "100%"),
+    hueRotate: engine.hueRotate === undefined ? "" : toCssUnit(engine.hueRotate, "0deg"),
+    frames
+  };
+}
+
+function normalizeMotionBlurrinLayers(value) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .filter((layer) => typeof layer === "object" && layer !== null && !Array.isArray(layer))
+    .slice(0, 8)
+    .map((layer) => {
+      const minSize = clamp(toNumber(layer.minSize, 18), 2, 220);
+      const maxSize = clamp(toNumber(layer.maxSize, Math.max(minSize, 64)), minSize, 260);
+      return {
+        count: Math.round(clamp(toNumber(layer.count, 4), 1, 24)),
+        minSize,
+        maxSize,
+        speed: clamp(toNumber(layer.speed, 1), 0.05, 6),
+        direction: normalizeMotionDirection(layer.direction, "right"),
+        opacity: clamp(toNumber(layer.opacity, 1), 0, 1),
+        color: String(layer.color || "rgba(255,255,255,1)")
+      };
+    });
+}
+
+function normalizeMotionBlurrin(input) {
+  const motion = asObject(input);
+  let layers = normalizeMotionBlurrinLayers(motion.layers);
+  const enabled = toBoolean(motion.enabled, layers.length > 0);
+  if (enabled && layers.length === 0) {
+    layers = normalizeMotionBlurrinLayers([
+      { count: 6, minSize: 28, maxSize: 72, speed: 0.8, direction: motion.direction || "right" },
+      { count: 5, minSize: 14, maxSize: 34, speed: 1.1, direction: "diagonal" }
+    ]);
+  }
+  return {
+    enabled,
+    layers,
+    blur: toCssUnit(motion.blur, `${DEFAULT_CONFIG.motionBlurrin.blur}px`),
+    openness: clamp(toNumber(motion.openness, DEFAULT_CONFIG.motionBlurrin.openness), 0.05, 0.95),
+    edgeFade: clamp(toNumber(motion.edgeFade, DEFAULT_CONFIG.motionBlurrin.edgeFade), 0, 0.8),
+    opacity: clamp(toNumber(motion.opacity, DEFAULT_CONFIG.motionBlurrin.opacity), 0, 1),
+    blend: String(motion.blend || DEFAULT_CONFIG.motionBlurrin.blend),
+    direction: normalizeMotionDirection(motion.direction, DEFAULT_CONFIG.motionBlurrin.direction),
+    duration: toCssUnit(motion.duration, DEFAULT_CONFIG.motionBlurrin.duration),
+    easing: String(motion.easing || DEFAULT_CONFIG.motionBlurrin.easing)
+  };
+}
+
 export function resolveColors(config) {
   const paletteColors = pickPalette(config.palette);
   const list = normalizeList(config.colors);
@@ -946,6 +1125,105 @@ export function resolveColors(config) {
     return source.slice(0, 4);
   }
   return [...source, ...source, ...source, ...source].slice(0, 4);
+}
+
+function hasMonitoringSignals(runtimeHints = {}) {
+  return Boolean(
+    runtimeHints.hardwareConcurrency ||
+      runtimeHints.deviceMemory ||
+      runtimeHints.devicePixelRatio ||
+      runtimeHints.effectiveType ||
+      runtimeHints.saveData ||
+      runtimeHints.prefersReducedMotion
+  );
+}
+
+function scoreMonitoringCapacity({
+  runtimeHints,
+  effect,
+  intensity,
+  gradientBlurBase,
+  glassBlurBase,
+  mainFilter,
+  motionBlurrinLayerCount = 0,
+  engineUpEnabled = false
+}) {
+  let score = 82;
+  const cores = toNumber(runtimeHints.hardwareConcurrency, 0);
+  const memory = toNumber(runtimeHints.deviceMemory, 0);
+  const dpr = toNumber(runtimeHints.devicePixelRatio, 1);
+  const effectiveType = String(runtimeHints.effectiveType || "").toLowerCase();
+
+  if (cores > 0) {
+    if (cores <= 2) {
+      score -= 20;
+    } else if (cores <= 4) {
+      score -= 18;
+    } else if (cores >= 8) {
+      score += 8;
+    }
+  }
+
+  if (memory > 0) {
+    if (memory <= 2) {
+      score -= 22;
+    } else if (memory <= 4) {
+      score -= 14;
+    } else if (memory >= 8) {
+      score += 6;
+    }
+  }
+
+  if (runtimeHints.prefersReducedMotion) {
+    score -= 46;
+  }
+  if (runtimeHints.saveData) {
+    score -= 32;
+  }
+  if (effectiveType === "slow-2g" || effectiveType === "2g") {
+    score -= 24;
+  } else if (effectiveType === "3g") {
+    score -= 10;
+  }
+  if (dpr >= 2.5) {
+    score -= 8;
+  }
+
+  score -= Math.max(0, EFFECT_COMPLEXITY[effect] - 1) * 28;
+  score -= Math.max(0, intensity - 1.2) * 10;
+  score -= Math.max(0, gradientBlurBase - 54) * 0.22;
+  score -= Math.max(0, glassBlurBase - 24) * 0.35;
+
+  if (mainFilter === "blur-filters") {
+    score -= 18;
+  }
+  if (motionBlurrinLayerCount > 0) {
+    score -= Math.min(26, motionBlurrinLayerCount * 1.4);
+  }
+  if (engineUpEnabled) {
+    score -= 8;
+  }
+
+  return clamp(Math.round(score), 0, 100);
+}
+
+function pickMerTier(score, runtimeHints = {}) {
+  if (runtimeHints.prefersReducedMotion || runtimeHints.saveData) {
+    return { tier: "static", ...MER_TIERS.static };
+  }
+  if (score >= MER_TIERS.ultra.minScore) {
+    return { tier: "ultra", ...MER_TIERS.ultra };
+  }
+  if (score >= MER_TIERS.stable.minScore) {
+    return { tier: "stable", ...MER_TIERS.stable };
+  }
+  if (score >= MER_TIERS.reduced.minScore) {
+    return { tier: "reduced", ...MER_TIERS.reduced };
+  }
+  if (score >= MER_TIERS.critical.minScore) {
+    return { tier: "critical", ...MER_TIERS.critical };
+  }
+  return { tier: "static", ...MER_TIERS.static };
 }
 
 export function normalizeConfig(input, runtimeHints = {}) {
@@ -965,21 +1243,13 @@ export function normalizeConfig(input, runtimeHints = {}) {
   const interactiveInput = asObject(mergedRaw.interactive);
   const animateInput = asObject(mergedRaw.animate);
   const visibilityInput = asObject(mergedRaw.visibility);
+  const monitoringInput = asObject(mergedRaw.monitoring);
+  const speed = toCssUnit(mergedRaw.speed, DEFAULT_CONFIG.speed);
+  const engineUpInput = firstDefined(raw.engineUp, raw["engine-up"], mergedRaw.engineUp);
+  const motionBlurrinInput = firstDefined(raw.motionBlurrin, raw.motionBlur, raw["motion-blurrin"], mergedRaw.motionBlurrin);
 
   const performanceKey = String(mergedRaw.performance || DEFAULT_CONFIG.performance).toLowerCase();
   let performance = PERFORMANCE_PRESETS[performanceKey] ? performanceKey : DEFAULT_CONFIG.performance;
-
-  if (performance === "auto") {
-    const lowEnd =
-      (runtimeHints.hardwareConcurrency && runtimeHints.hardwareConcurrency <= 4) ||
-      (runtimeHints.deviceMemory && runtimeHints.deviceMemory <= 4);
-
-    if (lowEnd) {
-      performance = "eco";
-    }
-  }
-
-  const profile = PERFORMANCE_PRESETS[performance];
 
   let gradientEnabled = toBoolean(gradientInput.enabled, DEFAULT_CONFIG.gradient.enabled);
   let glassEnabled = toBoolean(glassInput.enabled, DEFAULT_CONFIG.glass.enabled);
@@ -1013,6 +1283,9 @@ export function normalizeConfig(input, runtimeHints = {}) {
     firstDefined(rawGradientInput.effect, raw.effect, mergedRaw.effect, gradientInput.effect, DEFAULT_CONFIG.effect)
   ).toLowerCase();
   const effect = VALID_EFFECTS.has(effectCandidate) ? effectCandidate : DEFAULT_CONFIG.effect;
+  const mainFilter = resolveMainFilter(
+    firstDefined(rawGlassInput.mainFilter, raw.mainFilter, raw["main-filter"], mergedRaw.mainFilter, glassInput.mainFilter)
+  );
   const intensity = clamp(
     toNumber(firstDefined(rawGradientInput.intensity, raw.intensity, mergedRaw.intensity, gradientInput.intensity), DEFAULT_CONFIG.intensity),
     0.3,
@@ -1028,12 +1301,53 @@ export function normalizeConfig(input, runtimeHints = {}) {
     palette,
     colors: firstDefined(rawGradientInput.colors, raw.colors, mergedRaw.colors, gradientInput.colors)
   });
+  const engineUpBase = normalizeEngineUp(engineUpInput, speed);
+  const motionBlurrinBase = normalizeMotionBlurrin(motionBlurrinInput);
 
   const gradientBlurBase = toNumber(
     firstDefined(rawGradientInput.blur, raw.blur, mergedRaw.blur, gradientInput.blur),
     DEFAULT_CONFIG.gradient.blur
   );
   const glassBlurBase = toNumber(firstDefined(rawGlassInput.blur, glassInput.blur), DEFAULT_CONFIG.glass.blur);
+  const monitoringEnabled = toBoolean(monitoringInput.enabled, DEFAULT_CONFIG.monitoring.enabled);
+  const monitoringSignals = hasMonitoringSignals(runtimeHints);
+  const motionBlurrinLayerCount = motionBlurrinBase.enabled
+    ? motionBlurrinBase.layers.reduce((sum, layer) => sum + layer.count, 0)
+    : 0;
+  const monitoringScore = scoreMonitoringCapacity({
+    runtimeHints,
+    effect,
+    intensity,
+    gradientBlurBase,
+    glassBlurBase,
+    mainFilter,
+    motionBlurrinLayerCount,
+    engineUpEnabled: engineUpBase.enabled
+  });
+  const merPick = pickMerTier(monitoringScore, runtimeHints);
+  let monitoringReason = performance === "auto" ? "no-runtime-signals" : "manual-performance";
+  let monitoringTier = performance === "auto" ? "auto" : "manual";
+  let monitoringReduced = false;
+
+  if (monitoringEnabled && performance === "auto" && monitoringSignals) {
+    performance = merPick.performance;
+    monitoringTier = merPick.tier;
+    monitoringReason = merPick.reason;
+    monitoringReduced = performance !== "quality" && performance !== "balanced";
+  } else if (performance === "auto") {
+    const lowEnd =
+      (runtimeHints.hardwareConcurrency && runtimeHints.hardwareConcurrency <= 4) ||
+      (runtimeHints.deviceMemory && runtimeHints.deviceMemory <= 4);
+
+    if (lowEnd) {
+      performance = "eco";
+      monitoringTier = "reduced";
+      monitoringReason = "legacy-auto-low-end";
+      monitoringReduced = true;
+    }
+  }
+
+  const profile = PERFORMANCE_PRESETS[performance];
   const gradientOpacityBase = toAlpha(
     firstDefined(rawGradientInput.opacity, raw.opacity, mergedRaw.opacity, gradientInput.opacity),
     DEFAULT_CONFIG.gradient.opacity
@@ -1124,7 +1438,9 @@ export function normalizeConfig(input, runtimeHints = {}) {
     strokeColor: glassEnabled ? String(glassInput.strokeColor || `rgba(255,255,255,${strokeOpacity.toFixed(3)})`) : "transparent",
     highlight: glassHighlight,
     innerGlow: glassInnerGlow,
-    shadow: clamp(shadow * strengthScale.shadow, 0, 1)
+    shadow: clamp(shadow * strengthScale.shadow, 0, 1),
+    mainFilter,
+    heavyFilter: mainFilter === "blur-filters"
   };
 
   const gradient = {
@@ -1195,6 +1511,15 @@ export function normalizeConfig(input, runtimeHints = {}) {
   const animateMode = VALID_ANIMATE_MODES.has(animateModeCandidate) ? animateModeCandidate : DEFAULT_CONFIG.animate.mode;
   const animationEnabled =
     gradientEnabled && profile.animationEnabled !== false && toBoolean(animateInput.enabled, DEFAULT_CONFIG.animate.enabled);
+  const engineUp = {
+    ...engineUpBase,
+    enabled: engineUpBase.enabled && gradientEnabled && profile.animationEnabled !== false
+  };
+  const motionBlurrin = {
+    ...motionBlurrinBase,
+    enabled: motionBlurrinBase.enabled && glassEnabled,
+    animated: motionBlurrinBase.enabled && glassEnabled && profile.animationEnabled !== false
+  };
 
   return {
     selector: String(mergedRaw.selector || DEFAULT_CONFIG.selector),
@@ -1219,11 +1544,22 @@ export function normalizeConfig(input, runtimeHints = {}) {
     radius: toCssUnit(mergedRaw.radius, DEFAULT_CONFIG.radius),
     blendMode: gradient.blendMode,
     monochrome,
-    speed: toCssUnit(mergedRaw.speed, DEFAULT_CONFIG.speed),
+    speed,
     colors,
     layerInset: gradient.inset,
     frameStep: profile.frameStep,
     fpsCap: profile.fpsCap,
+    mainFilter,
+    monitoring: {
+      enabled: monitoringEnabled,
+      engine: String(monitoringInput.engine || DEFAULT_CONFIG.monitoring.engine),
+      strategy: String(monitoringInput.strategy || DEFAULT_CONFIG.monitoring.strategy),
+      score: monitoringScore,
+      tier: monitoringTier,
+      reason: monitoringReason,
+      recommendedPerformance: merPick.performance,
+      reduced: monitoringReduced
+    },
     zIndex: normalizeZIndex(mergedRaw.zIndex),
     isolate: toBoolean(mergedRaw.isolate, DEFAULT_CONFIG.isolate),
     visibility: {
@@ -1244,6 +1580,8 @@ export function normalizeConfig(input, runtimeHints = {}) {
       fps: clamp(toNumber(animateInput.fps, DEFAULT_CONFIG.animate.fps), 0, 120),
       easing: String(animateInput.easing || DEFAULT_CONFIG.animate.easing)
     },
+    engineUp,
+    motionBlurrin,
     gradient,
     glass
   };

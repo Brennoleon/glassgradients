@@ -93,6 +93,102 @@ export const GLASS_COMPONENTS = {
     recipe: "table",
     attrs: { role: "region" }
   },
+  "data-grid": {
+    name: "data-grid",
+    displayName: "GlassDataGrid",
+    tag: "div",
+    className: "gg-data-grid",
+    recipe: "table",
+    attrs: { role: "grid" }
+  },
+  chart: {
+    name: "chart",
+    displayName: "GlassChart",
+    tag: "figure",
+    className: "gg-chart",
+    recipe: "panel",
+    attrs: {}
+  },
+  timeline: {
+    name: "timeline",
+    displayName: "GlassTimeline",
+    tag: "ol",
+    className: "gg-timeline",
+    recipe: "panel",
+    attrs: {}
+  },
+  kanban: {
+    name: "kanban",
+    displayName: "GlassKanban",
+    tag: "section",
+    className: "gg-kanban",
+    recipe: "workspace",
+    attrs: { role: "region" }
+  },
+  calendar: {
+    name: "calendar",
+    displayName: "GlassCalendar",
+    tag: "section",
+    className: "gg-calendar",
+    recipe: "table",
+    attrs: { role: "grid" }
+  },
+  combobox: {
+    name: "combobox",
+    displayName: "GlassCombobox",
+    tag: "div",
+    className: "gg-combobox",
+    recipe: "input",
+    attrs: { role: "combobox", "aria-expanded": "false" }
+  },
+  dropdown: {
+    name: "dropdown",
+    displayName: "GlassDropdown",
+    tag: "div",
+    className: "gg-dropdown",
+    recipe: "popover",
+    attrs: { role: "menu" }
+  },
+  toast: {
+    name: "toast",
+    displayName: "GlassToast",
+    tag: "section",
+    className: "gg-toast",
+    recipe: "popover",
+    attrs: { role: "status", "aria-live": "polite" }
+  },
+  tabs: {
+    name: "tabs",
+    displayName: "GlassTabs",
+    tag: "div",
+    className: "gg-tabs",
+    recipe: "toolbar",
+    attrs: { role: "tablist" }
+  },
+  "resizable-panel": {
+    name: "resizable-panel",
+    displayName: "GlassResizablePanel",
+    tag: "section",
+    className: "gg-resizable-panel",
+    recipe: "panel",
+    attrs: { role: "region" }
+  },
+  "spotlight-overlay": {
+    name: "spotlight-overlay",
+    displayName: "GlassSpotlightOverlay",
+    tag: "section",
+    className: "gg-spotlight-overlay",
+    recipe: "modal",
+    attrs: { role: "dialog", "aria-modal": "true" }
+  },
+  "notification-center": {
+    name: "notification-center",
+    displayName: "GlassNotificationCenter",
+    tag: "aside",
+    className: "gg-notification-center",
+    recipe: "popover",
+    attrs: { role: "region", "aria-live": "polite" }
+  },
   inspector: {
     name: "inspector",
     displayName: "GlassInspector",
@@ -170,7 +266,37 @@ export const GLASS_COMPONENTS = {
 export const GLASS_COMPONENT_ALIASES = {
   commandBar: "command-bar",
   commandPalette: "command-palette",
+  comboBox: "combobox",
+  dataGrid: "data-grid",
+  "data-grid-panel": "data-grid",
+  "data-table": "table",
   dataTable: "table",
+  "data-table-grid": "data-grid",
+  dataTableGrid: "data-grid",
+  "date-picker": "calendar",
+  dataVisual: "chart",
+  datePicker: "calendar",
+  "dropdown-menu": "dropdown",
+  dropdownMenu: "dropdown",
+  "notification-panel": "notification-center",
+  notificationCenter: "notification-center",
+  notificationPanel: "notification-center",
+  resizable: "resizable-panel",
+  resizablePanel: "resizable-panel",
+  "split-pane": "resizable-panel",
+  splitPane: "resizable-panel",
+  spotlight: "spotlight-overlay",
+  spotlightOverlay: "spotlight-overlay",
+  "tab-list": "tabs",
+  tabList: "tabs",
+  toaster: "toast",
+  autocomplete: "combobox",
+  board: "kanban",
+  graph: "chart",
+  grid: "data-grid",
+  menu: "dropdown",
+  notifications: "notification-center",
+  overlay: "spotlight-overlay",
   surface: "panel",
   shell: "panel"
 };
@@ -186,8 +312,25 @@ function resolveComponentInput(input) {
 }
 
 function canonicalComponentName(name) {
-  const key = String(name || "panel");
-  return GLASS_COMPONENT_ALIASES[key] || key.toLowerCase();
+  const key = String(name || "panel").trim();
+  const normalized = key
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+    .replace(/[\s_]+/g, "-")
+    .toLowerCase();
+  const withoutGlassPrefix = key.replace(/^Glass(?=[A-Z])/, "");
+  const normalizedWithoutGlassPrefix = withoutGlassPrefix
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+    .replace(/[\s_]+/g, "-")
+    .toLowerCase();
+
+  return (
+    GLASS_COMPONENT_ALIASES[key] ||
+    GLASS_COMPONENT_ALIASES[normalized] ||
+    (GLASS_COMPONENTS[normalized] ? normalized : undefined) ||
+    GLASS_COMPONENT_ALIASES[normalizedWithoutGlassPrefix] ||
+    (GLASS_COMPONENTS[normalizedWithoutGlassPrefix] ? normalizedWithoutGlassPrefix : undefined) ||
+    normalized
+  );
 }
 
 function joinClassNames(...values) {

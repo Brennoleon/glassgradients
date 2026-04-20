@@ -45,6 +45,24 @@ If you want library-owned glass classes instead of hand-written selectors, use:
 - `glassgradients/adapters/tailwind`
 - `glassgradients/adapters/unocss`
 
+Tailwind v4 projects can use the CSS-first helpers:
+
+```js
+import { createGlassTailwindV4Css } from "glassgradients/adapters/tailwind";
+
+export const css = createGlassTailwindV4Css({ includeImport: true });
+```
+
+## shadcn-style
+
+Use shadcn-style specs when you want copyable local components instead of package-owned UI.
+
+```js
+import { createGlassShadcnComponentSpec } from "glassgradients/adapters/shadcn";
+
+const dialog = createGlassShadcnComponentSpec("dialog");
+```
+
 ## Design system adapters
 
 Use `createGlassTokens()` when you want to map GlassGradients into your own component primitives.
@@ -57,6 +75,7 @@ Use subpath adapters when you want framework-specific DX without changing the en
 - `glassgradients/adapters/preact`
 - `glassgradients/adapters/svelte`
 - `glassgradients/adapters/tailwind`
+- `glassgradients/adapters/shadcn`
 - `glassgradients/adapters/unocss`
 - `glassgradients/adapters/next`
 - `glassgradients/adapters/nuxt`

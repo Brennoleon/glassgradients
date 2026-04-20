@@ -10,12 +10,15 @@ function readJson(path) {
 
 test("github lab metrics expose release, coverage, and chart data", () => {
   const report = readJson("docs/metrics/report.json");
+  const pkg = readJson("package.json");
 
-  assert.equal(report.package.version, "1.1.0");
-  assert.equal(report.counts.adapters, 11);
-  assert.ok(report.counts.components >= 20);
+  assert.equal(report.package.version, pkg.version);
+  assert.equal(report.counts.adapters, 12);
+  assert.ok(report.counts.components >= 32);
   assert.ok(report.counts.recipes >= 20);
-  assert.ok(report.counts.tests >= 50);
+  assert.ok(report.counts.tests >= 70);
+  assert.ok(report.surfaceModel.effects.includes("liquid"));
+  assert.ok(report.integrationMatrix.includes("shadcn-style"));
   assert.ok(report.performance.every((item) => item.opsPerSecond > 0));
   assert.ok(report.cssSamples.every((item) => item.bytes > 0));
 });

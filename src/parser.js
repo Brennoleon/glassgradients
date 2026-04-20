@@ -219,7 +219,11 @@ export function parseGlass(source) {
         node.value.push(newObject);
         stack.push({ indent, type: "object", value: newObject });
       } else {
-        node.value.push(parseInlineObject(valuePart));
+        const value = parseInlineObject(valuePart);
+        node.value.push(value);
+        if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+          stack.push({ indent, type: "object", value });
+        }
       }
       continue;
     }

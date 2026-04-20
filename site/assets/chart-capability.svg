@@ -18,7 +18,7 @@
   
     <circle class="grid" cx="280" cy="230" r="42.2" fill="none" /><circle class="grid" cx="280" cy="230" r="84.5" fill="none" /><circle class="grid" cx="280" cy="230" r="128.0" fill="none" />
     <line class="axis" x1="280" y1="230" x2="280.0" y2="56.0" /><line class="axis" x1="280" y1="230" x2="445.5" y2="176.2" /><line class="axis" x1="280" y1="230" x2="382.3" y2="370.8" /><line class="axis" x1="280" y1="230" x2="177.7" y2="370.8" /><line class="axis" x1="280" y1="230" x2="114.5" y2="176.2" />
-    <polygon class="shape" points="280.0,178.8 306.8,221.3 310.1,271.4 204.8,333.6 192.4,201.5" />
-    <circle class="dot" cx="280.0" cy="178.8" r="4" /><circle class="dot" cx="306.8" cy="221.3" r="4" /><circle class="dot" cx="310.1" cy="271.4" r="4" /><circle class="dot" cx="204.8" cy="333.6" r="4" /><circle class="dot" cx="192.4" cy="201.5" r="4" />
+    <polygon class="shape" points="280.0,179.4 298.0,224.1 298.6,255.6 204.8,333.6 219.9,210.5" />
+    <circle class="dot" cx="280.0" cy="179.4" r="4" /><circle class="dot" cx="298.0" cy="224.1" r="4" /><circle class="dot" cx="298.6" cy="255.6" r="4" /><circle class="dot" cx="204.8" cy="333.6" r="4" /><circle class="dot" cx="219.9" cy="210.5" r="4" />
     <text class="label" x="280.0" y="56.0" text-anchor="middle">components</text><text class="label" x="445.5" y="176.2" text-anchor="middle">adapters</text><text class="label" x="382.3" y="370.8" text-anchor="middle">recipes</text><text class="label" x="177.7" y="370.8" text-anchor="middle">tests</text><text class="label" x="114.5" y="176.2" text-anchor="middle">examples</text>
 </svg>

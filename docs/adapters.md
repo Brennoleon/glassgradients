@@ -23,6 +23,8 @@ npm i glassgradients preact
 
 The React, Vue, Solid, and Preact entry points are optional subpath exports. They are only meant to be imported inside apps that already use those frameworks.
 
+Adapter examples are integration snippets, not standalone CLIs. Tailwind examples expect `tailwindcss`; UnoCSS examples expect `unocss`; framework JSX/TSX/Vue/Svelte examples expect the host framework and bundler.
+
 ## React
 
 ```jsx
@@ -108,6 +110,8 @@ export function Shell() {
 
 ## Tailwind
 
+JavaScript plugin path:
+
 ```js
 import plugin from "tailwindcss/plugin";
 import { createGlassTailwindPlugin } from "glassgradients/adapters/tailwind";
@@ -133,6 +137,68 @@ Generated classes include:
 - `gg-inspector`
 - `gg-terminal`
 - `gg-command-bar`
+
+Tailwind v4 CSS-first path:
+
+```js
+import { createGlassTailwindV4Css, createGlassTailwindV4Preset } from "glassgradients/adapters/tailwind";
+
+export const glassCss = createGlassTailwindV4Css({
+  includeImport: true
+});
+
+export const glassPreset = createGlassTailwindV4Preset();
+```
+
+The generated CSS is meant to be copied into your app stylesheet or written by your build script:
+
+```css
+@import "tailwindcss";
+
+@theme inline {
+  --radius-glass: var(--gg-radius);
+  --shadow-glass: var(--gg-shadow-stack);
+  --animate-glass: var(--gg-animation);
+}
+
+@utility gg {
+  /* GlassGradients surface variables and structural CSS */
+}
+```
+
+Use the CSS-first helpers when your Tailwind v4 project prefers stylesheet-owned presets. Keep using `createGlassTailwindPlugin()` when you already rely on the Tailwind plugin API.
+
+## shadcn-style Specs
+
+The shadcn-style adapter does not publish components. It returns copyable specs for your local `components/ui` folder.
+
+```js
+import { createGlassShadcnComponentSpec, createGlassShadcnCss } from "glassgradients/adapters/shadcn";
+
+const dialog = createGlassShadcnComponentSpec("dialog", {
+  minify: true
+});
+
+console.log(dialog.import);
+console.log(dialog.className);
+console.log(dialog.css);
+console.log(dialog.usage);
+
+const css = createGlassShadcnCss({
+  include: ["panel", "button", "terminal"],
+  minify: true
+});
+```
+
+Each spec includes:
+
+- `name`
+- `componentName`
+- `import`
+- `className`
+- `css`
+- `usage`
+- `source`
 
 ## UnoCSS
 

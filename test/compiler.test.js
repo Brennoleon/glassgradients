@@ -49,6 +49,77 @@ animate.dfirt: 11%
   assert.match(css, /@keyframes/);
 });
 
+test("compile supports 1.2 liquid effects and optional heavy main filter", () => {
+  const css = compileGlass(
+    `
+selector: .liquid
+effect: liquid
+main-filter: blur-filters
+`.trim(),
+    { minify: true }
+  );
+
+  assert.match(css, /\.liquid\{/);
+  assert.match(css, /conic-gradient/);
+  assert.match(css, /drop-shadow/);
+  assert.match(css, /--gg-main-filter:blur-filters/);
+  assert.match(css, /--gg-heavy-filter:1/);
+});
+
+test("compile can disable the frosted backdrop filter without disabling glass fill", () => {
+  const css = compileGlass(
+    `
+selector: .flat-glass
+mode: frost
+mainFilter: none
+`.trim(),
+    { minify: true }
+  );
+
+  assert.match(css, /\.flat-glass\{/);
+  assert.match(css, /--gg-main-filter:none/);
+  assert.match(css, /--gg-backdrop-filter:none/);
+  assert.match(css, /--gg-glass-fill:linear-gradient/);
+});
+
+test("compile emits Engine UP frames and Motion Blurrin layers", () => {
+  const css = compileGlass(
+    `
+selector: .motion-card
+effect: liquid
+engineUp:
+  enabled: true
+  duration: 12s
+  x: 4%
+  y: 2%
+  blur: 28
+  brightness: 112%
+motionBlurrin:
+  layers:
+    - count: 6
+      minSize: 40
+      maxSize: 90
+      speed: 0.6
+      direction: right
+    - count: 10
+      minSize: 12
+      maxSize: 36
+      speed: 1.1
+      direction: diagonal
+  blur: 20
+  openness: 0.4
+  edgeFade: 0.2
+`.trim()
+  );
+
+  assert.match(css, /--gg-engine-up: 1/);
+  assert.match(css, /--gg-motion-blurrin: 1/);
+  assert.match(css, /--gg-motion-blurrin-filter: blur\(20px\)/);
+  assert.match(css, /radial-gradient\(circle [0-9.]+px/);
+  assert.match(css, /@keyframes gg-motion-blurrin-/);
+  assert.match(css, /filter: blur\(28px\) saturate\(100%\) contrast\(100%\) brightness\(112%\)/);
+});
+
 test("compile supports gradient-only mode", () => {
   const css = compileGlass(
     `

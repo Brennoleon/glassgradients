@@ -8,6 +8,16 @@
   --gg-glass-border: 1px solid rgba(255,255,255,0.18);
   --gg-shadow-stack: 0 20px 56px rgba(0, 0, 0, 0.198), 0 6px 18px rgba(0, 0, 0, 0.085), inset 0 1px 0 rgba(255, 255, 255, 0.118), inset 0 18px 28px rgba(255, 255, 255, 0.154);
   --gg-backdrop-filter: blur(21.875392px) saturate(137.172%) contrast(114.45%) brightness(105.06%);
+  --gg-main-filter: standard;
+  --gg-heavy-filter: 0;
+  --gg-monitoring-tier: manual;
+  --gg-monitoring-score: 79;
+  --gg-monitoring-reason: manual-performance;
+  --gg-engine-up: 0;
+  --gg-engine-up-duration: 22s;
+  --gg-motion-blurrin: 0;
+  --gg-motion-blurrin-filter: none;
+  --gg-motion-blurrin-opacity: 0.42;
   --gg-gradient-background: linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02)), linear-gradient(118deg, #66b3ff 0%, transparent 32%), linear-gradient(158deg, transparent 8%, #8f7dff 34%, transparent 62%), linear-gradient(228deg, transparent 18%, #45d6c8 48%, transparent 72%), linear-gradient(288deg, #f97db2 6%, transparent 40%);
   --gg-gradient-blend: normal;
   --gg-gradient-opacity: 0.5320896;
@@ -32,6 +42,16 @@
     --gg-glass-border: 1px solid rgba(255,255,255,0.18);
     --gg-shadow-stack: 0 20px 56px rgba(0, 0, 0, 0.198), 0 6px 18px rgba(0, 0, 0, 0.085), inset 0 1px 0 rgba(255, 255, 255, 0.118), inset 0 18px 28px rgba(255, 255, 255, 0.154);
     --gg-backdrop-filter: blur(21.875392px) saturate(137.172%) contrast(114.45%) brightness(105.06%);
+    --gg-main-filter: standard;
+    --gg-heavy-filter: 0;
+    --gg-monitoring-tier: manual;
+    --gg-monitoring-score: 79;
+    --gg-monitoring-reason: manual-performance;
+    --gg-engine-up: 0;
+    --gg-engine-up-duration: 22s;
+    --gg-motion-blurrin: 0;
+    --gg-motion-blurrin-filter: none;
+    --gg-motion-blurrin-opacity: 0.42;
     --gg-gradient-background: linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02)), linear-gradient(118deg, #66b3ff 0%, transparent 32%), linear-gradient(158deg, transparent 8%, #8f7dff 34%, transparent 62%), linear-gradient(228deg, transparent 18%, #45d6c8 48%, transparent 72%), linear-gradient(288deg, #f97db2 6%, transparent 40%);
     --gg-gradient-blend: normal;
     --gg-gradient-opacity: 0.5320896;
@@ -57,6 +77,16 @@
     --gg-glass-border: 1px solid rgba(255,255,255,0.18);
     --gg-shadow-stack: 0 20px 56px rgba(0, 0, 0, 0.176), 0 6px 18px rgba(0, 0, 0, 0.072), inset 0 1px 0 rgba(255, 255, 255, 0.189), inset 0 18px 28px rgba(255, 255, 255, 0.154);
     --gg-backdrop-filter: blur(17.3808px) saturate(132.204%) contrast(114.45%) brightness(105.06%);
+    --gg-main-filter: standard;
+    --gg-heavy-filter: 0;
+    --gg-monitoring-tier: manual;
+    --gg-monitoring-score: 80;
+    --gg-monitoring-reason: manual-performance;
+    --gg-engine-up: 0;
+    --gg-engine-up-duration: 18s;
+    --gg-motion-blurrin: 0;
+    --gg-motion-blurrin-filter: none;
+    --gg-motion-blurrin-opacity: 0.42;
     --gg-gradient-background: linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02)), linear-gradient(130deg, #66b3ff 0%, transparent 42%), linear-gradient(210deg, #8f7dff 12%, transparent 52%), radial-gradient(150% 130% at 80% 85%, #45d6c8 0%, transparent 60%), radial-gradient(140% 120% at 15% 85%, #f97db2 0%, transparent 58%);
     --gg-gradient-blend: normal;
     --gg-gradient-opacity: 0.5171711999999999;
@@ -81,6 +111,16 @@
   --gg-glass-border: 1px solid rgba(255,255,255,0.18);
   --gg-shadow-stack: 0 20px 56px rgba(0, 0, 0, 0.176), 0 6px 18px rgba(0, 0, 0, 0.072), inset 0 1px 0 rgba(255, 255, 255, 0.189), inset 0 18px 28px rgba(255, 255, 255, 0.154);
   --gg-backdrop-filter: blur(17.6112px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+  --gg-main-filter: standard;
+  --gg-heavy-filter: 0;
+  --gg-monitoring-tier: manual;
+  --gg-monitoring-score: 82;
+  --gg-monitoring-reason: manual-performance;
+  --gg-engine-up: 0;
+  --gg-engine-up-duration: 18s;
+  --gg-motion-blurrin: 0;
+  --gg-motion-blurrin-filter: none;
+  --gg-motion-blurrin-opacity: 0.42;
   --gg-gradient-background: linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02)), radial-gradient(140% 120% at 6% 4%, #66b3ff 0%, transparent 55%), radial-gradient(140% 130% at 88% 12%, #8f7dff 0%, transparent 58%), radial-gradient(160% 140% at 20% 92%, #45d6c8 0%, transparent 63%), radial-gradient(130% 130% at 84% 76%, #f97db2 0%, transparent 55%);
   --gg-gradient-blend: normal;
   --gg-gradient-opacity: 0.534576;
@@ -118,7 +158,7 @@
   opacity: var(--gg-gradient-opacity);
   filter: var(--gg-gradient-filter);
   transform: translate3d(0, 0, 0) scale(1.04);
-  animation: gg-shift-1704653869 18s ease-in-out infinite alternate;
+  animation: gg-shift-208251731 18s ease-in-out infinite alternate;
   will-change: transform, filter, opacity;
 }
 
@@ -128,6 +168,9 @@
   background-image: var(--gg-ornament-background);
   background-blend-mode: var(--gg-ornament-blend);
   opacity: var(--gg-ornament-opacity);
+  filter: var(--gg-motion-blurrin-filter);
+  animation: none;
+  will-change: transform, filter, opacity;
 }
 
 @supports not ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))) {
@@ -138,7 +181,7 @@
   }
 }
 
-@keyframes gg-shift-1704653869 {
+@keyframes gg-shift-208251731 {
 0% {
     transform: translate3d(calc(-1.8% * 1), calc(-1% * 1), 0) scale(1.03);
     filter: var(--gg-gradient-filter) hue-rotate(0deg);
@@ -150,8 +193,9 @@
   100% {
     transform: translate3d(calc(2.2% * 1), calc(-1.2% * 1), 0) scale(1.04);
     filter: var(--gg-gradient-filter) hue-rotate(-30deg);
-  }
 }
+}
+
 
 
 .gg-button {
@@ -164,6 +208,16 @@
   --gg-glass-border: 1px solid rgba(255,255,255,0.18);
   --gg-shadow-stack: 0 20px 56px rgba(0, 0, 0, 0.167), 0 6px 18px rgba(0, 0, 0, 0.067), inset 0 1px 0 rgba(255, 255, 255, 0.097), inset 0 18px 28px rgba(255, 255, 255, 0.126);
   --gg-backdrop-filter: blur(11.779936px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+  --gg-main-filter: standard;
+  --gg-heavy-filter: 0;
+  --gg-monitoring-tier: manual;
+  --gg-monitoring-score: 82;
+  --gg-monitoring-reason: manual-performance;
+  --gg-engine-up: 0;
+  --gg-engine-up-duration: 18s;
+  --gg-motion-blurrin: 0;
+  --gg-motion-blurrin-filter: none;
+  --gg-motion-blurrin-opacity: 0.42;
   --gg-gradient-background: none;
   --gg-gradient-blend: normal;
   --gg-gradient-opacity: 0;
@@ -211,6 +265,9 @@
   background-image: var(--gg-ornament-background);
   background-blend-mode: var(--gg-ornament-blend);
   opacity: var(--gg-ornament-opacity);
+  filter: var(--gg-motion-blurrin-filter);
+  animation: none;
+  will-change: transform, filter, opacity;
 }
 
 @supports not ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))) {
@@ -221,7 +278,7 @@
   }
 }
 
-@keyframes gg-shift-1607442558 {
+@keyframes gg-shift-1426371492 {
 0% {
     transform: translate3d(calc(-1.8% * 1), calc(-1% * 1), 0) scale(1.03);
     filter: var(--gg-gradient-filter) hue-rotate(0deg);
@@ -233,8 +290,9 @@
   100% {
     transform: translate3d(calc(2.2% * 1), calc(-1.2% * 1), 0) scale(1.04);
     filter: var(--gg-gradient-filter) hue-rotate(-30deg);
-  }
 }
+}
+
 
 
 .gg-command-palette {
@@ -247,6 +305,16 @@
   --gg-glass-border: 1px solid rgba(255,255,255,0.18);
   --gg-shadow-stack: 0 20px 56px rgba(0, 0, 0, 0.227), 0 6px 18px rgba(0, 0, 0, 0.101), inset 0 1px 0 rgba(255, 255, 255, 0.223), inset 0 18px 28px rgba(255, 255, 255, 0.156);
   --gg-backdrop-filter: blur(23.4816px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+  --gg-main-filter: standard;
+  --gg-heavy-filter: 0;
+  --gg-monitoring-tier: manual;
+  --gg-monitoring-score: 82;
+  --gg-monitoring-reason: manual-performance;
+  --gg-engine-up: 0;
+  --gg-engine-up-duration: 18s;
+  --gg-motion-blurrin: 0;
+  --gg-motion-blurrin-filter: none;
+  --gg-motion-blurrin-opacity: 0.42;
   --gg-gradient-background: linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02)), radial-gradient(140% 120% at 6% 4%, #66b3ff 0%, transparent 55%), radial-gradient(140% 130% at 88% 12%, #8f7dff 0%, transparent 58%), radial-gradient(160% 140% at 20% 92%, #45d6c8 0%, transparent 63%), radial-gradient(130% 130% at 84% 76%, #f97db2 0%, transparent 55%);
   --gg-gradient-blend: normal;
   --gg-gradient-opacity: 0.6307996800000001;
@@ -284,7 +352,7 @@
   opacity: var(--gg-gradient-opacity);
   filter: var(--gg-gradient-filter);
   transform: translate3d(0, 0, 0) scale(1.04);
-  animation: gg-shift-192405299 18s ease-in-out infinite alternate;
+  animation: gg-shift-61364211 18s ease-in-out infinite alternate;
   will-change: transform, filter, opacity;
 }
 
@@ -294,6 +362,9 @@
   background-image: var(--gg-ornament-background);
   background-blend-mode: var(--gg-ornament-blend);
   opacity: var(--gg-ornament-opacity);
+  filter: var(--gg-motion-blurrin-filter);
+  animation: none;
+  will-change: transform, filter, opacity;
 }
 
 @supports not ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))) {
@@ -304,7 +375,7 @@
   }
 }
 
-@keyframes gg-shift-192405299 {
+@keyframes gg-shift-61364211 {
 0% {
     transform: translate3d(calc(-1.8% * 1), calc(-1% * 1), 0) scale(1.03);
     filter: var(--gg-gradient-filter) hue-rotate(0deg);
@@ -316,8 +387,9 @@
   100% {
     transform: translate3d(calc(2.2% * 1), calc(-1.2% * 1), 0) scale(1.04);
     filter: var(--gg-gradient-filter) hue-rotate(-30deg);
-  }
 }
+}
+
 
 
 .gg-terminal {
@@ -330,6 +402,16 @@
   --gg-glass-border: 1px solid rgba(255,255,255,0.18);
   --gg-shadow-stack: 0 20px 56px rgba(0, 0, 0, 0.183), 0 6px 18px rgba(0, 0, 0, 0.076), inset 0 1px 0 rgba(255, 255, 255, 0.070), inset 0 18px 28px rgba(255, 255, 255, 0.052);
   --gg-backdrop-filter: blur(16.202304px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+  --gg-main-filter: standard;
+  --gg-heavy-filter: 0;
+  --gg-monitoring-tier: manual;
+  --gg-monitoring-score: 82;
+  --gg-monitoring-reason: manual-performance;
+  --gg-engine-up: 0;
+  --gg-engine-up-duration: 18s;
+  --gg-motion-blurrin: 0;
+  --gg-motion-blurrin-filter: none;
+  --gg-motion-blurrin-opacity: 0.42;
   --gg-gradient-background: none;
   --gg-gradient-blend: normal;
   --gg-gradient-opacity: 0;
@@ -377,6 +459,9 @@
   background-image: var(--gg-ornament-background);
   background-blend-mode: var(--gg-ornament-blend);
   opacity: var(--gg-ornament-opacity);
+  filter: var(--gg-motion-blurrin-filter);
+  animation: none;
+  will-change: transform, filter, opacity;
 }
 
 @supports not ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))) {
@@ -387,7 +472,7 @@
   }
 }
 
-@keyframes gg-shift-1344511406 {
+@keyframes gg-shift-1754441080 {
 0% {
     transform: translate3d(calc(-1.8% * 1), calc(-1% * 1), 0) scale(1.03);
     filter: var(--gg-gradient-filter) hue-rotate(0deg);
@@ -399,8 +484,9 @@
   100% {
     transform: translate3d(calc(2.2% * 1), calc(-1.2% * 1), 0) scale(1.04);
     filter: var(--gg-gradient-filter) hue-rotate(-30deg);
-  }
 }
+}
+
 
 
 .gg-inspector {
@@ -413,6 +499,16 @@
   --gg-glass-border: 1px solid rgba(255,255,255,0.18);
   --gg-shadow-stack: 0 20px 56px rgba(0, 0, 0, 0.187), 0 6px 18px rgba(0, 0, 0, 0.078), inset 0 1px 0 rgba(255, 255, 255, 0.094), inset 0 18px 28px rgba(255, 255, 255, 0.066);
   --gg-backdrop-filter: blur(18.002560000000003px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+  --gg-main-filter: standard;
+  --gg-heavy-filter: 0;
+  --gg-monitoring-tier: manual;
+  --gg-monitoring-score: 82;
+  --gg-monitoring-reason: manual-performance;
+  --gg-engine-up: 0;
+  --gg-engine-up-duration: 18s;
+  --gg-motion-blurrin: 0;
+  --gg-motion-blurrin-filter: none;
+  --gg-motion-blurrin-opacity: 0.42;
   --gg-gradient-background: linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02)), radial-gradient(140% 120% at 6% 4%, #66b3ff 0%, transparent 55%), radial-gradient(140% 130% at 88% 12%, #8f7dff 0%, transparent 58%), radial-gradient(160% 140% at 20% 92%, #45d6c8 0%, transparent 63%), radial-gradient(130% 130% at 84% 76%, #f97db2 0%, transparent 55%);
   --gg-gradient-blend: normal;
   --gg-gradient-opacity: 0.534576;
@@ -460,6 +556,9 @@
   background-image: var(--gg-ornament-background);
   background-blend-mode: var(--gg-ornament-blend);
   opacity: var(--gg-ornament-opacity);
+  filter: var(--gg-motion-blurrin-filter);
+  animation: none;
+  will-change: transform, filter, opacity;
 }
 
 @supports not ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))) {
@@ -470,7 +569,7 @@
   }
 }
 
-@keyframes gg-shift-1395753907 {
+@keyframes gg-shift-1120881805 {
 0% {
     transform: translate3d(calc(-1.8% * 1), calc(-1% * 1), 0) scale(1.03);
     filter: var(--gg-gradient-filter) hue-rotate(0deg);
@@ -482,8 +581,9 @@
   100% {
     transform: translate3d(calc(2.2% * 1), calc(-1.2% * 1), 0) scale(1.04);
     filter: var(--gg-gradient-filter) hue-rotate(-30deg);
-  }
 }
+}
+
 
 
 .gg-table {
@@ -496,6 +596,16 @@
   --gg-glass-border: 1px solid rgba(255,255,255,0.18);
   --gg-shadow-stack: 0 20px 56px rgba(0, 0, 0, 0.167), 0 6px 18px rgba(0, 0, 0, 0.067), inset 0 1px 0 rgba(255, 255, 255, 0.058), inset 0 18px 28px rgba(255, 255, 255, 0.036);
   --gg-backdrop-filter: blur(12.601792000000001px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+  --gg-main-filter: standard;
+  --gg-heavy-filter: 0;
+  --gg-monitoring-tier: manual;
+  --gg-monitoring-score: 82;
+  --gg-monitoring-reason: manual-performance;
+  --gg-engine-up: 0;
+  --gg-engine-up-duration: 18s;
+  --gg-motion-blurrin: 0;
+  --gg-motion-blurrin-filter: none;
+  --gg-motion-blurrin-opacity: 0.42;
   --gg-gradient-background: none;
   --gg-gradient-blend: normal;
   --gg-gradient-opacity: 0;
@@ -543,6 +653,9 @@
   background-image: var(--gg-ornament-background);
   background-blend-mode: var(--gg-ornament-blend);
   opacity: var(--gg-ornament-opacity);
+  filter: var(--gg-motion-blurrin-filter);
+  animation: none;
+  will-change: transform, filter, opacity;
 }
 
 @supports not ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))) {
@@ -553,7 +666,7 @@
   }
 }
 
-@keyframes gg-shift-981438140 {
+@keyframes gg-shift-1923886186 {
 0% {
     transform: translate3d(calc(-1.8% * 1), calc(-1% * 1), 0) scale(1.03);
     filter: var(--gg-gradient-filter) hue-rotate(0deg);
@@ -565,8 +678,397 @@
   100% {
     transform: translate3d(calc(2.2% * 1), calc(-1.2% * 1), 0) scale(1.04);
     filter: var(--gg-gradient-filter) hue-rotate(-30deg);
+}
+}
+
+
+
+.gg-data-grid {
+  --gg-radius: 16px;
+  --gg-z-index: auto;
+  --gg-glare-x: 50%;
+  --gg-glare-y: 50%;
+  --gg-glass-fill: linear-gradient(180deg, rgba(15,19,27,0.84), rgba(255,255,255,0.035));
+  --gg-fallback-fill: linear-gradient(180deg, rgba(20,24,34,0.42), rgba(255,255,255,0.09));
+  --gg-glass-border: 1px solid rgba(255,255,255,0.18);
+  --gg-shadow-stack: 0 20px 56px rgba(0, 0, 0, 0.167), 0 6px 18px rgba(0, 0, 0, 0.067), inset 0 1px 0 rgba(255, 255, 255, 0.058), inset 0 18px 28px rgba(255, 255, 255, 0.036);
+  --gg-backdrop-filter: blur(12.601792000000001px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+  --gg-main-filter: standard;
+  --gg-heavy-filter: 0;
+  --gg-monitoring-tier: manual;
+  --gg-monitoring-score: 82;
+  --gg-monitoring-reason: manual-performance;
+  --gg-engine-up: 0;
+  --gg-engine-up-duration: 18s;
+  --gg-motion-blurrin: 0;
+  --gg-motion-blurrin-filter: none;
+  --gg-motion-blurrin-opacity: 0.42;
+  --gg-gradient-background: none;
+  --gg-gradient-blend: normal;
+  --gg-gradient-opacity: 0;
+  --gg-gradient-filter: none;
+  --gg-gradient-inset: 0%;
+  --gg-ornament-background: linear-gradient(180deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0) 22%), linear-gradient(135deg, rgba(255, 255, 255, 0.017) 0%, rgba(255, 255, 255, 0.004) 24%, transparent 58%), radial-gradient(135% 120% at 50% 118%, rgba(0, 0, 0, 0.198) 0%, transparent 54%);
+  --gg-ornament-blend: screen, screen, multiply;
+  --gg-ornament-opacity: 1;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-sizing: border-box;
+  border-radius: var(--gg-radius);
+  z-index: var(--gg-z-index);
+  border: var(--gg-glass-border);
+  background: var(--gg-glass-fill);
+  box-shadow: var(--gg-shadow-stack);
+  -webkit-backdrop-filter: blur(12.601792000000001px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+  backdrop-filter: blur(12.601792000000001px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+}
+
+.gg-data-grid::before,
+.gg-data-grid::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.gg-data-grid::before {
+  inset: var(--gg-gradient-inset);
+  z-index: -2;
+  background-image: var(--gg-gradient-background);
+  background-blend-mode: overlay, var(--gg-gradient-blend);
+  opacity: var(--gg-gradient-opacity);
+  filter: var(--gg-gradient-filter);
+  transform: translate3d(0, 0, 0) scale(1.04);
+  animation: none;
+  will-change: transform, filter, opacity;
+}
+
+.gg-data-grid::after {
+  inset: 0;
+  z-index: -1;
+  background-image: var(--gg-ornament-background);
+  background-blend-mode: var(--gg-ornament-blend);
+  opacity: var(--gg-ornament-opacity);
+  filter: var(--gg-motion-blurrin-filter);
+  animation: none;
+  will-change: transform, filter, opacity;
+}
+
+@supports not ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))) {
+  .gg-data-grid {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--gg-fallback-fill);
   }
 }
+
+@keyframes gg-shift-867202063 {
+0% {
+    transform: translate3d(calc(-1.8% * 1), calc(-1% * 1), 0) scale(1.03);
+    filter: var(--gg-gradient-filter) hue-rotate(0deg);
+  }
+  50% {
+    transform: translate3d(calc(1.5% * 1), calc(1.8% * 1), 0) scale(1.06);
+    filter: var(--gg-gradient-filter) hue-rotate(30deg);
+  }
+  100% {
+    transform: translate3d(calc(2.2% * 1), calc(-1.2% * 1), 0) scale(1.04);
+    filter: var(--gg-gradient-filter) hue-rotate(-30deg);
+}
+}
+
+
+
+.gg-chart {
+  --gg-radius: 16px;
+  --gg-z-index: auto;
+  --gg-glare-x: 50%;
+  --gg-glare-y: 50%;
+  --gg-glass-fill: linear-gradient(180deg, rgba(20,24,34,0.24), rgba(255,255,255,0.07));
+  --gg-fallback-fill: linear-gradient(180deg, rgba(20,24,34,0.42), rgba(255,255,255,0.09));
+  --gg-glass-border: 1px solid rgba(255,255,255,0.18);
+  --gg-shadow-stack: 0 20px 56px rgba(0, 0, 0, 0.176), 0 6px 18px rgba(0, 0, 0, 0.072), inset 0 1px 0 rgba(255, 255, 255, 0.189), inset 0 18px 28px rgba(255, 255, 255, 0.154);
+  --gg-backdrop-filter: blur(17.6112px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+  --gg-main-filter: standard;
+  --gg-heavy-filter: 0;
+  --gg-monitoring-tier: manual;
+  --gg-monitoring-score: 82;
+  --gg-monitoring-reason: manual-performance;
+  --gg-engine-up: 0;
+  --gg-engine-up-duration: 18s;
+  --gg-motion-blurrin: 0;
+  --gg-motion-blurrin-filter: none;
+  --gg-motion-blurrin-opacity: 0.42;
+  --gg-gradient-background: linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02)), radial-gradient(140% 120% at 6% 4%, #66b3ff 0%, transparent 55%), radial-gradient(140% 130% at 88% 12%, #8f7dff 0%, transparent 58%), radial-gradient(160% 140% at 20% 92%, #45d6c8 0%, transparent 63%), radial-gradient(130% 130% at 84% 76%, #f97db2 0%, transparent 55%);
+  --gg-gradient-blend: normal;
+  --gg-gradient-opacity: 0.534576;
+  --gg-gradient-filter: blur(54.72px) saturate(140.76%) contrast(106.82%) brightness(102%);
+  --gg-gradient-inset: -22%;
+  --gg-ornament-background: linear-gradient(180deg, rgba(255, 255, 255, 0.179) 0%, rgba(255, 255, 255, 0) 22%), linear-gradient(135deg, rgba(255, 255, 255, 0.155) 0%, rgba(255, 255, 255, 0.037) 24%, transparent 58%), radial-gradient(135% 120% at 50% 118%, rgba(0, 0, 0, 0.198) 0%, transparent 54%), repeating-radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.034) 0 1px, transparent 1px 3px);
+  --gg-ornament-blend: screen, screen, multiply, normal;
+  --gg-ornament-opacity: 1;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-sizing: border-box;
+  border-radius: var(--gg-radius);
+  z-index: var(--gg-z-index);
+  border: var(--gg-glass-border);
+  background: var(--gg-glass-fill);
+  box-shadow: var(--gg-shadow-stack);
+  -webkit-backdrop-filter: blur(17.6112px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+  backdrop-filter: blur(17.6112px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+}
+
+.gg-chart::before,
+.gg-chart::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.gg-chart::before {
+  inset: var(--gg-gradient-inset);
+  z-index: -2;
+  background-image: var(--gg-gradient-background);
+  background-blend-mode: overlay, var(--gg-gradient-blend);
+  opacity: var(--gg-gradient-opacity);
+  filter: var(--gg-gradient-filter);
+  transform: translate3d(0, 0, 0) scale(1.04);
+  animation: gg-shift-2067265593 18s ease-in-out infinite alternate;
+  will-change: transform, filter, opacity;
+}
+
+.gg-chart::after {
+  inset: 0;
+  z-index: -1;
+  background-image: var(--gg-ornament-background);
+  background-blend-mode: var(--gg-ornament-blend);
+  opacity: var(--gg-ornament-opacity);
+  filter: var(--gg-motion-blurrin-filter);
+  animation: none;
+  will-change: transform, filter, opacity;
+}
+
+@supports not ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))) {
+  .gg-chart {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--gg-fallback-fill);
+  }
+}
+
+@keyframes gg-shift-2067265593 {
+0% {
+    transform: translate3d(calc(-1.8% * 1), calc(-1% * 1), 0) scale(1.03);
+    filter: var(--gg-gradient-filter) hue-rotate(0deg);
+  }
+  50% {
+    transform: translate3d(calc(1.5% * 1), calc(1.8% * 1), 0) scale(1.06);
+    filter: var(--gg-gradient-filter) hue-rotate(30deg);
+  }
+  100% {
+    transform: translate3d(calc(2.2% * 1), calc(-1.2% * 1), 0) scale(1.04);
+    filter: var(--gg-gradient-filter) hue-rotate(-30deg);
+}
+}
+
+
+
+.gg-tabs {
+  --gg-radius: 14px;
+  --gg-z-index: auto;
+  --gg-glare-x: 50%;
+  --gg-glare-y: 50%;
+  --gg-glass-fill: linear-gradient(180deg, rgba(20,24,34,0.24), rgba(255,255,255,0.07));
+  --gg-fallback-fill: linear-gradient(180deg, rgba(20,24,34,0.42), rgba(255,255,255,0.09));
+  --gg-glass-border: 1px solid rgba(255,255,255,0.18);
+  --gg-shadow-stack: 0 20px 56px rgba(0, 0, 0, 0.167), 0 6px 18px rgba(0, 0, 0, 0.067), inset 0 1px 0 rgba(255, 255, 255, 0.155), inset 0 18px 28px rgba(255, 255, 255, 0.126);
+  --gg-backdrop-filter: blur(15.145632px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+  --gg-main-filter: standard;
+  --gg-heavy-filter: 0;
+  --gg-monitoring-tier: manual;
+  --gg-monitoring-score: 82;
+  --gg-monitoring-reason: manual-performance;
+  --gg-engine-up: 0;
+  --gg-engine-up-duration: 18s;
+  --gg-motion-blurrin: 0;
+  --gg-motion-blurrin-filter: none;
+  --gg-motion-blurrin-opacity: 0.42;
+  --gg-gradient-background: linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02)), radial-gradient(140% 120% at 6% 4%, #66b3ff 0%, transparent 55%), radial-gradient(140% 130% at 88% 12%, #8f7dff 0%, transparent 58%), radial-gradient(160% 140% at 20% 92%, #45d6c8 0%, transparent 63%), radial-gradient(130% 130% at 84% 76%, #f97db2 0%, transparent 55%);
+  --gg-gradient-blend: normal;
+  --gg-gradient-opacity: 0.43835231999999996;
+  --gg-gradient-filter: blur(44.8704px) saturate(140.76%) contrast(106.82%) brightness(102%);
+  --gg-gradient-inset: -22%;
+  --gg-ornament-background: linear-gradient(180deg, rgba(255, 255, 255, 0.147) 0%, rgba(255, 255, 255, 0) 22%), linear-gradient(135deg, rgba(255, 255, 255, 0.043) 0%, rgba(255, 255, 255, 0.010) 24%, transparent 58%), radial-gradient(135% 120% at 50% 118%, rgba(0, 0, 0, 0.198) 0%, transparent 54%), repeating-radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.034) 0 1px, transparent 1px 4px);
+  --gg-ornament-blend: screen, screen, multiply, normal;
+  --gg-ornament-opacity: 1;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-sizing: border-box;
+  border-radius: var(--gg-radius);
+  z-index: var(--gg-z-index);
+  border: var(--gg-glass-border);
+  background: var(--gg-glass-fill);
+  box-shadow: var(--gg-shadow-stack);
+  -webkit-backdrop-filter: blur(15.145632px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+  backdrop-filter: blur(15.145632px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+}
+
+.gg-tabs::before,
+.gg-tabs::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.gg-tabs::before {
+  inset: var(--gg-gradient-inset);
+  z-index: -2;
+  background-image: var(--gg-gradient-background);
+  background-blend-mode: overlay, var(--gg-gradient-blend);
+  opacity: var(--gg-gradient-opacity);
+  filter: var(--gg-gradient-filter);
+  transform: translate3d(0, 0, 0) scale(1.04);
+  animation: gg-shift-751472178 18s ease-in-out infinite alternate;
+  will-change: transform, filter, opacity;
+}
+
+.gg-tabs::after {
+  inset: 0;
+  z-index: -1;
+  background-image: var(--gg-ornament-background);
+  background-blend-mode: var(--gg-ornament-blend);
+  opacity: var(--gg-ornament-opacity);
+  filter: var(--gg-motion-blurrin-filter);
+  animation: none;
+  will-change: transform, filter, opacity;
+}
+
+@supports not ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))) {
+  .gg-tabs {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--gg-fallback-fill);
+  }
+}
+
+@keyframes gg-shift-751472178 {
+0% {
+    transform: translate3d(calc(-1.8% * 1), calc(-1% * 1), 0) scale(1.03);
+    filter: var(--gg-gradient-filter) hue-rotate(0deg);
+  }
+  50% {
+    transform: translate3d(calc(1.5% * 1), calc(1.8% * 1), 0) scale(1.06);
+    filter: var(--gg-gradient-filter) hue-rotate(30deg);
+  }
+  100% {
+    transform: translate3d(calc(2.2% * 1), calc(-1.2% * 1), 0) scale(1.04);
+    filter: var(--gg-gradient-filter) hue-rotate(-30deg);
+}
+}
+
+
+
+.gg-notification-center {
+  --gg-radius: 18px;
+  --gg-z-index: auto;
+  --gg-glare-x: 50%;
+  --gg-glare-y: 50%;
+  --gg-glass-fill: linear-gradient(180deg, rgba(18,23,33,0.72), rgba(255,255,255,0.06));
+  --gg-fallback-fill: linear-gradient(180deg, rgba(20,24,34,0.42), rgba(255,255,255,0.09));
+  --gg-glass-border: 1px solid rgba(255,255,255,0.18);
+  --gg-shadow-stack: 0 20px 56px rgba(0, 0, 0, 0.198), 0 6px 18px rgba(0, 0, 0, 0.085), inset 0 1px 0 rgba(255, 255, 255, 0.165), inset 0 18px 28px rgba(255, 255, 255, 0.154);
+  --gg-backdrop-filter: blur(21.524800000000003px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+  --gg-main-filter: standard;
+  --gg-heavy-filter: 0;
+  --gg-monitoring-tier: manual;
+  --gg-monitoring-score: 82;
+  --gg-monitoring-reason: manual-performance;
+  --gg-engine-up: 0;
+  --gg-engine-up-duration: 18s;
+  --gg-motion-blurrin: 0;
+  --gg-motion-blurrin-filter: none;
+  --gg-motion-blurrin-opacity: 0.42;
+  --gg-gradient-background: none;
+  --gg-gradient-blend: normal;
+  --gg-gradient-opacity: 0;
+  --gg-gradient-filter: none;
+  --gg-gradient-inset: 0%;
+  --gg-ornament-background: linear-gradient(180deg, rgba(255, 255, 255, 0.157) 0%, rgba(255, 255, 255, 0) 22%), linear-gradient(135deg, rgba(255, 255, 255, 0.155) 0%, rgba(255, 255, 255, 0.037) 24%, transparent 58%), radial-gradient(135% 120% at 50% 118%, rgba(0, 0, 0, 0.198) 0%, transparent 54%), repeating-radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.034) 0 1px, transparent 1px 3px);
+  --gg-ornament-blend: screen, screen, multiply, normal;
+  --gg-ornament-opacity: 1;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-sizing: border-box;
+  border-radius: var(--gg-radius);
+  z-index: var(--gg-z-index);
+  border: var(--gg-glass-border);
+  background: var(--gg-glass-fill);
+  box-shadow: var(--gg-shadow-stack);
+  -webkit-backdrop-filter: blur(21.524800000000003px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+  backdrop-filter: blur(21.524800000000003px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+}
+
+.gg-notification-center::before,
+.gg-notification-center::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.gg-notification-center::before {
+  inset: var(--gg-gradient-inset);
+  z-index: -2;
+  background-image: var(--gg-gradient-background);
+  background-blend-mode: overlay, var(--gg-gradient-blend);
+  opacity: var(--gg-gradient-opacity);
+  filter: var(--gg-gradient-filter);
+  transform: translate3d(0, 0, 0) scale(1.04);
+  animation: none;
+  will-change: transform, filter, opacity;
+}
+
+.gg-notification-center::after {
+  inset: 0;
+  z-index: -1;
+  background-image: var(--gg-ornament-background);
+  background-blend-mode: var(--gg-ornament-blend);
+  opacity: var(--gg-ornament-opacity);
+  filter: var(--gg-motion-blurrin-filter);
+  animation: none;
+  will-change: transform, filter, opacity;
+}
+
+@supports not ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))) {
+  .gg-notification-center {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--gg-fallback-fill);
+  }
+}
+
+@keyframes gg-shift-2126032456 {
+0% {
+    transform: translate3d(calc(-1.8% * 1), calc(-1% * 1), 0) scale(1.03);
+    filter: var(--gg-gradient-filter) hue-rotate(0deg);
+  }
+  50% {
+    transform: translate3d(calc(1.5% * 1), calc(1.8% * 1), 0) scale(1.06);
+    filter: var(--gg-gradient-filter) hue-rotate(30deg);
+  }
+  100% {
+    transform: translate3d(calc(2.2% * 1), calc(-1.2% * 1), 0) scale(1.04);
+    filter: var(--gg-gradient-filter) hue-rotate(-30deg);
+}
+}
+
 
 
 .gg-workspace {
@@ -579,6 +1081,16 @@
   --gg-glass-border: 1px solid rgba(255,255,255,0.18);
   --gg-shadow-stack: 0 20px 56px rgba(0, 0, 0, 0.198), 0 6px 18px rgba(0, 0, 0, 0.085), inset 0 1px 0 rgba(255, 255, 255, 0.118), inset 0 18px 28px rgba(255, 255, 255, 0.154);
   --gg-backdrop-filter: blur(19.802816000000004px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+  --gg-main-filter: standard;
+  --gg-heavy-filter: 0;
+  --gg-monitoring-tier: manual;
+  --gg-monitoring-score: 82;
+  --gg-monitoring-reason: manual-performance;
+  --gg-engine-up: 0;
+  --gg-engine-up-duration: 18s;
+  --gg-motion-blurrin: 0;
+  --gg-motion-blurrin-filter: none;
+  --gg-motion-blurrin-opacity: 0.42;
   --gg-gradient-background: linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02)), radial-gradient(140% 120% at 6% 4%, #66b3ff 0%, transparent 55%), radial-gradient(140% 130% at 88% 12%, #8f7dff 0%, transparent 58%), radial-gradient(160% 140% at 20% 92%, #45d6c8 0%, transparent 63%), radial-gradient(130% 130% at 84% 76%, #f97db2 0%, transparent 55%);
   --gg-gradient-blend: normal;
   --gg-gradient-opacity: 0.534576;
@@ -626,6 +1138,9 @@
   background-image: var(--gg-ornament-background);
   background-blend-mode: var(--gg-ornament-blend);
   opacity: var(--gg-ornament-opacity);
+  filter: var(--gg-motion-blurrin-filter);
+  animation: none;
+  will-change: transform, filter, opacity;
 }
 
 @supports not ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))) {
@@ -636,7 +1151,7 @@
   }
 }
 
-@keyframes gg-shift-1444716147 {
+@keyframes gg-shift-1271359309 {
 0% {
     transform: translate3d(calc(-1.8% * 1), calc(-1% * 1), 0) scale(1.03);
     filter: var(--gg-gradient-filter) hue-rotate(0deg);
@@ -648,8 +1163,9 @@
   100% {
     transform: translate3d(calc(2.2% * 1), calc(-1.2% * 1), 0) scale(1.04);
     filter: var(--gg-gradient-filter) hue-rotate(-30deg);
-  }
 }
+}
+
 
 
 .gg-command-bar {
@@ -662,6 +1178,16 @@
   --gg-glass-border: 1px solid rgba(255,255,255,0.18);
   --gg-shadow-stack: 0 20px 56px rgba(0, 0, 0, 0.176), 0 6px 18px rgba(0, 0, 0, 0.072), inset 0 1px 0 rgba(255, 255, 255, 0.106), inset 0 18px 28px rgba(255, 255, 255, 0.055);
   --gg-backdrop-filter: blur(13.462784000000001px) saturate(132.756%) contrast(114.45%) brightness(105.06%);
+  --gg-main-filter: standard;
+  --gg-heavy-filter: 0;
+  --gg-monitoring-tier: manual;
+  --gg-monitoring-score: 82;
+  --gg-monitoring-reason: manual-performance;
+  --gg-engine-up: 0;
+  --gg-engine-up-duration: 18s;
+  --gg-motion-blurrin: 0;
+  --gg-motion-blurrin-filter: none;
+  --gg-motion-blurrin-opacity: 0.42;
   --gg-gradient-background: none;
   --gg-gradient-blend: normal;
   --gg-gradient-opacity: 0;
@@ -709,6 +1235,9 @@
   background-image: var(--gg-ornament-background);
   background-blend-mode: var(--gg-ornament-blend);
   opacity: var(--gg-ornament-opacity);
+  filter: var(--gg-motion-blurrin-filter);
+  animation: none;
+  will-change: transform, filter, opacity;
 }
 
 @supports not ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))) {
@@ -719,7 +1248,7 @@
   }
 }
 
-@keyframes gg-shift-606480292 {
+@keyframes gg-shift-900439350 {
 0% {
     transform: translate3d(calc(-1.8% * 1), calc(-1% * 1), 0) scale(1.03);
     filter: var(--gg-gradient-filter) hue-rotate(0deg);
@@ -731,6 +1260,5 @@
   100% {
     transform: translate3d(calc(2.2% * 1), calc(-1.2% * 1), 0) scale(1.04);
     filter: var(--gg-gradient-filter) hue-rotate(-30deg);
-  }
 }
-
+}

@@ -15,4 +15,4 @@ export {
 export { createGlassGradient, applyGlassGradient, compileRuntimeInlineStyle } from "./runtime.js";
 export { compileGlassTheme, createGlassThemeScript, createGlassTokens } from "./theme.js";
 export { BREAKPOINTS } from "./variants.js";
-export { DEFAULT_CONFIG, PALETTES, PERFORMANCE_PRESETS, PRESETS, RECIPES, RECIPE_CONTRACTS, getRecipeContract, normalizeConfig } from "./defaults.js";
+export { DEFAULT_CONFIG, EFFECT_COMPLEXITY, MER_TIERS, PALETTES, PERFORMANCE_PRESETS, PRESETS, RECIPES, RECIPE_CONTRACTS, getRecipeContract, normalizeConfig } from "./defaults.js";

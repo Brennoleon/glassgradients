@@ -1,6 +1,6 @@
 {
   "name": "glassgradients",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "LTS glass surface engine with surface, gradient, frost, recipes, responsive variants, theme tokens, static CSS compilation, and optional runtime motion.",
   "type": "module",
   "main": "./src/index.js",
@@ -10,12 +10,30 @@
       "types": "./src/index.d.ts",
       "default": "./src/index.js"
     },
-    "./parser": "./src/parser.js",
-    "./compiler": "./src/compiler.js",
-    "./runtime": "./src/runtime.js",
-    "./defaults": "./src/defaults.js",
-    "./theme": "./src/theme.js",
-    "./variants": "./src/variants.js",
+    "./parser": {
+      "types": "./src/parser.d.ts",
+      "default": "./src/parser.js"
+    },
+    "./compiler": {
+      "types": "./src/compiler.d.ts",
+      "default": "./src/compiler.js"
+    },
+    "./runtime": {
+      "types": "./src/runtime.d.ts",
+      "default": "./src/runtime.js"
+    },
+    "./defaults": {
+      "types": "./src/defaults.d.ts",
+      "default": "./src/defaults.js"
+    },
+    "./theme": {
+      "types": "./src/theme.d.ts",
+      "default": "./src/theme.js"
+    },
+    "./variants": {
+      "types": "./src/variants.d.ts",
+      "default": "./src/variants.js"
+    },
     "./components": {
       "types": "./src/components.d.ts",
       "default": "./src/components.js"
@@ -51,6 +69,10 @@
     "./adapters/tailwind": {
       "types": "./src/adapters/tailwind.d.ts",
       "default": "./src/adapters/tailwind.js"
+    },
+    "./adapters/shadcn": {
+      "types": "./src/adapters/shadcn.d.ts",
+      "default": "./src/adapters/shadcn.js"
     },
     "./adapters/unocss": {
       "types": "./src/adapters/unocss.d.ts",
@@ -123,7 +145,13 @@
     "solid",
     "preact",
     "tailwindcss",
+    "tailwind-v4",
+    "shadcn",
     "unocss",
+    "adaptive",
+    "monitoring",
+    "motion-blur",
+    "liquid-glass",
     "nextjs",
     "nuxt",
     "astro",

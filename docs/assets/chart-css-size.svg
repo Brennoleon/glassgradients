@@ -20,15 +20,15 @@
       <line class="grid" x1="54" y1="72" x2="54" y2="242" />
       
       <rect x="104.5" y="72.0" width="92.0" height="170.0" rx="6" fill="#78a8ff" />
-      <text x="150.5" y="62.0" text-anchor="middle" class="value">3279B</text>
+      <text x="150.5" y="62.0" text-anchor="middle" class="value">3645B</text>
       <text x="150.5" y="270" text-anchor="middle" class="label">surface</text>
-      <rect x="297.5" y="102.2" width="92.0" height="139.8" rx="6" fill="#72d7c7" />
-      <text x="343.5" y="92.2" text-anchor="middle" class="value">2696B</text>
+      <rect x="297.5" y="99.3" width="92.0" height="142.7" rx="6" fill="#72d7c7" />
+      <text x="343.5" y="89.3" text-anchor="middle" class="value">3059B</text>
       <text x="343.5" y="270" text-anchor="middle" class="label">frost</text>
-      <rect x="490.5" y="112.4" width="92.0" height="129.6" rx="6" fill="#f0be75" />
-      <text x="536.5" y="102.4" text-anchor="middle" class="value">2499B</text>
+      <rect x="490.5" y="108.7" width="92.0" height="133.3" rx="6" fill="#f0be75" />
+      <text x="536.5" y="98.7" text-anchor="middle" class="value">2859B</text>
       <text x="536.5" y="270" text-anchor="middle" class="label">gradient</text>
-      <rect x="683.5" y="101.7" width="92.0" height="140.3" rx="6" fill="#d6a8ff" />
-      <text x="729.5" y="91.7" text-anchor="middle" class="value">2707B</text>
+      <rect x="683.5" y="98.7" width="92.0" height="143.3" rx="6" fill="#d6a8ff" />
+      <text x="729.5" y="88.7" text-anchor="middle" class="value">3072B</text>
       <text x="729.5" y="270" text-anchor="middle" class="label">static</text>
 </svg>

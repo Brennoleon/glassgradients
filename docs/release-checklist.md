@@ -11,6 +11,7 @@ npm run release:check
 Equivalent manual checks:
 
 ```bash
+npm run site:build
 npm test
 npm run build
 npm pack --dry-run

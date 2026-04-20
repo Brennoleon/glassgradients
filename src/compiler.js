@@ -1,6 +1,14 @@
 import { mergeDeep, normalizeConfig } from "./defaults.js";
 import { parseGlass } from "./parser.js";
-import { buildAnimationFrames, buildBackdropFilter, buildStyleVariables, hash, minifyCss } from "./style-engine.js";
+import {
+  buildAnimationFrames,
+  buildBackdropFilter,
+  buildEngineUpFrames,
+  buildMotionBlurrinFrames,
+  buildStyleVariables,
+  hash,
+  minifyCss
+} from "./style-engine.js";
 import { collectVariantEntries, stripVariantConfig } from "./variants.js";
 
 function resolveInput(input) {
@@ -25,12 +33,21 @@ function indentBlock(css) {
 
 function buildCssBlock(config) {
   const selector = config.selector;
-  const animationName = `gg-shift-${hash(`${selector}|${config.speed}|${config.colors.join("|")}|${config.effect}|${config.mode}|${config.recipe}`)}`;
-  const animationRule = config.gradient.enabled && config.animate.enabled
-    ? `${animationName} ${config.speed} ${config.animate.easing} infinite alternate`
+  const animationName = `gg-shift-${hash(`${selector}|${config.speed}|${config.colors.join("|")}|${config.effect}|${config.mode}|${config.recipe}|${JSON.stringify(config.engineUp)}`)}`;
+  const motionName = `gg-motion-blurrin-${hash(`${selector}|${config.motionBlurrin.duration}|${JSON.stringify(config.motionBlurrin.layers)}`)}`;
+  const animationRule = config.gradient.enabled && (config.engineUp.enabled || config.animate.enabled)
+    ? config.engineUp.enabled
+      ? `${animationName} ${config.engineUp.duration} ${config.engineUp.easing} ${config.engineUp.iteration} ${config.engineUp.direction} ${config.engineUp.fillMode}`
+      : `${animationName} ${config.speed} ${config.animate.easing} infinite alternate`
     : "none";
   const variables = buildStyleVariables(config);
-  const frames = buildAnimationFrames(config.animate.mode, config.animate.hueShift, config.gradient.intensity);
+  const frames = config.engineUp.enabled
+    ? buildEngineUpFrames(config)
+    : buildAnimationFrames(config.animate.mode, config.animate.hueShift, config.gradient.intensity);
+  const motionFrames = buildMotionBlurrinFrames(config.motionBlurrin);
+  const motionRule = config.motionBlurrin.animated
+    ? `${motionName} ${config.motionBlurrin.duration} ${config.motionBlurrin.easing} infinite alternate`
+    : "none";
   const isolation = config.isolate ? "isolate" : "auto";
   const backdropFilter = buildBackdropFilter(config.glass);
 
@@ -76,6 +93,9 @@ ${selector}::after {
   background-image: var(--gg-ornament-background);
   background-blend-mode: var(--gg-ornament-blend);
   opacity: var(--gg-ornament-opacity);
+  filter: var(--gg-motion-blurrin-filter);
+  animation: ${motionRule};
+  will-change: transform, filter, opacity;
 }
 
 @supports not ((-webkit-backdrop-filter: blur(0)) or (backdrop-filter: blur(0))) {
@@ -89,6 +109,11 @@ ${selector}::after {
 @keyframes ${animationName} {
 ${frames}
 }
+${config.motionBlurrin.enabled ? `
+@keyframes ${motionName} {
+  ${motionFrames}
+}
+` : ""}
 `.trimStart();
 }
 

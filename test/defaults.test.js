@@ -26,6 +26,39 @@ test("normalize auto performance can downshift for low-end hints", () => {
   assert.equal(config.performance, "eco");
 });
 
+test("MER reduces heavy effects only when performance is automatic", () => {
+  const auto = normalizeConfig(
+    {
+      performance: "auto",
+      effect: "liquid",
+      "main-filter": "blur-filters"
+    },
+    {
+      hardwareConcurrency: 2,
+      deviceMemory: 2
+    }
+  );
+  const manual = normalizeConfig(
+    {
+      performance: "quality",
+      effect: "liquid",
+      mainFilter: "blur-filters"
+    },
+    {
+      hardwareConcurrency: 2,
+      deviceMemory: 2,
+      prefersReducedMotion: true
+    }
+  );
+
+  assert.equal(auto.performance, "static");
+  assert.equal(auto.monitoring.engine, "MER");
+  assert.equal(auto.monitoring.reduced, true);
+  assert.equal(auto.glass.mainFilter, "blur-filters");
+  assert.equal(manual.performance, "quality");
+  assert.equal(manual.monitoring.reason, "manual-performance");
+});
+
 test("normalize supports separated gradient-only mode while preserving legacy keys", () => {
   const config = normalizeConfig({
     mode: "gradient",
@@ -37,6 +70,52 @@ test("normalize supports separated gradient-only mode while preserving legacy ke
   assert.equal(config.glass.enabled, false);
   assert.equal(config.effect, "halo");
   assert.match(config.blur, /px$/);
+});
+
+test("normalize accepts new 1.2 effects without dropping old effects", () => {
+  const liquid = normalizeConfig({ effect: "liquid" });
+  const caustic = normalizeConfig({ effect: "caustic" });
+  const old = normalizeConfig({ effect: "prism" });
+
+  assert.equal(liquid.effect, "liquid");
+  assert.equal(caustic.effect, "caustic");
+  assert.equal(old.effect, "prism");
+});
+
+test("normalize supports Engine UP and Motion Blurrin without changing old defaults", () => {
+  const plain = normalizeConfig({});
+  const advanced = normalizeConfig({
+    engineUp: {
+      enabled: true,
+      duration: "12s",
+      x: "4%",
+      blur: 28,
+      frames: [
+        { at: "0%", x: "-2%", y: "0%", blur: 12 },
+        { at: "50%", x: "2%", y: "1%", blur: 34 }
+      ]
+    },
+    motionBlurrin: {
+      layers: [
+        { count: 6, minSize: 40, maxSize: 90, speed: 0.6, direction: "right" },
+        { count: 10, minSize: 12, maxSize: 36, speed: 1.1, direction: "diagonal" }
+      ],
+      blur: 20,
+      openness: 0.4,
+      edgeFade: 0.2
+    }
+  });
+
+  assert.equal(plain.engineUp.enabled, false);
+  assert.equal(plain.motionBlurrin.enabled, false);
+  assert.equal(advanced.engineUp.enabled, true);
+  assert.equal(advanced.engineUp.duration, "12s");
+  assert.equal(advanced.engineUp.frames.length, 2);
+  assert.equal(advanced.engineUp.frames[1].blur, "34px");
+  assert.equal(advanced.motionBlurrin.enabled, true);
+  assert.equal(advanced.motionBlurrin.layers.length, 2);
+  assert.equal(advanced.motionBlurrin.layers[0].count, 6);
+  assert.equal(advanced.motionBlurrin.blur, "20px");
 });
 
 test("normalize supports frost-only mode with safe contrast tuning", () => {

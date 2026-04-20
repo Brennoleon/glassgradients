@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-04-20T10:31:24.027Z",
+  "generatedAt": "2026-04-20T12:59:12.446Z",
   "package": {
     "name": "glassgradients",
-    "version": "1.1.0",
-    "publicExports": 21,
+    "version": "1.2.0",
+    "publicExports": 22,
     "optionalPeers": 4
   },
   "surfaceModel": {
@@ -20,7 +20,13 @@
       "prism",
       "halo",
       "ribbon",
-      "bloom"
+      "bloom",
+      "caustic",
+      "liquid",
+      "nebula",
+      "iridescent",
+      "conic",
+      "noise"
     ],
     "strengths": [
       "soft",
@@ -29,63 +35,63 @@
     ]
   },
   "counts": {
-    "adapters": 11,
+    "adapters": 12,
     "componentSubpaths": 3,
-    "components": 20,
+    "components": 32,
     "recipes": 20,
     "recipeContracts": 20,
     "presets": 7,
     "palettes": 9,
-    "tests": 50,
-    "testFiles": 12,
-    "examples": 36,
-    "docs": 18,
-    "sourceFiles": 40,
-    "sourceBytes": 162662
+    "tests": 81,
+    "testFiles": 14,
+    "examples": 40,
+    "docs": 22,
+    "sourceFiles": 48,
+    "sourceBytes": 231832
   },
   "performance": [
     {
       "name": "parseGlass",
       "iterations": 6000,
-      "totalMs": 393.443,
-      "msPerOp": 0.06557,
-      "opsPerSecond": 15250
+      "totalMs": 182.738,
+      "msPerOp": 0.03046,
+      "opsPerSecond": 32834
     },
     {
       "name": "normalizeConfig",
       "iterations": 6000,
-      "totalMs": 596.092,
-      "msPerOp": 0.09935,
-      "opsPerSecond": 10066
+      "totalMs": 395.668,
+      "msPerOp": 0.06594,
+      "opsPerSecond": 15164
     },
     {
       "name": "compileGlass",
       "iterations": 1800,
-      "totalMs": 898.849,
-      "msPerOp": 0.49936,
-      "opsPerSecond": 2003
+      "totalMs": 648.417,
+      "msPerOp": 0.36023,
+      "opsPerSecond": 2776
     }
   ],
   "cssSamples": [
     {
       "label": "surface",
-      "bytes": 3279,
-      "chars": 3279
+      "bytes": 3645,
+      "chars": 3645
     },
     {
       "label": "frost",
-      "bytes": 2696,
-      "chars": 2696
+      "bytes": 3059,
+      "chars": 3059
     },
     {
       "label": "gradient",
-      "bytes": 2499,
-      "chars": 2499
+      "bytes": 2859,
+      "chars": 2859
     },
     {
       "label": "static",
-      "bytes": 2707,
-      "chars": 2707
+      "bytes": 3072,
+      "chars": 3072
     }
   ],
   "components": [
@@ -100,6 +106,18 @@
     "command-bar",
     "command-palette",
     "table",
+    "data-grid",
+    "chart",
+    "timeline",
+    "kanban",
+    "calendar",
+    "combobox",
+    "dropdown",
+    "toast",
+    "tabs",
+    "resizable-panel",
+    "spotlight-overlay",
+    "notification-center",
     "inspector",
     "terminal",
     "input",
@@ -118,6 +136,8 @@
     "Svelte",
     "Vanilla",
     "Tailwind",
+    "Tailwind v4",
+    "shadcn-style",
     "UnoCSS",
     "Next",
     "Nuxt",

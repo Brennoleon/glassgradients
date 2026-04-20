@@ -7,7 +7,25 @@
 - `eco`: lighter blur and lower animation pressure.
 - `potato`: aggressive cut for constrained devices.
 - `static`: no runtime animation, good for landing pages and low-risk fallback.
-- `auto`: adaptive, with `eco` fallback on constrained devices.
+- `auto`: adaptive. In `1.2.0`, MER can reduce expensive effects when runtime hints show constrained hardware, reduced motion, or data saver.
+
+## MER adaptive behavior
+
+MER (Monitoring Engine Reduces) only adjusts configs that use `performance: auto`.
+
+```glass
+effect: liquid
+performance: auto
+```
+
+Manual profiles are still manual:
+
+```glass
+effect: liquid
+performance: quality
+```
+
+The second example stays `quality` even on constrained hints because explicit user choice wins. Use `auto` when you want GlassGradients to decide.
 
 ## Cost drivers
 
@@ -19,6 +37,9 @@ Highest impact:
 4. grain density and size
 5. large full-screen surfaces
 6. runtime pointer glare on many elements
+7. opt-in heavy filtering through `main-filter: blur-filters`
+8. Engine UP animated filter stages
+9. Motion Blurrin circular fields
 
 ## Separation matters
 
@@ -78,3 +99,27 @@ grain.enabled: false
 - Use `mode: gradient` for decorative backdrops.
 - Use `mode: frost` for panels, sidebars, nav, and dialogs.
 - Turn off `interactive.enabled` on dense lists or grids.
+- Keep Engine UP and Motion Blurrin for signature surfaces, not every row in a table.
+- Keep `mainFilter: standard` for normal UI.
+- Use `mainFilter: none` when you want the frosted fill style without backdrop-filter cost.
+- Use `main-filter: blur-filters` only for visual-heavy hero moments or explicit user opt-in.
+
+## Heavy filter opt-in
+
+`blur-filters` exists because some users want the heavier look even when it is not the recommended default.
+
+```glass
+main-filter: blur-filters
+```
+
+The default remains:
+
+```glass
+mainFilter: standard
+```
+
+The low-cost glass-fill-only option is:
+
+```glass
+mainFilter: none
+```

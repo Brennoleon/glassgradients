@@ -34,7 +34,12 @@ function injectRuntimeStyle() {
   --ggx: 0%;
   --ggy: 0%;
   --ggh: 0deg;
+  --ggr: 0deg;
   --ggz: 1.04;
+  --ggm-x: 0%;
+  --ggm-y: 0%;
+  --ggm-z: 1;
+  --ggm-r: 0deg;
 }
 
 .${RUNTIME_CLASS} .${LAYER_CLASS},
@@ -50,8 +55,8 @@ function injectRuntimeStyle() {
   background-image: var(--gg-gradient-background, none);
   background-blend-mode: overlay, var(--gg-gradient-blend, normal);
   opacity: var(--gg-gradient-opacity, 0);
-  filter: var(--gg-gradient-filter, none) hue-rotate(var(--ggh, 0deg));
-  transform: translate3d(var(--ggx), var(--ggy), 0) scale(var(--ggz));
+  filter: var(--gg-runtime-gradient-filter, var(--gg-gradient-filter, none) hue-rotate(var(--ggh, 0deg)));
+  transform: translate3d(var(--ggx), var(--ggy), 0) scale(var(--ggz)) rotate(var(--ggr));
   will-change: transform, filter, opacity;
 }
 
@@ -61,6 +66,9 @@ function injectRuntimeStyle() {
   background-image: var(--gg-ornament-background, none);
   background-blend-mode: var(--gg-ornament-blend, normal);
   opacity: var(--gg-ornament-opacity, 1);
+  filter: var(--gg-motion-blurrin-filter, none);
+  transform: translate3d(var(--ggm-x), var(--ggm-y), 0) scale(var(--ggm-z)) rotate(var(--ggm-r));
+  will-change: transform, filter, opacity;
 }
 
 .${RUNTIME_CLASS}.${HIDDEN_CLASS} .${LAYER_CLASS} {
@@ -117,7 +125,8 @@ function syncLayerState(state, config) {
     (config.glass.enabled && config.glass.highlight > 0) ||
     (config.shine.enabled && config.shine.opacity > 0) ||
     config.vignette > 0 ||
-    (config.grain.enabled && config.grain.amount > 0);
+    (config.grain.enabled && config.grain.amount > 0) ||
+    config.motionBlurrin.enabled;
 
   state.ornament.style.display = ornamentVisible ? "" : "none";
 }
@@ -129,7 +138,13 @@ function applyCssVariables(element, state, config) {
   element.style.setProperty("--ggx", "0%");
   element.style.setProperty("--ggy", "0%");
   element.style.setProperty("--ggh", "0deg");
+  element.style.setProperty("--ggr", "0deg");
   element.style.setProperty("--ggz", "1.04");
+  element.style.setProperty("--ggm-x", "0%");
+  element.style.setProperty("--ggm-y", "0%");
+  element.style.setProperty("--ggm-z", "1");
+  element.style.setProperty("--ggm-r", "0deg");
+  element.style.removeProperty("--gg-runtime-gradient-filter");
   element.style.setProperty("--gg-glare-x", "50%");
   element.style.setProperty("--gg-glare-y", "50%");
   element.style.webkitBackdropFilter = buildBackdropFilter(config.glass);
@@ -258,7 +273,9 @@ function computeTickMs(speedMs, desiredFps, fpsCap) {
 }
 
 function startAnimator(element, config, runtimeOptions = {}) {
-  if (!config.gradient.enabled || !config.animate.enabled) {
+  const shouldAnimateGradient = config.gradient.enabled && (config.animate.enabled || config.engineUp.enabled);
+  const shouldAnimateMotionBlurrin = config.motionBlurrin.animated;
+  if (!shouldAnimateGradient && !shouldAnimateMotionBlurrin) {
     return {
       canAnimate: false,
       start() {},
@@ -267,7 +284,7 @@ function startAnimator(element, config, runtimeOptions = {}) {
     };
   }
 
-  const speedMs = parseSpeed(config.speed) / config.animate.speedMultiplier;
+  const speedMs = (config.engineUp.enabled ? parseSpeed(config.engineUp.duration) : parseSpeed(config.speed)) / config.animate.speedMultiplier;
   const driftRaw = String(config.animate.drift || "8%").replace("%", "");
   const drift = Number.parseFloat(driftRaw);
   const driftPct = Number.isFinite(drift) ? drift : 8;
@@ -284,10 +301,30 @@ function startAnimator(element, config, runtimeOptions = {}) {
   let lastTs = 0;
 
   const applyFrame = (frame) => {
-    element.style.setProperty("--ggx", `${frame.x.toFixed(2)}%`);
-    element.style.setProperty("--ggy", `${frame.y.toFixed(2)}%`);
-    element.style.setProperty("--ggh", `${frame.hue.toFixed(2)}deg`);
-    element.style.setProperty("--ggz", `${frame.z.toFixed(3)}`);
+    if (shouldAnimateGradient) {
+      if (config.engineUp.enabled) {
+        const engineFrame = computeEngineUpRuntimeFrame(config.engineUp, phase);
+        element.style.setProperty("--ggx", engineFrame.x);
+        element.style.setProperty("--ggy", engineFrame.y);
+        element.style.setProperty("--ggz", engineFrame.z);
+        element.style.setProperty("--ggr", engineFrame.r);
+        if (engineFrame.filter) {
+          element.style.setProperty("--gg-runtime-gradient-filter", engineFrame.filter);
+        }
+      } else {
+        element.style.setProperty("--ggx", `${frame.x.toFixed(2)}%`);
+        element.style.setProperty("--ggy", `${frame.y.toFixed(2)}%`);
+        element.style.setProperty("--ggh", `${frame.hue.toFixed(2)}deg`);
+        element.style.setProperty("--ggz", `${frame.z.toFixed(3)}`);
+      }
+    }
+    if (shouldAnimateMotionBlurrin) {
+      const motionFrame = computeMotionBlurrinRuntimeFrame(config.motionBlurrin.direction, phase);
+      element.style.setProperty("--ggm-x", motionFrame.x);
+      element.style.setProperty("--ggm-y", motionFrame.y);
+      element.style.setProperty("--ggm-z", motionFrame.z);
+      element.style.setProperty("--ggm-r", motionFrame.r);
+    }
   };
 
   const runMainThread = () => {
@@ -307,7 +344,7 @@ function startAnimator(element, config, runtimeOptions = {}) {
   return {
     canAnimate: true,
     start() {
-      if (threaded && !worker) {
+      if (threaded && !worker && !config.engineUp.enabled && !shouldAnimateMotionBlurrin) {
         worker = createWorkerController(applyFrame);
       }
       if (worker) {
@@ -452,12 +489,88 @@ function getRuntimeHints() {
   const prefersReduced =
     typeof window.matchMedia === "function" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {};
 
   return {
     hardwareConcurrency: navigator.hardwareConcurrency || 0,
     deviceMemory: navigator.deviceMemory || 0,
+    devicePixelRatio: window.devicePixelRatio || 1,
+    effectiveType: connection.effectiveType || "",
+    saveData: Boolean(connection.saveData),
     prefersReducedMotion: prefersReduced
   };
+}
+
+function parseNumericUnit(value, fallback = 0) {
+  const text = String(value ?? "").trim();
+  const number = Number.parseFloat(text);
+  if (!Number.isFinite(number)) {
+    return { value: fallback, unit: "%" };
+  }
+  const unit = text.replace(String(number), "") || "%";
+  return { value: number, unit };
+}
+
+function formatNumericUnit(value, unit) {
+  return `${value.toFixed(2)}${unit}`;
+}
+
+function computeEngineUpRuntimeFrame(engineUp, phase) {
+  const x = parseNumericUnit(engineUp.x, 2);
+  const y = parseNumericUnit(engineUp.y, 1.4);
+  const rotate = parseNumericUnit(engineUp.rotate, 0);
+  const wave = Math.sin(phase * Math.PI * 2);
+  const cross = Math.cos(phase * Math.PI * 1.7);
+  const scale = 1 + Math.max(0, engineUp.scale - 1) * ((wave + 1) / 2);
+
+  const filterParts = [];
+  if (engineUp.blur) {
+    filterParts.push(`blur(${engineUp.blur})`);
+  }
+  if (engineUp.saturation) {
+    filterParts.push(`saturate(${engineUp.saturation})`);
+  }
+  if (engineUp.contrast) {
+    filterParts.push(`contrast(${engineUp.contrast})`);
+  }
+  if (engineUp.brightness) {
+    filterParts.push(`brightness(${engineUp.brightness})`);
+  }
+  if (engineUp.hueRotate) {
+    filterParts.push(`hue-rotate(${engineUp.hueRotate})`);
+  }
+
+  return {
+    x: formatNumericUnit(x.value * wave, x.unit),
+    y: formatNumericUnit(y.value * cross, y.unit),
+    z: scale.toFixed(3),
+    r: formatNumericUnit(rotate.value * wave, rotate.unit),
+    filter: filterParts.length > 0 ? filterParts.join(" ") : ""
+  };
+}
+
+function computeMotionBlurrinRuntimeFrame(direction, phase) {
+  const wave = Math.sin(phase * Math.PI * 2);
+  const cross = Math.cos(phase * Math.PI * 2);
+  if (direction === "left") {
+    return { x: `${(-3 * wave).toFixed(2)}%`, y: "0%", z: "1", r: "0deg" };
+  }
+  if (direction === "up") {
+    return { x: "0%", y: `${(-3 * wave).toFixed(2)}%`, z: "1", r: "0deg" };
+  }
+  if (direction === "down") {
+    return { x: "0%", y: `${(3 * wave).toFixed(2)}%`, z: "1", r: "0deg" };
+  }
+  if (direction === "diagonal") {
+    return { x: `${(2.5 * wave).toFixed(2)}%`, y: `${(-2 * cross).toFixed(2)}%`, z: "1.03", r: "0deg" };
+  }
+  if (direction === "orbit") {
+    return { x: "0%", y: "0%", z: "1.03", r: `${(3 * wave).toFixed(2)}deg` };
+  }
+  if (direction === "liquid") {
+    return { x: `${(1.5 * wave).toFixed(2)}%`, y: `${(1 * cross).toFixed(2)}%`, z: (1.025 + 0.045 * wave).toFixed(3), r: "0deg" };
+  }
+  return { x: `${(3 * wave).toFixed(2)}%`, y: "0%", z: "1", r: "0deg" };
 }
 
 function computeRuntimeConfig(sourceInput, hints, runtimeOptions) {
@@ -465,9 +578,10 @@ function computeRuntimeConfig(sourceInput, hints, runtimeOptions) {
     ? evaluateVariantInput(sourceInput, mergeDeep, window.matchMedia.bind(window))
     : sourceInput;
 
-  let config = normalizeConfig(resolved, hints);
+  const mergedHints = mergeDeep(hints, runtimeOptions.monitoringHints || {});
+  let config = normalizeConfig(resolved, mergedHints);
   if (runtimeOptions.reduceMotion ?? hints.prefersReducedMotion) {
-    config = normalizeConfig(mergeDeep(resolved, { animate: { enabled: false } }), hints);
+    config = normalizeConfig(mergeDeep(resolved, { animate: { enabled: false } }), mergedHints);
   }
   return config;
 }

@@ -1,4 +1,4 @@
-export type GlassEffect = "mesh" | "aurora" | "spotlight" | "plasma" | "prism" | "halo" | "ribbon" | "bloom";
+export type GlassEffect = "mesh" | "aurora" | "spotlight" | "plasma" | "prism" | "halo" | "ribbon" | "bloom" | "caustic" | "liquid" | "nebula" | "iridescent" | "conic" | "noise";
 export type GlassPreset = "default" | "cinematic" | "frosted" | "soft" | "editor" | "crystal" | "smoke";
 export type GlassRecipe = "panel" | "navbar" | "sidebar" | "modal" | "toolbar" | "badge" | "hero" | "card" | "button" | "popover" | "dock" | "input" | "workspace" | "form" | "command-palette" | "dialog" | "table" | "inspector" | "terminal" | "command-bar";
 export type GlassPerformance = "auto" | "quality" | "balanced" | "eco" | "potato" | "static";
@@ -7,6 +7,7 @@ export type GlassMode = "surface" | "gradient" | "frost";
 export type GlassStrength = "soft" | "medium" | "strong";
 export type ContrastMode = "balanced" | "safe";
 export type GlassScheme = "light" | "dark";
+export type GlassMainFilter = "standard" | "none" | "blur-filters";
 
 export interface GlassRecipeContract {
   name: string;
@@ -30,6 +31,105 @@ export interface AnimateConfig {
   easing?: string;
 }
 
+export interface EngineUpFrame {
+  at?: string;
+  offset?: string;
+  x?: string | number;
+  y?: string | number;
+  translateX?: string | number;
+  translateY?: string | number;
+  scale?: number;
+  rotate?: string | number;
+  opacity?: number;
+  blur?: string | number;
+  brightness?: string | number;
+  saturation?: string | number;
+  contrast?: string | number;
+  hueRotate?: string | number;
+}
+
+export interface EngineUpConfig {
+  enabled?: boolean;
+  duration?: string | number;
+  easing?: string;
+  direction?: string;
+  iteration?: string | number;
+  fillMode?: string;
+  x?: string | number;
+  y?: string | number;
+  translateX?: string | number;
+  translateY?: string | number;
+  scale?: number;
+  rotate?: string | number;
+  opacity?: number;
+  blur?: string | number;
+  brightness?: string | number;
+  saturation?: string | number;
+  contrast?: string | number;
+  hueRotate?: string | number;
+  frames?: EngineUpFrame[];
+}
+
+export interface MotionBlurrinLayer {
+  count?: number;
+  minSize?: number;
+  maxSize?: number;
+  speed?: number;
+  direction?: "right" | "left" | "up" | "down" | "diagonal" | "drift" | "orbit" | "liquid" | string;
+  opacity?: number;
+  color?: string;
+}
+
+export interface MotionBlurrinConfig {
+  enabled?: boolean;
+  layers?: MotionBlurrinLayer[];
+  blur?: string | number;
+  openness?: number;
+  edgeFade?: number;
+  opacity?: number;
+  blend?: string;
+  direction?: "right" | "left" | "up" | "down" | "diagonal" | "drift" | "orbit" | "liquid" | string;
+  duration?: string | number;
+  easing?: string;
+}
+
+export interface NormalizedEngineUpConfig {
+  enabled: boolean;
+  duration: string;
+  easing: string;
+  direction: string;
+  iteration: string;
+  fillMode: string;
+  x: string;
+  y: string;
+  scale: number;
+  rotate: string;
+  opacity: string;
+  blur: string;
+  brightness: string;
+  saturation: string;
+  contrast: string;
+  hueRotate: string;
+  frames: Required<Omit<EngineUpFrame, "offset" | "translateX" | "translateY">>[];
+}
+
+export interface NormalizedMotionBlurrinLayer {
+  count: number;
+  minSize: number;
+  maxSize: number;
+  speed: number;
+  direction: string;
+  opacity: number;
+  color: string;
+}
+
+export interface NormalizedMotionBlurrinConfig extends Required<Omit<MotionBlurrinConfig, "layers" | "duration" | "blur">> {
+  layers: NormalizedMotionBlurrinLayer[];
+  blur: string;
+  duration: string;
+  animated: boolean;
+}
+
 export interface GrainConfig {
   enabled?: boolean;
   amount?: number;
@@ -41,6 +141,24 @@ export interface GrainConfig {
 export interface VisibilityConfig {
   rootMargin?: string;
   threshold?: number;
+}
+
+export interface GlassMonitoringConfig {
+  enabled?: boolean;
+  engine?: "MER" | string;
+  strategy?: "auto" | string;
+  minPerformance?: GlassPerformance | string;
+}
+
+export interface NormalizedGlassMonitoringConfig {
+  enabled: boolean;
+  engine: string;
+  strategy: string;
+  score: number;
+  tier: string;
+  reason: string;
+  recommendedPerformance: string;
+  reduced: boolean;
 }
 
 export interface ShineConfig {
@@ -93,6 +211,8 @@ export interface FrostedGlassConfig {
   highlight?: number;
   innerGlow?: number;
   shadow?: number;
+  mainFilter?: GlassMainFilter | string;
+  heavyFilter?: boolean;
 }
 
 export interface GlassResponsiveConfig {
@@ -137,6 +257,14 @@ export interface GlassConfig {
   layerInset?: string;
   zIndex?: string | number;
   isolate?: boolean;
+  mainFilter?: GlassMainFilter | string;
+  "main-filter"?: GlassMainFilter | string;
+  monitoring?: GlassMonitoringConfig | boolean;
+  engineUp?: EngineUpConfig | boolean;
+  "engine-up"?: EngineUpConfig | boolean;
+  motionBlurrin?: MotionBlurrinConfig | boolean;
+  motionBlur?: MotionBlurrinConfig | boolean;
+  "motion-blurrin"?: MotionBlurrinConfig | boolean;
   responsive?: GlassResponsiveConfig;
   scheme?: GlassSchemeConfig;
   grain?: GrainConfig;
@@ -176,6 +304,10 @@ export interface NormalizedGlassConfig extends GlassConfig {
   layerInset: string;
   frameStep: number;
   fpsCap: number;
+  mainFilter: string;
+  monitoring: NormalizedGlassMonitoringConfig;
+  engineUp: NormalizedEngineUpConfig;
+  motionBlurrin: NormalizedMotionBlurrinConfig;
   zIndex: string;
   isolate: boolean;
   responsive: GlassResponsiveConfig;
@@ -207,6 +339,7 @@ export interface RuntimeOptions {
   rootMargin?: string;
   threshold?: number;
   reduceMotion?: boolean;
+  monitoringHints?: Record<string, unknown>;
 }
 
 export interface ThemeScriptOptions {
@@ -332,6 +465,8 @@ export const RECIPE_CONTRACTS: Record<string, GlassRecipeContract>;
 export const GLASS_COMPONENTS: Record<string, GlassComponentDefinition>;
 export const GLASS_COMPONENT_ALIASES: Record<string, string>;
 export const PERFORMANCE_PRESETS: Record<string, Record<string, string | number | boolean>>;
+export const MER_TIERS: Record<string, { performance: string; reason: string; minScore: number }>;
+export const EFFECT_COMPLEXITY: Record<string, number>;
 
 export function normalizeConfig(input?: GlassConfig | string, runtimeHints?: Record<string, unknown>): NormalizedGlassConfig;
 export function getRecipeContract(recipe?: string, fallbackConfig?: Partial<Pick<GlassConfig, "recipe" | "mode" | "strength" | "performance">>): GlassRecipeContract;

@@ -6,6 +6,26 @@ The format is based on Keep a Changelog, and this project follows Semantic Versi
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-04-20
+
+### Added
+- Monitoring Engine Reduces (MER), an additive adaptive layer for `performance: auto` that uses runtime hints to reduce expensive effects on constrained devices.
+- New optional `mainFilter` / `main-filter` control with `standard`, `none`, and opt-in `blur-filters` modes.
+- New gradient effects: `caustic`, `liquid`, `nebula`, `iridescent`, `conic`, and `noise`.
+- Tailwind v4 CSS-first helpers through the existing `glassgradients/adapters/tailwind` subpath.
+- shadcn-style copyable component specs through `glassgradients/adapters/shadcn`.
+- Advanced component shells for data grids, charts, timelines, kanban, calendars, comboboxes, dropdowns, toasts, tabs, resizable panels, spotlight overlays, and notification centers.
+- CLI commands for `lint`, `format`, `tokens`, and `inspect --score` while keeping `init`, `build`, and plain `inspect` compatible.
+
+### Changed
+- GitHub metrics now track all effects from the engine source instead of a static hand-written list.
+- Site generated CSS now includes representative advanced primitives.
+- Runtime hints now include device pixel ratio, network effective type, and data-saver signals for MER.
+
+### Fixed
+- `mainFilter: "none"` now disables the backdrop filter while preserving the frosted fill layer.
+- CLI lint now accepts new `1.2.0` effects and validates `mainFilter` values.
+
 ## [1.1.0] - 2026-04-19
 
 ### Added
