@@ -410,7 +410,6 @@ Release details:
 
 - [CHANGELOG](./CHANGELOG.md)
 - [Release Policy](./RELEASE_POLICY.md)
-- [Roadmap](./ROADMAP.md)
 
 ## Docs
 
@@ -483,7 +482,7 @@ glassgradients inspect <input.glass>
 - [Command bar](./examples/command-bar.glass)
 - [Component examples](./examples/components/README.md)
 - [Framework adapters](./docs/adapters.md)
-- [V1 Lab site](./site/v1/index.html)
+- [GitHub Lab site](./site/index.html)
 
 ## Public API
 

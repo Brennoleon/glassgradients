@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-19T16:16:32.305Z",
+  "generatedAt": "2026-04-20T10:31:24.027Z",
   "package": {
     "name": "glassgradients",
     "version": "1.1.0",
@@ -47,23 +47,23 @@
     {
       "name": "parseGlass",
       "iterations": 6000,
-      "totalMs": 298.305,
-      "msPerOp": 0.04972,
-      "opsPerSecond": 20114
+      "totalMs": 393.443,
+      "msPerOp": 0.06557,
+      "opsPerSecond": 15250
     },
     {
       "name": "normalizeConfig",
       "iterations": 6000,
-      "totalMs": 494.137,
-      "msPerOp": 0.08236,
-      "opsPerSecond": 12142
+      "totalMs": 596.092,
+      "msPerOp": 0.09935,
+      "opsPerSecond": 10066
     },
     {
       "name": "compileGlass",
       "iterations": 1800,
-      "totalMs": 1034.851,
-      "msPerOp": 0.57492,
-      "opsPerSecond": 1739
+      "totalMs": 898.849,
+      "msPerOp": 0.49936,
+      "opsPerSecond": 2003
     }
   ],
   "cssSamples": [

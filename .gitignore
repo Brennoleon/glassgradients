@@ -1,8 +1,41 @@
+# dependencies
 node_modules/
-.npmrc
+
+# package manager output
 *.tgz
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# local environment and secrets
+.env
+.env.*
+!.env.example
+.npmrc
+.npmrc.*
+
+# build and test output
 coverage/
 dist/
+.nyc_output/
+.cache/
+.vite/
+.turbo/
+playwright-report/
+test-results/
+
+# generated only for the GitHub Pages artifact
 site/source/
+
+# removed legacy site artifacts; keep the current lab in site/
+site/v1/
+site/glass.css
+site/hero.glass
+
+# editor and OS noise
+.vscode/
+.idea/
 .DS_Store
 Thumbs.db
